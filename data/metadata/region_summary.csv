@@ -1,0 +1,21 @@
+region_acronym,region_name,region_role,member,status,cortical_layer,structure_id,structure_acronym,n_specimens,n_mouse,n_human,n_other_species,n_with_ephys_result,n_ephys_failed,n_with_current_clamp,n_with_long_square_cc,n_with_morphology,n_with_perisomatic,n_with_all_active,n_with_any_biophysical,n_glif_only,n_pass,n_conditional,n_fail,n_unknown,median_long_square_cc,note
+ALM,,motor,Member 2,absent_from_ontology,,,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,,"structure acronym returned zero rows from model::Structure (confirmed absence, not a query failure)"
+MOp,Primary motor area,motor,Member 2,present,,985,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,,"structure present in the Allen CCF ontology (id=985, Primary motor area) with layer sub-structures [MOp6a, MOp2/3, MOp1, MOp5, MOp6b], but model::Specimen returned zero cell specimens at the region level and at every layer level (confirmed absence of data, not a query failure)"
+VISal,Anterolateral visual area,sensory,Member 1,present,1,1074,VISal1,2,2,0,0,2,0,2,2,0,0,0,0,0,0,2,0,0,16.5,
+VISal,Anterolateral visual area,sensory,Member 1,present,2/3,905,VISal2/3,6,6,0,0,6,0,4,4,5,0,1,1,3,1,3,2,0,17.5,
+VISal,Anterolateral visual area,sensory,Member 1,present,4,1114,VISal4,2,2,0,0,2,0,2,2,1,1,1,1,0,1,1,0,0,14.5,
+VISal,Anterolateral visual area,sensory,Member 1,present,5,233,VISal5,5,5,0,0,5,0,3,3,0,0,0,0,3,0,3,2,0,19,
+VISal,Anterolateral visual area,sensory,Member 1,present,6a,601,VISal6a,1,1,0,0,1,0,1,1,0,0,0,0,0,0,1,0,0,14,
+VISal,Anterolateral visual area,sensory,Member 1,present,6b,649,VISal6b,1,1,0,0,1,0,1,1,0,0,0,0,1,0,1,0,0,23,
+VISl,Lateral visual area,sensory,Member 1,present,1,421,VISl1,3,3,0,0,3,0,2,2,1,0,0,0,2,0,2,1,0,19,
+VISl,Lateral visual area,sensory,Member 1,present,2/3,973,VISl2/3,8,8,0,0,8,0,8,8,2,0,0,0,4,0,8,0,0,22.5,
+VISl,Lateral visual area,sensory,Member 1,present,4,573,VISl4,18,18,0,0,18,0,16,16,5,3,2,3,9,3,13,2,0,20.5,
+VISl,Lateral visual area,sensory,Member 1,present,5,613,VISl5,34,34,0,0,34,0,30,30,7,1,0,1,14,1,29,4,0,22.5,
+VISl,Lateral visual area,sensory,Member 1,present,6a,74,VISl6a,21,21,0,0,21,0,16,16,2,0,0,0,12,0,16,5,0,23,
+VISl,Lateral visual area,sensory,Member 1,present,6b,121,VISl6b,5,5,0,0,5,0,4,4,1,0,0,0,2,0,4,1,0,17,
+VISp,Primary visual area,sensory,Member 1,present,1,593,VISp1,42,42,0,0,42,0,38,38,12,1,1,1,24,1,37,4,0,25.0,
+VISp,Primary visual area,sensory,Member 1,present,2/3,821,VISp2/3,311,311,0,0,311,0,262,262,91,28,25,30,150,30,232,49,0,23,
+VISp,Primary visual area,sensory,Member 1,present,4,721,VISp4,458,458,0,0,458,1,443,443,109,63,28,64,234,64,378,16,0,22.0,
+VISp,Primary visual area,sensory,Member 1,present,5,778,VISp5,505,505,0,0,505,2,454,454,148,71,40,79,223,79,373,53,0,22,
+VISp,Primary visual area,sensory,Member 1,present,6a,33,VISp6a,224,224,0,0,224,0,187,187,68,21,6,21,107,21,166,37,0,23.0,
+VISp,Primary visual area,sensory,Member 1,present,6b,305,VISp6b,48,48,0,0,48,0,40,40,16,0,0,0,22,0,40,8,0,22.0,
