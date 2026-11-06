@@ -1,0 +1,15 @@
+# Dependencies for the Phase 1 NWB stimulus-unit validation path ONLY.
+#
+# This is deliberately not a full environment file. It pins the single package
+# that `scripts/validate_nwb_stimulus_units.py` needs beyond the scientific
+# stack that already ships with the interpreter (numpy, pandas).
+#
+# The wider project reads Allen metadata with `requests` + pandas and performs no
+# other HDF5/NWB work. AllenSDK is intentionally absent: it pins numpy < 1.24
+# while this environment runs numpy 2.3.x (see docs/DATASET_SELECTION_DECISION.md
+# §"AllenSDK"), and Phase 0/1 read NWB 1.x files directly through h5py instead.
+#
+#   python -m pip install -r scripts/requirements-nwb-validation.txt
+#
+# Verified against: Python 3.14.0 on Windows; h5py 3.16.0 bundles HDF5 2.0.0.
+h5py==3.16.0
