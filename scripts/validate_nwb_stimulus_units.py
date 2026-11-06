@@ -28,6 +28,16 @@ wrong answers on real Allen files:
 3. The step is ~1 s but its onset is not fixed across campaigns (the 341442651
    files start it at 1.02 s).  Nothing here is hardcoded to a time window: the
    plateau is located in the data and every other constant run is reported.
+4. The ``conversion`` attribute cannot be trusted on its own.  In one of the
+   seven checked files (specimen 471129934) every stimulus series declares
+   ``unit='Amps'`` **and** ``conversion=1e-12``, while the stored samples
+   already carry ampere magnitudes and the series' own
+   ``aibs_stimulus_amplitude_pa`` equals ``raw * 1e12`` to 3e-15 relative.
+   Applying ``conversion`` as NWB 1.x prescribes would understate the current
+   by 1e12 and produce a spurious scale mismatch.  Both readings are therefore
+   scored -- ``raw * conversion + offset`` and ``raw + offset`` -- and a
+   verdict of ``MATCH_CONVERSION_CONFLICT`` is returned when only the second
+   agrees, instead of silently choosing one.
 
 Units are never silently converted.  The declared unit string, the ``conversion``
 and ``resolution`` attributes, and any ``offset`` are all reported verbatim, and
@@ -41,7 +51,10 @@ Usage
 
 Requires ``h5py==3.16.0`` (see ``scripts/requirements-nwb-validation.txt``).
 Exit code is 0 when every validated specimen reaches a definite verdict
-(MATCH or MISMATCH), and 2 when any specimen ends AMBIGUOUS / UNRESOLVED.
+(MATCH or MISMATCH), and 2 when any specimen ends AMBIGUOUS / UNRESOLVED or
+MATCH_CONVERSION_CONFLICT (a definite amplitude agreement reached only by
+disregarding a contradicted ``conversion`` attribute, which a consumer must
+adjudicate before trusting).
 """
 
 from __future__ import annotations
@@ -497,7 +510,12 @@ def validate_specimen(specimen_id: int, root: pathlib.Path,
             raw = row["trace"]["level"]
             physical = raw * conversion + offset
             row["measured_physical"] = physical
-            row["measured_pA"] = physical * factor
+            row["measured_pA_spec"] = physical * factor
+            # Second reading: treat the samples as already being in the declared
+            # unit (conversion = 1).  Identical to the line above whenever the
+            # file declares conversion = 1, which is the normal case.
+            row["measured_pA_unit_only"] = (raw + offset) * factor
+            row["measured_pA"] = row["measured_pA_spec"]
             # Independent second reference: Allen's own pA field, when present.
             aibs = row.get("aibs_amplitude_pa")
             row["aibs_delta_pA"] = (row["measured_pA"] - aibs) \
@@ -515,8 +533,22 @@ def validate_specimen(specimen_id: int, root: pathlib.Path,
             row["inventory_amplitude"] = expected
             row["inventory_units"] = inv_row.get("stimulus_units")
             row["inventory_description"] = inv_row.get("stimulus_description")
-            verdict, ratio = classify(row["measured_pA"],
-                                      expected if expected == expected else None)
+            expected_pa = expected if expected == expected else None
+            verdict, ratio = classify(row["measured_pA_spec"], expected_pa)
+            row["verdict_spec"] = verdict
+            row["ratio_spec"] = ratio
+            if verdict != "MATCH" and conversion != 1.0:
+                # Only a non-unity conversion can make the two readings differ.
+                alt_verdict, alt_ratio = classify(row["measured_pA_unit_only"],
+                                                  expected_pa)
+                if alt_verdict == "MATCH":
+                    # The declared conversion is contradicted by the file's own
+                    # samples.  Report it; never fall back silently.
+                    verdict, ratio = "MATCH_CONVERSION_CONFLICT", alt_ratio
+                    row["measured_pA"] = row["measured_pA_unit_only"]
+                    row["aibs_delta_pA"] = (
+                        row["measured_pA"] - aibs
+                        if aibs is not None and np.isfinite(aibs) else None)
             row["verdict"] = verdict
             row["ratio_measured_over_expected"] = ratio
             # Cross-checks that never drive the verdict, only explain it.
@@ -546,14 +578,17 @@ def summarise(per_sweep: list[dict], inv_ls: pd.DataFrame) -> str:
         return "UNRESOLVED"
     verdicts = [r["verdict"] for r in per_sweep]
     n_match = verdicts.count("MATCH")
+    n_conflict = verdicts.count("MATCH_CONVERSION_CONFLICT")
     n_scale = verdicts.count("MISMATCH_SCALE")
     n_mismatch = verdicts.count("MISMATCH") + n_scale
-    n_open = len(verdicts) - n_match - n_mismatch
+    n_open = len(verdicts) - n_match - n_conflict - n_mismatch
     if n_open == len(verdicts):
         return "UNRESOLVED"
     if n_mismatch == 0:
+        if n_conflict:
+            return "AMBIGUOUS" if n_open else "MATCH_CONVERSION_CONFLICT"
         return "MATCH" if n_open == 0 else "MATCH_WITH_UNRESOLVED"
-    if n_match == 0:
+    if n_match == 0 and n_conflict == 0:
         return "MISMATCH_SCALE" if n_scale == n_mismatch else "MISMATCH"
     return "AMBIGUOUS"
 
@@ -608,12 +643,18 @@ def report(record: dict, stream=sys.stdout) -> None:
     units = sorted({r["declared_unit"] for r in sweeps})
     print("  declared unit strings across long-square sweeps: %s" % units,
           file=stream)
-    print("  %-5s %9s %11s %7s %9s %8s %8s %-14s"
+    conversions = sorted({r["conversion"] for r in sweeps})
+    if conversions != [1.0]:
+        print("  CONVERSION not 1.0 on long-square sweeps: %s" % conversions,
+              file=stream)
+        print("            both readings scored; see MATCH_CONVERSION_CONFLICT",
+              file=stream)
+    print("  %-5s %9s %11s %7s %9s %8s %8s %-24s"
           % ("swp", "inv_pA", "measured_pA", "ratio", "aibs_pA", "aibs_d",
              "onset_s", "verdict"), file=stream)
     for r in sweeps:
         trace = r.get("trace", {})
-        print("  %-5d %9s %11s %7s %9s %8s %8s %-14s"
+        print("  %-5d %9s %11s %7s %9s %8s %8s %-24s"
               % (r["sweep"],
                  _fmt(r.get("inventory_amplitude")),
                  _fmt(r.get("measured_pA")),
@@ -639,22 +680,50 @@ def report(record: dict, stream=sys.stdout) -> None:
               % (min(onsets), max(onsets), min(durs), max(durs)), file=stream)
 
     pulses: dict[tuple, dict] = {}
+    conflict = any(r["verdict"] == "MATCH_CONVERSION_CONFLICT" for r in sweeps)
     for r in sweeps:
         factor = r.get("unit_factor_to_pA") or np.nan
+        offset = r.get("offset", 0.0) or 0.0
+        conversion = r.get("conversion", 1.0)
         for extra in r.get("trace", {}).get("extra_runs", []):
             key = (round(extra["start_s"], 4), round(extra["end_s"], 4))
-            slot = pulses.setdefault(key, {"n": 0, "levels_pA": []})
+            slot = pulses.setdefault(key, {"n": 0, "spec": [], "unit_only": []})
             slot["n"] += 1
-            slot["levels_pA"].append(extra["level"] * factor)
+            # Same conversion rule as the step: an embedded run is part of the
+            # same recorded array and must not be converted by another rule.
+            slot["spec"].append((extra["level"] * conversion + offset) * factor)
+            slot["unit_only"].append((extra["level"] + offset) * factor)
     if pulses:
-        print("  embedded constant runs other than the step "
-              "(declared-unit pA):", file=stream)
+        print("  embedded constant runs other than the step (pA):", file=stream)
         for (start, stop), slot in sorted(pulses.items()):
-            lvl = np.nanmedian(slot["levels_pA"])
-            print("      %.4f-%.4f s  %9.4f pA  in %d/%d sweeps"
-                  % (start, stop, lvl, slot["n"], len(sweeps)), file=stream)
+            lvl = np.nanmedian(slot["unit_only"] if conflict else slot["spec"])
+            text = ("      %.4f-%.4f s  %9.4f pA  in %d/%d sweeps"
+                    % (start, stop, lvl, slot["n"], len(sweeps)))
+            if conflict:
+                text += "   [spec rule: %.4g pA]" % np.nanmedian(slot["spec"])
+            print(text, file=stream)
     else:
         print("  embedded constant runs other than the step: none", file=stream)
+
+    if conflict:
+        n_conf = sum(1 for r in sweeps
+                     if r["verdict"] == "MATCH_CONVERSION_CONFLICT")
+        spec_ratios = sorted({round(r["ratio_spec"], 12) for r in sweeps
+                              if r.get("ratio_spec") is not None
+                              and np.isfinite(r["ratio_spec"])})
+        worst = max((abs(r["aibs_delta_pA"]) for r in sweeps
+                     if r.get("aibs_delta_pA") is not None), default=np.nan)
+        print("  CONFLICT conversion=%s declared on %d/%d long-square sweeps."
+              % (conversions, n_conf, len(sweeps)), file=stream)
+        print("           Under the NWB 1.x rule (raw*conversion) every measured "
+              "value would carry ratio %s" % (spec_ratios,), file=stream)
+        print("           against the inventory. Under conversion=1 the samples "
+              "match to %.3g pA (worst |measured-aibs|)," % worst,
+              file=stream)
+        print("           so the samples are already in the declared unit and the "
+              "conversion attribute is wrong.", file=stream)
+        print("           Adjudicated to conversion=1; the ratio column shows that "
+              "reading.", file=stream)
 
     open_cases = [r for r in sweeps if r["verdict"] in ("UNRESOLVED", "AMBIGUOUS")]
     for r in open_cases[:5]:
@@ -716,7 +785,8 @@ def main(argv=None) -> int:
                                  encoding="utf-8")
         print("JSON written to %s" % args.json_out)
 
-    bad = any(rec.get("verdict") in ("AMBIGUOUS", "UNRESOLVED")
+    bad = any(rec.get("verdict") in ("AMBIGUOUS", "UNRESOLVED",
+                                     "MATCH_CONVERSION_CONFLICT")
               for rec in records)
     return 2 if bad else 0
 
