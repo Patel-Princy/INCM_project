@@ -1,0 +1,5 @@
+population,specimen_id,layer,sweep_id,stimulus_amplitude_pa,baseline_exp_mv,baseline_fhn_mv,baseline_detailed_mv,rin_exp_mohm,rin_fhn_mohm,spikes_exp,spikes_fhn,spikes_detailed,first_spike_lat_exp_ms,first_spike_lat_fhn_ms,first_spike_lat_detailed_ms,peak_v_exp_mv,peak_v_fhn_mv,peak_v_detailed_mv,rmse_step_fhn_mv,rmse_step_detailed_mv,rmse_overall_fhn_mv,rmse_overall_detailed_mv,correlation_fhn,correlation_detailed,calibration_loss,is_resting_stable
+A,484564503,4,49,370.0,-73.734,-73.734,-61.071,44.29,44.29,9,9,9,20.24,22.2,24.71,29.78,29.78,29.51,42.26,8.5,14.99,12.38,0.7595,0.9007,2e-05,True
+B,318808427,2/3,40,190.0,-75.901,-75.901,-75.933,80.34,78.67,19,17,19,17.28,14.95,22.48,33.38,33.16,36.91,43.34,13.29,21.88,6.77,0.6993,0.8869,0.212575,True
+C,471129934,5,51,410.0,-69.336,-69.336,-63.65,31.29,31.29,9,9,8,23.13,25.12,16.34,36.19,36.19,34.18,41.37,9.08,14.96,5.9,0.7074,0.9164,1.2e-05,True
+D,471786879,6a,42,250.0,-75.71,-75.71,-75.965,52.57,51.96,13,4,14,57.95,59.9,52.97,44.16,43.87,40.2,45.91,11.64,17.71,4.17,0.7225,0.9335,2.878971,True

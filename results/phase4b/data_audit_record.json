@@ -1,0 +1,33 @@
+{
+  "task": "INCM Phase 4B Parameter Calibration",
+  "timestamp_iso": "2026-11-07T22:00:27Z",
+  "held_out_sweeps_used": 0,
+  "calibration_sweeps_used": {
+    "Pop_A": {
+      "specimen_id": 484564503,
+      "sweep_id": 49,
+      "amplitude_pa": 370.0
+    },
+    "Pop_B": {
+      "specimen_id": 318808427,
+      "sweep_id": 40,
+      "amplitude_pa": 190.0
+    },
+    "Pop_C": {
+      "specimen_id": 471129934,
+      "sweep_id": 51,
+      "amplitude_pa": 410.0
+    },
+    "Pop_D": {
+      "specimen_id": 471786879,
+      "sweep_id": 42,
+      "amplitude_pa": 250.0
+    }
+  },
+  "verification_invariants": {
+    "detailed_models_modified": false,
+    "state_variables_added": false,
+    "held_out_sweeps_accessed": false,
+    "all_four_resting_points_stable": true
+  }
+}
