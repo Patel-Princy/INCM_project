@@ -439,3 +439,82 @@ def test_reproducibility_220pa_orbit_across_independent_initial_conditions():
         isis = np.diff(late_spikes)
         assert abs(np.mean(isis) - 82.77) < 0.05
         assert np.std(isis) < 0.02
+
+
+def test_all_real_trace_zero_roots():
+    """Verify that the trace-zero equation has exactly two real roots (I_H1 = 195.31 pA and I_H2 = 285.43 pA)."""
+    params = FHNParameters(C_m=50.0, g_L=1.0, k_v=0.005, V_rest=-70.0, V_th=-50.0, V_peak=20.0, tau_w=15.0, a_w=10.0)
+    # 9u^2 - 660u + 8000 = 0 has discriminant (60*sqrt(41))^2 > 0
+    u1 = (110.0 - 10.0 * math.sqrt(41.0)) / 3.0
+    u2 = (110.0 + 10.0 * math.sqrt(41.0)) / 3.0
+
+    i1 = 0.005 * u1**3 - 0.55 * u1**2 + 20.0 * u1
+    i2 = 0.005 * u2**3 - 0.55 * u2**2 + 20.0 * u2
+
+    assert pytest.approx(i1, abs=1e-4) == 195.3113
+    assert pytest.approx(i2, abs=1e-4) == 285.4294
+    assert pytest.approx(params.V_rest + u1, abs=1e-4) == -54.6771
+    assert pytest.approx(params.V_rest + u2, abs=1e-4) == -11.9896
+
+    # Both roots have det(J) = 2/225 > 0
+    for u in [u1, u2]:
+        df_dv = -0.015 * u**2 + 1.1 * u - 10.0
+        det = (params.a_w - df_dv) / (params.C_m * params.tau_w)
+        assert pytest.approx(det) == 2.0 / 225.0
+
+
+def test_upper_hopf_transversality_and_depolarization_block():
+    """Verify that upper Hopf point H2 restores stability, leading to depolarization block at high currents."""
+    params = FHNParameters(C_m=50.0, g_L=1.0, k_v=0.005, V_rest=-70.0, V_th=-50.0, V_peak=20.0, tau_w=15.0, a_w=10.0)
+    model = FitzHughNagumoModel(params)
+
+    # Transversality at H2 is strictly negative: dTr/dI < 0
+    u2 = (110.0 + 10.0 * math.sqrt(41.0)) / 3.0
+    d2f = -0.030 * u2 + 1.1
+    dI_du = 0.015 * u2**2 - 1.1 * u2 + 20.0
+    dTr_dI = (d2f / params.C_m) / dI_du
+    assert dTr_dI < 0.0
+    assert pytest.approx(dTr_dI, abs=1e-5) == -0.00192
+
+    # High-current depolarization block at 310 pA: settles into stable depolarized focus without repetitive spikes
+    c_block = FHNSimulationConfig(dt_ms=0.025, t_stop_ms=600.0, V_init_mv=-70.0, w_init_pa=0.0)
+    r_block = model.simulate(c_block, stimulus=lambda t: 310.0)
+    late_spk = r_block.detect_spikes(threshold_mv=0.0)
+    assert len(late_spk[late_spk >= 300.0]) == 0
+    assert abs(r_block.v_mv[-1] - (-9.8)) < 1.0
+
+
+def test_determinant_zero_saddle_node_fold_points():
+    """Verify exact analytical fold/saddle-node bifurcations where det(J) = 0 and equilibrium slopes turn around."""
+    u_f1 = 100.0 / 3.0
+    u_f2 = 40.0
+
+    i_f1 = 0.005 * u_f1**3 - 0.55 * u_f1**2 + 20.0 * u_f1
+    i_f2 = 0.005 * u_f2**3 - 0.55 * u_f2**2 + 20.0 * u_f2
+
+    assert pytest.approx(i_f1, abs=1e-4) == 6500.0 / 27.0
+    assert pytest.approx(i_f2, abs=1e-4) == 240.0
+
+    # Intermediate branch (u in (100/3, 40)) has det(J) < 0 (saddle points)
+    u_mid = 36.0
+    df_dv_mid = -0.015 * u_mid**2 + 1.1 * u_mid - 10.0
+    det_mid = (10.0 - df_dv_mid) / (50.0 * 15.0)
+    assert det_mid < 0.0
+
+
+def test_upper_bistability_and_fold_of_limit_cycles_lpc2():
+    """Verify upper bistability window [285.43, 293.88] pA bounded by upper fold of limit cycles LPC2."""
+    params = FHNParameters(C_m=50.0, g_L=1.0, k_v=0.005, V_rest=-70.0, V_th=-50.0, V_peak=20.0, tau_w=15.0, a_w=10.0)
+    model = FitzHughNagumoModel(params)
+
+    # Inside upper bistable window (I = 290 pA): sustains limit cycle from excited state
+    c_290 = FHNSimulationConfig(dt_ms=0.025, t_stop_ms=800.0, V_init_mv=0.0, w_init_pa=300.0)
+    r_290 = model.simulate(c_290, stimulus=lambda t: 290.0)
+    assert len(r_290.detect_spikes(threshold_mv=0.0)) >= 6
+
+    # Beyond upper fold of limit cycles (I = 300 pA > I_LPC2): limit cycle extinguished, decays to depolarized focus
+    c_300 = FHNSimulationConfig(dt_ms=0.025, t_stop_ms=800.0, V_init_mv=0.0, w_init_pa=300.0)
+    r_300 = model.simulate(c_300, stimulus=lambda t: 300.0)
+    spk_300 = r_300.detect_spikes(threshold_mv=0.0)
+    assert len(spk_300[spk_300 >= 400.0]) == 0
+    assert abs(r_300.v_mv[-1] - (-10.0)) < 1.0
