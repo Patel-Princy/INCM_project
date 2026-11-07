@@ -14,10 +14,17 @@ the same sentence before it starts:
     All-active model 497233292 using published parameters, substitute
     morphology 674389901, and project-declared axon treatment <branch>.
 
-The script executes exactly one (branch, sweep) pair per process so that the four
-required runs are four independent processes with four independent output files.
-It writes the trace, the applied-parameter readback, the comparison metrics and a
-machine-readable summary into ``--out-dir``.
+The script executes exactly one (branch, sweep) pair per process so that every run
+is an independent process with an independent output file.  It writes the trace,
+the applied-parameter readback, the comparison metrics and a machine-readable
+summary into ``--out-dir``.
+
+Phase 2G-C adds a measurement mode: ``--condition`` labels a run as one stimulus
+condition of the descriptive-excitable sweep across the COARSE long-square
+ladder (sweeps 24-43 minus the fitting sweep 41).  A measurement run is still
+one (branch, sweep) pair in one process, still refuses the fitting sweep, and
+still checks the command level against the validated level table.  Runs without
+``--condition`` keep the frozen Phase 2G-B identities A-D.
 
 Usage
 -----
@@ -27,6 +34,13 @@ Usage
         --repo-cache   <repo>/tmp/model_cache \
         --run-id A --axon-type stub --sweep 38 \
         --out-dir      ~/incm_phase2g_b/results/A_stub_sweep38
+
+    python scripts/validate_all_active_execution.py \
+        --model-dir    ~/incm_phase2gc/model \
+        --allensdk-src <repo>/tmp/model_cache/2b/src/AllenSDK-2.16.2 \
+        --repo-cache   <repo>/tmp/model_cache \
+        --run-id M07 --condition coarse_p170 --axon-type truncated --sweep 38 \
+        --out-dir      ~/incm_phase2gc/results/M07_truncated_sweep38
 
 Exit codes
 ----------
@@ -113,6 +127,28 @@ RUN_PLAN = {
     "C": ("truncated", BRACKET_SWEEP),
     "D": ("truncated", HELD_OUT_SWEEP),
 }
+
+#: Command levels of the long-square sweeps this project evaluates, measured
+#: from the stimulus arrays of the validated NWB (Phase 2F table, re-measured
+#: from the file in Phase 2G-C before the run plan was frozen; the DAC writes
+#: levels like 170.000000188 pA).  ``compare`` re-measures the level of the run
+#: sweep and checks it against this table, so a run staged against the wrong
+#: sweep fails loudly instead of silently reporting the wrong amplitude.  Sweep
+#: 41 appears in the table because its level is validated; it is still never
+#: executed.
+SWEEP_LEVELS_PA = {
+    24: -110.0, 25: -90.0, 26: -70.0, 27: -50.0, 28: -30.0, 29: -10.0,
+    30: 10.0, 31: 30.0, 32: 50.0, 33: 70.0, 34: 90.0, 35: 110.0,
+    36: 130.0, 37: 150.0, 38: 170.0, 39: 190.0, 40: 210.0, 41: 230.0,
+    42: 250.0, 43: 270.0,
+    49: 170.0, 50: 170.0, 51: 170.0, 52: 170.0,
+}
+SWEEP_LEVEL_TOLERANCE_PA = 0.01
+
+#: The block every Phase 2G-C measurement runs under.  FINEST and C2 sweeps are
+#: never measurement conditions here: FINEST 49-52 are one repeated condition
+#: already covered by the 2G-B runs, and C2 is a different protocol.
+COARSE_BLOCK = "C1LSCOARSE150216"
 
 MODEL_CLAIM = ("All-active model %d using published parameters, substitute "
                "morphology %d, and project-declared axon treatment %%s"
@@ -788,6 +824,33 @@ def compare(checker: Checker, model_dir: pathlib.Path, branch: str, sweep: int,
     pair = p2e.compare_traces(rec_desc, sim_desc, stim_pa, rate)
     pair["stimulus_roundtrip_identical"] = bool(stim_roundtrip)
 
+    # The command level comes from the stimulus arrays (analyse_stimulus is
+    # sign-agnostic and removes the embedded probe by identity, so it reads the
+    # -110 pA sweep as cleanly as the +270 pA one), never from metadata, and it
+    # is checked against the validated level table.
+    step = p2e.phase2d.analyse_stimulus(stim_pa, rate)
+    level_pa = float(step.get("level_pa", float("nan")))
+    expected_level = SWEEP_LEVELS_PA.get(sweep)
+    level_matches = (expected_level is not None
+                     and abs(level_pa - expected_level)
+                     <= SWEEP_LEVEL_TOLERANCE_PA)
+    step_ok = step.get("status") == "OK" and level_matches
+    if expected_level is None:
+        checker.observe("sweep %d has no validated level entry" % sweep,
+                        "%.6f pA measured" % level_pa)
+    stimulus_facts = {
+        "sweep": int(sweep),
+        "level_pa": level_pa,
+        "expected_level_pa": expected_level,
+        "level_matches": bool(level_matches),
+        "step_duration_ms": float(step.get("duration_ms", float("nan"))),
+        "analyse_status": step.get("status"),
+        "probe_removed": bool(step.get("probe_removed")),
+        "block": (COARSE_BLOCK if sweep in COARSE_SWEEPS
+                  else "C1LSFINEST150112" if sweep in FINEST_SWEEPS
+                  else "unclassified"),
+    }
+
     # --- the single observed spike in sweep 49, examined directly
     n = min(v_rec.size, v_sim.size)
     dt = 1e3 / rate
@@ -814,9 +877,9 @@ def compare(checker: Checker, model_dir: pathlib.Path, branch: str, sweep: int,
                         % (pair["peak_around_recorded_first_spike_mv"],
                            pair["recorded_peak_around_first_spike_mv"]))
 
-    checker.check(abs(float(np.median(stim_pa[stim_pa > 1])) - 170.0) < 1.0,
-                  "the stimulus plateau is the +170 pA command",
-                  "%.3f pA" % float(np.median(stim_pa[stim_pa > 1])))
+    checker.check(step_ok and level_matches,
+                  "the command step is the sweep-%d level" % sweep,
+                  "%.6f pA (expected %.1f)" % (level_pa, expected_level))
     checker.check(stim_roundtrip,
                   "the simulated NWB carries the unmodified stimulus")
     checker.check(int(rec_desc["n_samples"]) == int(sim_desc["n_samples"]),
@@ -867,6 +930,7 @@ def compare(checker: Checker, model_dir: pathlib.Path, branch: str, sweep: int,
                         % sim_settle["drift_last_20ms_mv"])
 
     return {
+        "stimulus": stimulus_facts,
         "recorded": p2e._plain(rec_desc),
         "simulated": p2e._plain(sim_desc),
         "pair": p2e._plain(pair),
@@ -877,12 +941,51 @@ def compare(checker: Checker, model_dir: pathlib.Path, branch: str, sweep: int,
 
 
 # ------------------------------------------------------------------------- main
+def validate_measurement(run_id: str, branch: str, sweep: int,
+                         condition: str) -> str | None:
+    """Validate one (run_id, branch, sweep, condition) combination.
+
+    Pure, so the argument rules of both phases are testable without staging a
+    model tree.  Returns an error string when the combination must be refused,
+    or None when it may execute.  The rules, in order:
+
+    * sweep 41 fitted this model and is excluded from every evaluation;
+    * a run id from the frozen 2G-B plan keeps its planned (branch, sweep) pair
+      and cannot be relabelled as a measurement;
+    * any other run id is a 2G-C measurement and needs an explicit --condition
+      label, a COARSE sweep and a validated command level.
+    """
+    if sweep == FITTING_SWEEP:
+        return ("sweep %d fitted this model; it is excluded from evaluation"
+                % FITTING_SWEEP)
+    if run_id in RUN_PLAN:
+        if condition:
+            return ("run %s is a planned 2G-B run and cannot carry --condition"
+                    % run_id)
+        planned_branch, planned_sweep = RUN_PLAN[run_id]
+        if (branch, sweep) != (planned_branch, planned_sweep):
+            return ("run %s is planned as (%s, sweep %d), not (%s, sweep %d)"
+                    % (run_id, planned_branch, planned_sweep, branch, sweep))
+        return None
+    if not condition:
+        return ("run %s is not a planned 2G-B run; a Phase 2G-C measurement "
+                "must pass --condition" % run_id)
+    if sweep not in COARSE_SWEEPS:
+        return ("Phase 2G-C measures the COARSE long-square block; sweep %d is "
+                "not in it" % sweep)
+    if sweep not in SWEEP_LEVELS_PA:
+        return "sweep %d has no validated command level" % sweep
+    return None
+
+
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--model-dir", required=True)
     parser.add_argument("--allensdk-src", required=True)
     parser.add_argument("--repo-cache", required=True)
-    parser.add_argument("--run-id", required=True, choices=sorted(RUN_PLAN))
+    parser.add_argument("--run-id", required=True)
+    parser.add_argument("--condition", default="",
+                        help="Phase 2G-C measurement label, e.g. coarse_p170")
     parser.add_argument("--axon-type", required=True, choices=AXON_BRANCHES)
     parser.add_argument("--sweep", required=True, type=int)
     parser.add_argument("--out-dir", required=True)
@@ -890,16 +993,12 @@ def main(argv=None) -> int:
     parser.add_argument("--skip-compare", action="store_true")
     args = parser.parse_args(argv)
 
-    planned_branch, planned_sweep = RUN_PLAN[args.run_id]
-    if (args.axon_type, args.sweep) != (planned_branch, planned_sweep):
-        print("run %s is planned as (%s, sweep %d), not (%s, sweep %d)"
-              % (args.run_id, planned_branch, planned_sweep, args.axon_type,
-                 args.sweep))
+    error = validate_measurement(args.run_id, args.axon_type, args.sweep,
+                                  args.condition)
+    if error:
+        print(error)
         return 2
-    if args.sweep == FITTING_SWEEP:
-        print("sweep %d fitted this model; it is excluded from evaluation"
-              % FITTING_SWEEP)
-        return 2
+    measurement = bool(args.condition)
 
     model_dir = pathlib.Path(args.model_dir).expanduser().resolve()
     allensdk_src = pathlib.Path(args.allensdk_src).expanduser().resolve()
@@ -915,17 +1014,21 @@ def main(argv=None) -> int:
     import evaluate_finest_held_out as p2e
 
     checker = Checker()
-    print("Phase 2G-B - all-active execution validation")
+    print("Phase 2G-C measurement - all-active COARSE ladder" if measurement
+          else "Phase 2G-B - all-active execution validation")
     print("run       : %s (%s axon, sweep %d)" % (args.run_id, args.axon_type,
                                                   args.sweep))
+    if measurement:
+        print("condition : %s" % args.condition)
     print("model     : %s" % model_claim(args.axon_type))
     print("model dir : %s" % model_dir)
     print("allensdk  : %s" % allensdk_src)
     print("python    : %s | %s" % (sys.version.split()[0], sys.executable))
 
     facts: dict = {
-        "phase": "2G-B",
+        "phase": "2G-C" if measurement else "2G-B",
         "run_id": args.run_id,
+        "condition": args.condition or None,
         "axon_type": args.axon_type,
         "sweep": args.sweep,
         "specimen": SPECIMEN,
