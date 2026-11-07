@@ -1,0 +1,71 @@
+{
+  "specimen_id": 471129934,
+  "population": "C",
+  "layer": "5",
+  "structure": "VISp5",
+  "model_id": 480624414,
+  "fit_file_id": 497236153,
+  "sweep_id": 50,
+  "condition_type": "HELD_OUT",
+  "is_calibration": false,
+  "timestamp_iso": "2026-11-07T19:48:09Z",
+  "hashes": {
+    "nwb_sha256": "ecab60d2424d27d50f773ada32f669b8a88caa31469d552bf046c1511b59e085",
+    "fit_sha256": "24a34d42592a33ebf012c1d21ae30b3e5d5ac4dd795874fd9a03b7fa069c0626",
+    "swc_sha256": "a810d5ae22263cfa8c9234ce3470eaa26d126a726f3c38d60a6dc6745ba89af5",
+    "manifest_sha256": "386749f9eb3f3b93ee0a1b8f0ceaa088c2e2b1077b92adca5ba2f1af65213930"
+  },
+  "environment": {
+    "neuron_version": "8.2.7",
+    "python_version": "3.11.18",
+    "elapsed_seconds": 25.08
+  },
+  "stimulus": {
+    "amplitude_pa": 390.0000045131691,
+    "onset_ms": 1020.0,
+    "duration_ms": 1000.0,
+    "sampling_rate_hz": 200000.0
+  },
+  "metrics": {
+    "baseline_recorded_mv": -68.956,
+    "baseline_simulated_mv": -63.65,
+    "baseline_delta_mv": 5.306,
+    "mean_step_v_rec_mv": -42.73,
+    "mean_step_v_sim_mv": -45.201,
+    "max_depol_rec_mv": 35.75,
+    "max_depol_sim_mv": 32.559,
+    "rmse_overall_mv": 5.478,
+    "rmse_pre_stimulus_mv": 5.325,
+    "rmse_during_stimulus_mv": 7.681,
+    "rmse_post_stimulus_mv": 5.046,
+    "mae_mv": 4.971,
+    "correlation": 0.9392,
+    "spike_count_recorded_total": 6,
+    "spike_count_simulated_total": 5,
+    "spike_count_recorded_in_step": 6,
+    "spike_count_simulated_in_step": 5,
+    "spike_count_delta": -1,
+    "first_spike_recorded_ms": 1047.7900000112656,
+    "first_spike_simulated_ms": 1039.4550000110837,
+    "first_spike_delta_ms": -8.335,
+    "mean_isi_rec_ms": 70.317,
+    "mean_isi_sim_ms": 221.414,
+    "post_step_excursions_recorded": 0,
+    "post_step_excursions_simulated": 0,
+    "spike_times_recorded_in_step_ms": [
+      1047.79,
+      1082.28,
+      1137.41,
+      1208.46,
+      1293.79,
+      1399.375
+    ],
+    "spike_times_simulated_in_step_ms": [
+      1039.455,
+      1076.245,
+      1189.29,
+      1574.125,
+      1925.11
+    ]
+  }
+}

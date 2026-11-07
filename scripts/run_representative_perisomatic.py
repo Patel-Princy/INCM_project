@@ -23,6 +23,7 @@ import sys
 import time
 
 import numpy as np
+import pandas as pd
 
 REPRESENTATIVES = {
     484564503: {
@@ -123,13 +124,15 @@ def _detect_spikes_threshold(v_v: np.ndarray, t_ms: np.ndarray, threshold_mv: fl
     return np.array(times, dtype=float)
 
 
-def stage_model(workspace: pathlib.Path, repo_dir: pathlib.Path, specimen_id: int, sweep: int) -> dict:
+def stage_model(workspace: pathlib.Path, repo_dir: pathlib.Path, specimen_id: int, sweeps: list[int]) -> dict:
     meta = REPRESENTATIVES[specimen_id]
     workspace.mkdir(parents=True, exist_ok=True)
     (workspace / "work").mkdir(parents=True, exist_ok=True)
 
     # 1. Stimulus NWB
     src_nwb = repo_dir / "data" / "nwb_cache" / f"{specimen_id}.nwb"
+    if not src_nwb.exists():
+        raise FileNotFoundError(f"Source NWB file not found: {src_nwb}")
     dst_nwb = workspace / f"{specimen_id}.nwb"
     if not dst_nwb.exists():
         if hasattr(os, "symlink"):
@@ -142,11 +145,15 @@ def stage_model(workspace: pathlib.Path, repo_dir: pathlib.Path, specimen_id: in
 
     # 2. Fit descriptor
     src_fit = repo_dir / "tmp" / "fit_cache" / f"{meta['fit_file_id']}.json"
+    if not src_fit.exists():
+        raise FileNotFoundError(f"Source fit descriptor not found: {src_fit}")
     dst_fit = workspace / f"{specimen_id}_fit.json"
     shutil.copy2(src_fit, dst_fit)
 
     # 3. Morphology SWC
     src_swc = repo_dir / "tmp" / "morphology_cache" / meta["swc_name"]
+    if not src_swc.exists():
+        raise FileNotFoundError(f"Source SWC morphology not found: {src_swc}")
     dst_swc = workspace / meta["swc_name"]
     shutil.copy2(src_swc, dst_swc)
 
@@ -166,9 +173,9 @@ def stage_model(workspace: pathlib.Path, repo_dir: pathlib.Path, specimen_id: in
         ],
         "runs": [
             {
-                "sweeps": [sweep],
+                "sweeps": sweeps,
                 "sweeps_by_type": {
-                    "Long Square": [sweep]
+                    "Long Square": sweeps
                 }
             }
         ],
@@ -283,10 +290,11 @@ def analyze_and_compare(specimen_id: int, sweep: int, workspace: pathlib.Path, a
     v_sim_mv = v_sim_v * 1e3
     stim_pa = stim_rec_a * 1e12
 
-    # Stimulus segmentation
+    # Stimulus segmentation: filter for steps with duration > 100 ms to avoid locking onto test pulse
     segments = _stimulus_segments(stim_rec_a, dt_ms)
-    segments.sort(key=lambda s: abs(s["amplitude_pa"]), reverse=True)
-    step = segments[0] if segments else None
+    long_segments = [s for s in segments if s["duration_ms"] > 100.0]
+    step = long_segments[0] if long_segments else (segments[0] if segments else None)
+    
     step_on_ms = step["onset_ms"] if step else 1020.0
     step_dur_ms = step["duration_ms"] if step else 1000.0
     step_off_ms = step_on_ms + step_dur_ms
@@ -302,6 +310,12 @@ def analyze_and_compare(specimen_id: int, sweep: int, workspace: pathlib.Path, a
         baseline_rec_mv = float(np.mean(v_rec_mv[:step_on_idx]))
         baseline_sim_mv = float(np.mean(v_sim_mv[:step_on_idx]))
 
+    # Mean step voltage and max depolarization
+    mean_step_v_rec = float(np.mean(v_rec_mv[step_on_idx:step_off_idx]))
+    mean_step_v_sim = float(np.mean(v_sim_mv[step_on_idx:step_off_idx]))
+    max_depol_rec = float(np.max(v_rec_mv[step_on_idx:step_off_idx]))
+    max_depol_sim = float(np.max(v_sim_mv[step_on_idx:step_off_idx]))
+
     # RMSE calculations
     diff_mv = v_sim_mv - v_rec_mv
     rmse_overall = float(np.sqrt(np.mean(diff_mv ** 2)))
@@ -309,7 +323,14 @@ def analyze_and_compare(specimen_id: int, sweep: int, workspace: pathlib.Path, a
     rmse_step = float(np.sqrt(np.mean(diff_mv[step_on_idx:step_off_idx] ** 2)))
     rmse_post = float(np.sqrt(np.mean(diff_mv[step_off_idx:] ** 2)))
     mae_mv = float(np.mean(np.abs(diff_mv)))
-    corr = float(np.corrcoef(v_sim_mv, v_rec_mv)[0, 1])
+    
+    # Correlation (handle flat traces gracefully)
+    std_rec = np.std(v_rec_mv)
+    std_sim = np.std(v_sim_mv)
+    if std_rec > 1e-6 and std_sim > 1e-6:
+        corr = float(np.corrcoef(v_sim_mv, v_rec_mv)[0, 1])
+    else:
+        corr = 1.0 if abs(np.mean(v_sim_mv) - np.mean(v_rec_mv)) < 1.0 else 0.0
 
     # Spike detection using AllenSDK ephys_features
     try:
@@ -334,6 +355,12 @@ def analyze_and_compare(specimen_id: int, sweep: int, workspace: pathlib.Path, a
     first_spike_sim_ms = float(sim_in_step[0]) if sim_in_step.size else None
     first_spike_delta_ms = (first_spike_sim_ms - first_spike_rec_ms) if (first_spike_rec_ms and first_spike_sim_ms) else None
 
+    # Inter-spike intervals (ISI) in step
+    isi_rec = np.diff(rec_in_step) if len(rec_in_step) > 1 else np.array([])
+    isi_sim = np.diff(sim_in_step) if len(sim_in_step) > 1 else np.array([])
+    mean_isi_rec = float(np.mean(isi_rec)) if len(isi_rec) else None
+    mean_isi_sim = float(np.mean(isi_sim)) if len(isi_sim) else None
+
     # Excursions post-step above -20 mV
     post_rec_mv = v_rec_mv[step_off_idx:]
     post_sim_mv = v_sim_mv[step_off_idx:]
@@ -350,6 +377,10 @@ def analyze_and_compare(specimen_id: int, sweep: int, workspace: pathlib.Path, a
         "baseline_recorded_mv": baseline_rec_mv,
         "baseline_simulated_mv": baseline_sim_mv,
         "baseline_delta_mv": baseline_sim_mv - baseline_rec_mv,
+        "mean_step_v_rec_mv": mean_step_v_rec,
+        "mean_step_v_sim_mv": mean_step_v_sim,
+        "max_depol_rec_mv": max_depol_rec,
+        "max_depol_sim_mv": max_depol_sim,
         "rmse_overall_mv": rmse_overall,
         "rmse_pre_stimulus_mv": rmse_pre,
         "rmse_during_stimulus_mv": rmse_step,
@@ -365,6 +396,8 @@ def analyze_and_compare(specimen_id: int, sweep: int, workspace: pathlib.Path, a
         "first_spike_recorded_ms": first_spike_rec_ms,
         "first_spike_simulated_ms": first_spike_sim_ms,
         "first_spike_delta_ms": first_spike_delta_ms,
+        "mean_isi_rec_ms": mean_isi_rec,
+        "mean_isi_sim_ms": mean_isi_sim,
         "post_step_excursions_recorded": excursions_rec,
         "post_step_excursions_simulated": excursions_sim,
         "spike_times_recorded_in_step_ms": [round(float(x), 3) for x in rec_in_step],
@@ -426,68 +459,55 @@ def plot_results(metrics: dict, output_dir: pathlib.Path, specimen_id: int, swee
     plt.close(fig_stim)
 
 
-def main():
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--specimen-id", type=int, required=True, choices=list(REPRESENTATIVES.keys()))
-    parser.add_argument("--sweep", type=int, default=None)
-    parser.add_argument("--repo-dir", type=str, default=".")
-    parser.add_argument("--workspace-dir", type=str, required=True)
-    parser.add_argument("--allensdk-src", type=str, required=True)
-    parser.add_argument("--output-dir", type=str, required=True)
-    args = parser.parse_args()
+def run_single_sweep(specimen_id: int, sweep: int, condition_type: str, repo_dir: pathlib.Path,
+                     workspace: pathlib.Path, allensdk_src: pathlib.Path, output_dir: pathlib.Path,
+                     save_traces: bool = False, logger: logging.Logger = None) -> dict:
+    if logger is None:
+        logger = logging.getLogger("runner")
 
-    specimen_id = args.specimen_id
     meta = REPRESENTATIVES[specimen_id]
-    sweep = args.sweep if args.sweep is not None else meta["calibration_sweep"]
     is_calibration = (sweep == meta["calibration_sweep"])
+
+    # Audit Gate 3: Reject fitting sweep if requested as held-out
+    if condition_type == "held_out" and is_calibration:
+        raise ValueError(
+            f"REJECTED: Sweep {sweep} is the published calibration fitting sweep for specimen {specimen_id}. "
+            "It cannot be executed under condition_type='held_out'."
+        )
+
     condition_label = "CALIBRATION" if is_calibration else "HELD_OUT"
+    sweep_out_dir = output_dir if sweep == meta["calibration_sweep"] and "sweep_" not in output_dir.name else output_dir / f"sweep_{sweep}"
+    sweep_out_dir.mkdir(parents=True, exist_ok=True)
 
-    repo_dir = pathlib.Path(args.repo_dir).resolve()
-    workspace = pathlib.Path(args.workspace_dir).resolve()
-    allensdk_src = pathlib.Path(args.allensdk_src).resolve()
-    output_dir = pathlib.Path(args.output_dir).resolve()
-    output_dir.mkdir(parents=True, exist_ok=True)
+    log_path = sweep_out_dir / "execution.log"
+    logger.info("Executing specimen %d, sweep %d (%s)...", specimen_id, sweep, condition_label)
+    hashes = stage_model(workspace, repo_dir, specimen_id, [sweep])
 
-    log_path = output_dir / "execution.log"
-    logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
-    logger = logging.getLogger("runner")
-
-    logger.info("Starting simulation for specimen %d, sweep %d (%s)", specimen_id, sweep, condition_label)
-    hashes = stage_model(workspace, repo_dir, specimen_id, sweep)
-
-    logger.info("Compiling mechanisms if needed in %s...", workspace)
     compiled = compile_mechanisms_if_needed(workspace)
     if not compiled:
-        logger.error("Mechanism compilation failed")
-        sys.exit(2)
+        raise RuntimeError("Mechanism compilation failed")
 
-    logger.info("Running simulation via AllenSDK runner...")
     sim_res = run_simulation(workspace, allensdk_src, sweep)
-
     captured = sim_res["captured"]
     if not captured:
-        logger.error("Simulation failed to produce captured voltage traces")
-        sys.exit(2)
+        raise RuntimeError(f"Simulation of sweep {sweep} produced no captured voltage trace")
 
-    logger.info("Analyzing and comparing traces...")
     analysis = analyze_and_compare(specimen_id, sweep, workspace, allensdk_src, captured)
 
-    # Save npz
-    npz_path = output_dir / "traces.npz"
-    np.savez_compressed(
-        npz_path,
-        v_sim_v=captured["out_v"],
-        v_sim_mv=analysis["v_sim_mv"],
-        v_rec_mv=analysis["v_rec_mv"],
-        stim_pa=analysis["stim_pa"],
-        t_ms=analysis["t_ms"],
-    )
+    # Optional traces save
+    if save_traces:
+        np.savez_compressed(
+            sweep_out_dir / "traces.npz",
+            v_sim_v=captured["out_v"],
+            v_sim_mv=analysis["v_sim_mv"],
+            v_rec_mv=analysis["v_rec_mv"],
+            stim_pa=analysis["stim_pa"],
+            t_ms=analysis["t_ms"],
+        )
 
-    # Plot
-    logger.info("Generating comparison figures...")
-    plot_results(analysis, output_dir, specimen_id, sweep, condition_label)
+    # Plot representative sweeps (calibration sweeps, or first 3 held-out sweeps, or all if requested)
+    plot_results(analysis, sweep_out_dir, specimen_id, sweep, condition_label)
 
-    # Summary json
     summary_data = {
         "specimen_id": specimen_id,
         "population": meta["population"],
@@ -515,6 +535,10 @@ def main():
             "baseline_recorded_mv": round(analysis["baseline_recorded_mv"], 3),
             "baseline_simulated_mv": round(analysis["baseline_simulated_mv"], 3),
             "baseline_delta_mv": round(analysis["baseline_delta_mv"], 3),
+            "mean_step_v_rec_mv": round(analysis["mean_step_v_rec_mv"], 3),
+            "mean_step_v_sim_mv": round(analysis["mean_step_v_sim_mv"], 3),
+            "max_depol_rec_mv": round(analysis["max_depol_rec_mv"], 3),
+            "max_depol_sim_mv": round(analysis["max_depol_sim_mv"], 3),
             "rmse_overall_mv": round(analysis["rmse_overall_mv"], 3),
             "rmse_pre_stimulus_mv": round(analysis["rmse_pre_stimulus_mv"], 3),
             "rmse_during_stimulus_mv": round(analysis["rmse_during_stimulus_mv"], 3),
@@ -525,9 +549,12 @@ def main():
             "spike_count_simulated_total": analysis["spike_count_simulated_total"],
             "spike_count_recorded_in_step": analysis["spike_count_recorded_in_step"],
             "spike_count_simulated_in_step": analysis["spike_count_simulated_in_step"],
+            "spike_count_delta": analysis["spike_count_simulated_in_step"] - analysis["spike_count_recorded_in_step"],
             "first_spike_recorded_ms": analysis["first_spike_recorded_ms"],
             "first_spike_simulated_ms": analysis["first_spike_simulated_ms"],
             "first_spike_delta_ms": round(analysis["first_spike_delta_ms"], 3) if analysis["first_spike_delta_ms"] is not None else None,
+            "mean_isi_rec_ms": round(analysis["mean_isi_rec_ms"], 3) if analysis["mean_isi_rec_ms"] is not None else None,
+            "mean_isi_sim_ms": round(analysis["mean_isi_sim_ms"], 3) if analysis["mean_isi_sim_ms"] is not None else None,
             "post_step_excursions_recorded": analysis["post_step_excursions_recorded"],
             "post_step_excursions_simulated": analysis["post_step_excursions_simulated"],
             "spike_times_recorded_in_step_ms": analysis["spike_times_recorded_in_step_ms"],
@@ -535,10 +562,103 @@ def main():
         }
     }
 
-    summary_file = output_dir / "summary.json"
+    summary_file = sweep_out_dir / "summary.json"
     summary_file.write_text(json.dumps(summary_data, indent=2), encoding="utf-8")
     log_path.write_text(f"Execution completed in {sim_res['elapsed_s']:.2f} s. Summary written to {summary_file}\n", encoding="utf-8")
-    logger.info("Execution complete! Summary written to %s", summary_file)
+    logger.info("Sweep %d finished (elapsed=%.2fs, rec_spikes=%d, sim_spikes=%d, r=%.4f)",
+                sweep, sim_res["elapsed_s"], analysis["spike_count_recorded_in_step"], analysis["spike_count_simulated_in_step"], analysis["correlation"])
+
+    return summary_data
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--specimen-id", type=int, required=True, choices=list(REPRESENTATIVES.keys()))
+    parser.add_argument("--sweep", type=int, default=None, help="Single sweep number to run")
+    parser.add_argument("--sweeps", type=str, default=None, help="Comma-separated sweep numbers or 'all_heldout'")
+    parser.add_argument("--condition-type", type=str, default="auto", choices=["auto", "calibration", "held_out"])
+    parser.add_argument("--repo-dir", type=str, default=".")
+    parser.add_argument("--workspace-dir", type=str, required=True)
+    parser.add_argument("--allensdk-src", type=str, required=True)
+    parser.add_argument("--output-dir", type=str, required=True)
+    parser.add_argument("--save-traces", action="store_true", help="Save compressed npz voltage/current traces")
+    args = parser.parse_args()
+
+    specimen_id = args.specimen_id
+    meta = REPRESENTATIVES[specimen_id]
+    repo_dir = pathlib.Path(args.repo_dir).resolve()
+    workspace = pathlib.Path(args.workspace_dir).resolve()
+    allensdk_src = pathlib.Path(args.allensdk_src).resolve()
+    output_dir = pathlib.Path(args.output_dir).resolve()
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
+    logger = logging.getLogger("runner")
+
+    # Determine sweep list
+    if args.sweeps == "all_heldout":
+        held_csv = repo_dir / "results" / "phase3b" / "heldout_sweeps.csv"
+        if not held_csv.exists():
+            raise FileNotFoundError(f"Missing {held_csv}; run Phase 1 provenance audit first.")
+        df_held = pd.read_csv(held_csv)
+        spec_sweeps = df_held[df_held["specimen_id"] == specimen_id]["sweep_number"].tolist()
+        sweeps_to_run = spec_sweeps
+        condition_type = "held_out"
+    elif args.sweeps:
+        sweeps_to_run = [int(s.strip()) for s in args.sweeps.split(",")]
+        condition_type = args.condition_type
+    elif args.sweep is not None:
+        sweeps_to_run = [args.sweep]
+        condition_type = args.condition_type
+    else:
+        sweeps_to_run = [meta["calibration_sweep"]]
+        condition_type = "calibration"
+
+    logger.info("Executing %d sweep(s) for specimen %d: %s", len(sweeps_to_run), specimen_id, sweeps_to_run)
+
+    results = []
+    failures = []
+    for swp in sweeps_to_run:
+        try:
+            res = run_single_sweep(
+                specimen_id=specimen_id,
+                sweep=swp,
+                condition_type=condition_type,
+                repo_dir=repo_dir,
+                workspace=workspace,
+                allensdk_src=allensdk_src,
+                output_dir=output_dir,
+                save_traces=args.save_traces,
+                logger=logger
+            )
+            results.append(res)
+        except Exception as exc:
+            logger.error("Simulation failed for sweep %d: %s", swp, exc, exc_info=True)
+            failures.append({"sweep": swp, "error": str(exc)})
+
+    # If batch run, aggregate metrics CSV
+    if len(results) > 1:
+        agg_rows = []
+        for r in results:
+            row = {
+                "specimen_id": r["specimen_id"],
+                "population": r["population"],
+                "layer": r["layer"],
+                "sweep_id": r["sweep_id"],
+                "condition_type": r["condition_type"],
+                "stimulus_amplitude_pa": r["stimulus"]["amplitude_pa"],
+                "stimulus_duration_ms": r["stimulus"]["duration_ms"],
+                "stimulus_onset_ms": r["stimulus"]["onset_ms"],
+            }
+            row.update(r["metrics"])
+            agg_rows.append(row)
+        pd.DataFrame(agg_rows).to_csv(output_dir / "aggregated_metrics.csv", index=False)
+        logger.info("Aggregated metrics written to %s", output_dir / "aggregated_metrics.csv")
+
+    if failures:
+        logger.warning("%d sweep(s) failed during execution", len(failures))
+        (output_dir / "failures.json").write_text(json.dumps(failures, indent=2), encoding="utf-8")
+        sys.exit(1 if not results else 0)
 
 
 if __name__ == "__main__":

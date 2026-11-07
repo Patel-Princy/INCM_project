@@ -47,8 +47,8 @@ identity (IT/ET/PT/CT), so no projection labels are used.
 | 2G-A | All-active model readiness | ✓ Complete | `46f5500` |
 | 2G-B | All-active model execution (two axon branches) | ✓ Complete | `54b4326` |
 | 2G-C | All-active excitability mapping | ✓ Complete | `d04b13e` |
-| **3A** | **Detailed neuron pipeline audit & 4-population readiness** | **✓ Complete** |  |
-| 3B | Held-out evaluation across four populations | 🔲 Planned |  |
+| **3A** | **Detailed neuron pipeline audit & 4-population readiness** | **✓ Complete** | **`ccc60e6`** |
+| **3B** | **Held-out evaluation across four populations (109 sweeps)** | **✓ Complete** | **`ashish-work`** |
 | 4 | FHN fitting and held-out evaluation | 🔲 Planned |  |
 | 5 | Cross-population comparison and report | 🔲 Planned |  |
 
@@ -94,6 +94,19 @@ configurations:
 The two axon configurations produce materially different excitability. Neither
 can be claimed as the original fitted configuration. The published parameter set
 is not reproducible without knowing the axon treatment used during fitting.
+
+---
+
+## Key Phase 3B findings (2026-11-08)
+
+**Out-of-sample held-out evaluation across four layer populations (109 sweeps, 102 unique conditions):**
+- **Strictly frozen parameters:** Zero recalibration or tuning on held-out sweeps.
+- **100% execution completion:** 109/109 sweeps executed with zero numerical failures.
+- **Pop D (VISp L6a, 471786879):** Exact rheobase interval match ($0.0\text{ pA}$ shift), lowest waveform error ($\text{RMSE} = 2.23\text{ mV}$, $\text{MAE} = 0.85\text{ mV}$), high correlation ($r = 0.9699$).
+- **Pop B (VISp L2/3, 318808427):** $+20.0\text{ pA}$ rheobase shift ($+16.7\%$), lowest spike count delta ($+0.83$ spikes/sweep), near-perfect subthreshold correlation ($r = 0.9965$).
+- **Pop C (VISp L5, 471129934):** Net unbiased spike count (mean delta $-0.03$ spikes/sweep) across 34 sweeps; biological threshold drift observed in late protocol blocks.
+- **Pop A (VISp L4, 484564503):** $+60.0\text{ pA}$ rheobase shift and resting potential discrepancy ($+13.1\text{ mV}$) originating from published fit parameters.
+- **Artifacts:** Full reports, consolidated CSV metrics, and publication figures in `results/phase3b/`.
 
 ---
 

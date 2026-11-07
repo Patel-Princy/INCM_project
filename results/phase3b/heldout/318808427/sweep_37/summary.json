@@ -1,0 +1,60 @@
+{
+  "specimen_id": 318808427,
+  "population": "B",
+  "layer": "2/3",
+  "structure": "VISp2/3",
+  "model_id": 473863035,
+  "fit_file_id": 497237588,
+  "sweep_id": 37,
+  "condition_type": "HELD_OUT",
+  "is_calibration": false,
+  "timestamp_iso": "2026-11-07T19:20:55Z",
+  "hashes": {
+    "nwb_sha256": "c3165dba999168807b61f4336ce93cd07c3bdd1cd8e1b1428d04d47070f1ce47",
+    "fit_sha256": "6f0bb8516d23fe3c3a8027a5b8775f94727042927c6a04a9642bfba20f447be3",
+    "swc_sha256": "d164756ef52670f151530999b7f510176886d6a478bf41d5dd67d658686c3deb",
+    "manifest_sha256": "af46200d1927e49bfb84a0c50a714142ee2e06ac42c181483427c848a6100428"
+  },
+  "environment": {
+    "neuron_version": "8.2.7",
+    "python_version": "3.11.18",
+    "elapsed_seconds": 5.93
+  },
+  "stimulus": {
+    "amplitude_pa": 129.99999687846042,
+    "onset_ms": 1020.0,
+    "duration_ms": 1000.0,
+    "sampling_rate_hz": 200000.0
+  },
+  "metrics": {
+    "baseline_recorded_mv": -75.427,
+    "baseline_simulated_mv": -75.933,
+    "baseline_delta_mv": -0.506,
+    "mean_step_v_rec_mv": -43.216,
+    "mean_step_v_sim_mv": -48.174,
+    "max_depol_rec_mv": 32.156,
+    "max_depol_sim_mv": -47.804,
+    "rmse_overall_mv": 3.038,
+    "rmse_pre_stimulus_mv": 0.553,
+    "rmse_during_stimulus_mv": 5.764,
+    "rmse_post_stimulus_mv": 1.335,
+    "mae_mv": 2.013,
+    "correlation": 0.9941,
+    "spike_count_recorded_total": 1,
+    "spike_count_simulated_total": 0,
+    "spike_count_recorded_in_step": 1,
+    "spike_count_simulated_in_step": 0,
+    "spike_count_delta": -1,
+    "first_spike_recorded_ms": 1074.1550000118411,
+    "first_spike_simulated_ms": null,
+    "first_spike_delta_ms": null,
+    "mean_isi_rec_ms": null,
+    "mean_isi_sim_ms": null,
+    "post_step_excursions_recorded": 0,
+    "post_step_excursions_simulated": 0,
+    "spike_times_recorded_in_step_ms": [
+      1074.155
+    ],
+    "spike_times_simulated_in_step_ms": []
+  }
+}

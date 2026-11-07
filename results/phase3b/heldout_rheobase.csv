@@ -1,0 +1,5 @@
+specimen_id,population,layer,model_id,calibration_sweep,calibration_amplitude_pa,protocol_family,rec_subthreshold_max_pa,rec_suprathreshold_min_pa,rec_rheobase_interval,rec_rheobase_midpoint_pa,sim_subthreshold_max_pa,sim_suprathreshold_min_pa,sim_rheobase_interval,sim_rheobase_midpoint_pa,rheobase_shift_pa,intervals_overlap
+484564503,A,4,485591776,49,370.0,COARSE,270.0,290.0,"[270.0, 290.0]",280.0,330.0,350.0,"[330.0, 350.0]",340.0,60.0,False
+318808427,B,2/3,473863035,40,190.0,COARSE,110.0,130.0,"[110.0, 130.0]",120.0,130.0,150.0,"[130.0, 150.0]",140.0,20.0,False
+471129934,C,5,480624414,51,410.0,COARSE,270.0,290.0,"[270.0, 290.0]",280.0,330.0,350.0,"[330.0, 350.0]",340.0,60.0,False
+471786879,D,6a,480632594,42,250.0,COARSE,190.0,210.0,"[190.0, 210.0]",200.0,190.0,210.0,"[190.0, 210.0]",200.0,0.0,True
