@@ -1,0 +1,1429 @@
+{
+  "phase": "0B",
+  "generated_at": "2026-11-07T13:21:57+00:00",
+  "script": "src/data_audit/four_population_audit.py",
+  "region": "VISp",
+  "species": "Mus musculus",
+  "thresholds": {
+    "min_long_square": 6,
+    "min_depolarizing": 3,
+    "min_distinct_amplitudes": 2,
+    "amplitude_decimals": 3
+  },
+  "source_verification": [
+    {
+      "path": "data/metadata/cell_inventory.csv",
+      "expected_sha256": "40120a1484a992705674cd40779245151dbd84173eb149af289a94d0d553beb9",
+      "actual_sha256": "40120a1484a992705674cd40779245151dbd84173eb149af289a94d0d553beb9",
+      "ok": true,
+      "bytes": 1409270
+    },
+    {
+      "path": "data/metadata/sweep_inventory.csv",
+      "expected_sha256": "ce389b7363a2f9eefb709527749a7eb41d5127955296d1e9baae0fca7921cd96",
+      "actual_sha256": "ce389b7363a2f9eefb709527749a7eb41d5127955296d1e9baae0fca7921cd96",
+      "ok": true,
+      "bytes": 16638168
+    },
+    {
+      "path": "data/metadata/model_inventory.csv",
+      "expected_sha256": "76a1a350765810d85d4952a5fb0572cf48eb4faca860c8efe2cc468ce43bd0d5",
+      "actual_sha256": "76a1a350765810d85d4952a5fb0572cf48eb4faca860c8efe2cc468ce43bd0d5",
+      "ok": true,
+      "bytes": 1692757
+    }
+  ],
+  "identity_schema_probe": {
+    "endpoint": "http://api.brain-map.org/api/v2/data/query.json",
+    "observed_on": "2026-11-07",
+    "specimen_payload_fields": [
+      "cell_prep_sample_id",
+      "cell_reporter_id",
+      "cortex_layer_id",
+      "data",
+      "donor",
+      "donor_id",
+      "ephys_result_id",
+      "external_specimen_name",
+      "failed_facet",
+      "hemisphere",
+      "id",
+      "is_cell_specimen",
+      "is_ish",
+      "name",
+      "parent_id",
+      "parent_x_coord",
+      "parent_y_coord",
+      "parent_z_coord",
+      "pinned_radius",
+      "rna_integrity_number",
+      "specimen_id_path",
+      "sphinx_id",
+      "structure",
+      "structure_id",
+      "tissue_ph",
+      "treatment_id",
+      "weight"
+    ],
+    "column_probes": {
+      "projection": {
+        "query": "model::Specimen,rma::criteria,[projection$eq'CT']",
+        "http": 200,
+        "success": false,
+        "error": "Data Access error (column does not exist)"
+      },
+      "projection_class": {
+        "query": "model::Specimen,rma::criteria,[projection_class$eq'CT']",
+        "http": 200,
+        "success": false,
+        "error": "Data Access error (column does not exist)"
+      },
+      "cell_type": {
+        "query": "model::Specimen,rma::criteria,[cell_type$eq'CT']",
+        "http": 200,
+        "success": false,
+        "error": "Data Access error (column does not exist)"
+      },
+      "cell_class": {
+        "query": "model::Specimen,rma::criteria,[cell_class$eq'CT']",
+        "http": 200,
+        "success": false,
+        "error": "Data Access error (column does not exist)"
+      },
+      "projection_target": {
+        "query": "model::Specimen,rma::criteria,[projection_target$eq'CT']",
+        "http": 200,
+        "success": false,
+        "error": "Data Access error (column does not exist)"
+      },
+      "target_structure_id": {
+        "query": "model::Specimen,rma::criteria,[target_structure_id$eq'CT']",
+        "http": 200,
+        "success": false,
+        "error": "Data Access error (column does not exist)"
+      },
+      "cre_line": {
+        "query": "model::Specimen,rma::criteria,[cre_line$eq'CT']",
+        "http": 200,
+        "success": false,
+        "error": "Data Access error (column does not exist)"
+      },
+      "line_name": {
+        "query": "model::Specimen,rma::criteria,[line_name$eq'CT']",
+        "http": 200,
+        "success": false,
+        "error": "Data Access error (column does not exist)"
+      }
+    },
+    "model_probes": {
+      "model::Projection": {
+        "query": "model::Projection",
+        "http": 200,
+        "success": false,
+        "error": "uninitialized constant"
+      },
+      "model::ProjectionTarget": {
+        "query": "model::ProjectionTarget",
+        "http": 200,
+        "success": false,
+        "error": "uninitialized constant"
+      },
+      "model::CellType": {
+        "query": "model::CellType",
+        "http": 200,
+        "success": false,
+        "error": "uninitialized constant"
+      },
+      "model::TranscriptomicType": {
+        "query": "model::TranscriptomicType",
+        "http": 200,
+        "success": false,
+        "error": "uninitialized constant"
+      }
+    },
+    "baseline_control": {
+      "query": "model::Specimen,rma::criteria,[structure_id$eq721]",
+      "http": 200,
+      "success": true,
+      "total_rows": 458,
+      "note": "VISp layer 4; proves the query pattern works when the column exists"
+    }
+  },
+  "population_definitions": [
+    {
+      "key": "A",
+      "label": "VISp L4 excitatory (spiny stellate / IT-like)",
+      "layers": [
+        "4"
+      ],
+      "proposed_identity": "excitatory spiny stellate / IT-like"
+    },
+    {
+      "key": "B",
+      "label": "VISp L2/3 IT pyramidal",
+      "layers": [
+        "2/3"
+      ],
+      "proposed_identity": "IT pyramidal"
+    },
+    {
+      "key": "C",
+      "label": "VISp L5 ET/PT pyramidal",
+      "layers": [
+        "5"
+      ],
+      "proposed_identity": "ET/PT pyramidal"
+    },
+    {
+      "key": "D",
+      "label": "VISp L6 corticothalamic",
+      "layers": [
+        "6a",
+        "6b"
+      ],
+      "proposed_identity": "corticothalamic"
+    }
+  ],
+  "populations": [
+    {
+      "key": "A",
+      "label": "VISp L4 excitatory (spiny stellate / IT-like)",
+      "proposed_identity": "excitatory spiny stellate / IT-like",
+      "layers": [
+        "4"
+      ],
+      "total": 458,
+      "stage_counts": {
+        "1": 458,
+        "2": 457,
+        "3": 457,
+        "4": 457,
+        "5": 457,
+        "6": 457,
+        "7": 63,
+        "8": 28,
+        "9": 27,
+        "10": 109,
+        "11": 64,
+        "12": 63
+      },
+      "stage_rows": [
+        {
+          "population": "A",
+          "population_label": "VISp L4 excitatory (spiny stellate / IT-like)",
+          "population_total": 458,
+          "stage": 1,
+          "stage_name": "Total mouse V1 specimens",
+          "stage_definition": "Mus musculus specimens in the population's VISp layer(s)",
+          "stage_kind": "sequential",
+          "base_stage": "population",
+          "base_n": 458,
+          "n": 458,
+          "pct_of_population": 100.0,
+          "pct_of_base": 100.0,
+          "phase0_pass": 64
+        },
+        {
+          "population": "A",
+          "population_label": "VISp L4 excitatory (spiny stellate / IT-like)",
+          "population_total": 458,
+          "stage": 2,
+          "stage_name": "Long-square current clamp",
+          "stage_definition": "non-failed EphysResult with >= 1 long-square sweep under the units-aware current-clamp rule",
+          "stage_kind": "sequential",
+          "base_stage": "stage_01",
+          "base_n": 458,
+          "n": 457,
+          "pct_of_population": 99.8,
+          "pct_of_base": 99.8,
+          "phase0_pass": 64
+        },
+        {
+          "population": "A",
+          "population_label": "VISp L4 excitatory (spiny stellate / IT-like)",
+          "population_total": 458,
+          "stage": 3,
+          "stage_name": "Depolarising long square",
+          "stage_definition": ">= 1 depolarising long-square current-clamp sweep (stimulus amplitude > 0 pA)",
+          "stage_kind": "sequential",
+          "base_stage": "stage_02",
+          "base_n": 457,
+          "n": 457,
+          "pct_of_population": 99.8,
+          "pct_of_base": 100.0,
+          "phase0_pass": 64
+        },
+        {
+          "population": "A",
+          "population_label": "VISp L4 excitatory (spiny stellate / IT-like)",
+          "population_total": 458,
+          "stage": 4,
+          "stage_name": "Two distinct amplitudes",
+          "stage_definition": ">= 2 distinct depolarising amplitudes (1e-3 pA rounding)",
+          "stage_kind": "sequential",
+          "base_stage": "stage_03",
+          "base_n": 457,
+          "n": 457,
+          "pct_of_population": 99.8,
+          "pct_of_base": 100.0,
+          "phase0_pass": 64
+        },
+        {
+          "population": "A",
+          "population_label": "VISp L4 excitatory (spiny stellate / IT-like)",
+          "population_total": 458,
+          "stage": 5,
+          "stage_name": "Sufficient conditions",
+          "stage_definition": ">= 6 long-square CC sweeps AND >= 3 depolarising AND >= 2 distinct depolarising amplitudes",
+          "stage_kind": "sequential",
+          "base_stage": "stage_04",
+          "base_n": 457,
+          "n": 457,
+          "pct_of_population": 99.8,
+          "pct_of_base": 100.0,
+          "phase0_pass": 64
+        },
+        {
+          "population": "A",
+          "population_label": "VISp L4 excitatory (spiny stellate / IT-like)",
+          "population_total": 458,
+          "stage": 6,
+          "stage_name": "Downloadable NWB",
+          "stage_definition": "NWB download reference resolved in the inventory",
+          "stage_kind": "sequential",
+          "base_stage": "stage_05",
+          "base_n": 457,
+          "n": 457,
+          "pct_of_population": 99.8,
+          "pct_of_base": 100.0,
+          "phase0_pass": 64
+        },
+        {
+          "population": "A",
+          "population_label": "VISp L4 excitatory (spiny stellate / IT-like)",
+          "population_total": 458,
+          "stage": 7,
+          "stage_name": "Perisomatic model",
+          "stage_definition": ">= 1 Biophysical - perisomatic model",
+          "stage_kind": "facet",
+          "base_stage": "stage_06",
+          "base_n": 457,
+          "n": 63,
+          "pct_of_population": 13.8,
+          "pct_of_base": 13.8,
+          "phase0_pass": 64
+        },
+        {
+          "population": "A",
+          "population_label": "VISp L4 excitatory (spiny stellate / IT-like)",
+          "population_total": 458,
+          "stage": 8,
+          "stage_name": "All-active model",
+          "stage_definition": ">= 1 Biophysical - all active model",
+          "stage_kind": "facet",
+          "base_stage": "stage_06",
+          "base_n": 457,
+          "n": 28,
+          "pct_of_population": 6.1,
+          "pct_of_base": 6.1,
+          "phase0_pass": 64
+        },
+        {
+          "population": "A",
+          "population_label": "VISp L4 excitatory (spiny stellate / IT-like)",
+          "population_total": 458,
+          "stage": 9,
+          "stage_name": "Both model classes",
+          "stage_definition": ">= 1 perisomatic AND >= 1 all-active model",
+          "stage_kind": "facet",
+          "base_stage": "stage_06",
+          "base_n": 457,
+          "n": 27,
+          "pct_of_population": 5.9,
+          "pct_of_base": 5.9,
+          "phase0_pass": 64
+        },
+        {
+          "population": "A",
+          "population_label": "VISp L4 excitatory (spiny stellate / IT-like)",
+          "population_total": 458,
+          "stage": 10,
+          "stage_name": "Morphology asset",
+          "stage_definition": "has_morphology AND reconstruction id AND download URL AND not superseded",
+          "stage_kind": "facet",
+          "base_stage": "stage_06",
+          "base_n": 457,
+          "n": 109,
+          "pct_of_population": 23.8,
+          "pct_of_base": 23.9,
+          "phase0_pass": 64
+        },
+        {
+          "population": "A",
+          "population_label": "VISp L4 excitatory (spiny stellate / IT-like)",
+          "population_total": 458,
+          "stage": 11,
+          "stage_name": "Fit descriptor",
+          "stage_definition": ">= 1 biophysical model with a resolved fit-descriptor reference (metadata level; JSON not opened)",
+          "stage_kind": "facet",
+          "base_stage": "stage_06",
+          "base_n": 457,
+          "n": 64,
+          "pct_of_population": 14.0,
+          "pct_of_base": 14.0,
+          "phase0_pass": 64
+        },
+        {
+          "population": "A",
+          "population_label": "VISp L4 excitatory (spiny stellate / IT-like)",
+          "population_total": 458,
+          "stage": 12,
+          "stage_name": "Final eligible",
+          "stage_definition": "stages 1-6 plus >= 1 biophysical model with a resolved fit descriptor plus a usable morphology asset",
+          "stage_kind": "final",
+          "base_stage": "stage_06",
+          "base_n": 457,
+          "n": 63,
+          "pct_of_population": 13.8,
+          "pct_of_base": 13.8,
+          "phase0_pass": 64
+        }
+      ],
+      "final_both_models": 27,
+      "final_spiny": 54,
+      "final_identity_compatible": 47,
+      "final_identity_both": 18,
+      "phase0_pass": 64,
+      "recording": {
+        "population": "A",
+        "specimens": 458,
+        "recording_sessions": 458,
+        "nwb_files_referenced": 458,
+        "nwb_files_opened_in_repo": 0,
+        "sampling_50khz": 163,
+        "sampling_200khz": 295,
+        "n_long_square_cc_total": 11170,
+        "n_long_square_cc_median": 23.0,
+        "n_long_square_cc_min": 7,
+        "n_long_square_cc_max": 66,
+        "n_depolarizing_total": 8626,
+        "n_distinct_depolarizing_median": 13.0,
+        "n_distinct_depolarizing_min": 3,
+        "n_distinct_depolarizing_max": 45,
+        "n_with_ge3_distinct": 458,
+        "n_with_ge5_distinct": 454,
+        "n_with_repeated_amplitude": 422,
+        "units_label_counts": {
+          "Amps": 443,
+          "pA": 15
+        },
+        "n_failed_ephys": 1,
+        "n_implicit_clamp_mode_only": 15,
+        "depolarizing_range_pa": [
+          10.0,
+          850.0
+        ]
+      },
+      "models": {
+        "population": "A",
+        "population_label": "VISp L4 excitatory (spiny stellate / IT-like)",
+        "population_total": 458,
+        "n_any_biophysical": 64,
+        "n_perisomatic": 63,
+        "n_all_active": 28,
+        "n_both": 27,
+        "n_glif_only": 234,
+        "n_fit_descriptor_resolved": 64,
+        "n_morphology_usable": 109,
+        "n_final_any_model": 63,
+        "n_final_perisomatic": 62,
+        "n_final_all_active": 28,
+        "n_final_both_models": 27,
+        "n_final_spiny": 54,
+        "n_final_identity_compatible": 47,
+        "n_final_identity_perisomatic": 47,
+        "n_final_identity_all_active": 18,
+        "n_final_identity_both": 18,
+        "n_model_reconstruction_matches": 60,
+        "n_model_reconstruction_differs": 3,
+        "perisomatic_template_id": 329230710,
+        "all_active_template_id": 491455321,
+        "n_listed_any": 64,
+        "n_descriptor_resolved": 64,
+        "n_assets_in_repo": 0,
+        "n_executable_in_repo": 0,
+        "n_validated_against_recording": 0
+      },
+      "identity": {
+        "population": "A",
+        "population_total": 458,
+        "all_confidence_counts": {
+          "LAYER-ONLY": 17,
+          "NOT-CANDIDATE": 152,
+          "PROBABLE": 241,
+          "UNRESOLVED": 48
+        },
+        "final_confidence_counts": {
+          "LAYER-ONLY": 1,
+          "NOT-CANDIDATE": 8,
+          "PROBABLE": 47,
+          "UNRESOLVED": 7
+        },
+        "final_class_counts": {
+          "A": 47
+        },
+        "population_confidence": "PROBABLE"
+      }
+    },
+    {
+      "key": "B",
+      "label": "VISp L2/3 IT pyramidal",
+      "proposed_identity": "IT pyramidal",
+      "layers": [
+        "2/3"
+      ],
+      "total": 311,
+      "stage_counts": {
+        "1": 311,
+        "2": 311,
+        "3": 311,
+        "4": 311,
+        "5": 311,
+        "6": 311,
+        "7": 28,
+        "8": 25,
+        "9": 23,
+        "10": 91,
+        "11": 30,
+        "12": 30
+      },
+      "stage_rows": [
+        {
+          "population": "B",
+          "population_label": "VISp L2/3 IT pyramidal",
+          "population_total": 311,
+          "stage": 1,
+          "stage_name": "Total mouse V1 specimens",
+          "stage_definition": "Mus musculus specimens in the population's VISp layer(s)",
+          "stage_kind": "sequential",
+          "base_stage": "population",
+          "base_n": 311,
+          "n": 311,
+          "pct_of_population": 100.0,
+          "pct_of_base": 100.0,
+          "phase0_pass": 30
+        },
+        {
+          "population": "B",
+          "population_label": "VISp L2/3 IT pyramidal",
+          "population_total": 311,
+          "stage": 2,
+          "stage_name": "Long-square current clamp",
+          "stage_definition": "non-failed EphysResult with >= 1 long-square sweep under the units-aware current-clamp rule",
+          "stage_kind": "sequential",
+          "base_stage": "stage_01",
+          "base_n": 311,
+          "n": 311,
+          "pct_of_population": 100.0,
+          "pct_of_base": 100.0,
+          "phase0_pass": 30
+        },
+        {
+          "population": "B",
+          "population_label": "VISp L2/3 IT pyramidal",
+          "population_total": 311,
+          "stage": 3,
+          "stage_name": "Depolarising long square",
+          "stage_definition": ">= 1 depolarising long-square current-clamp sweep (stimulus amplitude > 0 pA)",
+          "stage_kind": "sequential",
+          "base_stage": "stage_02",
+          "base_n": 311,
+          "n": 311,
+          "pct_of_population": 100.0,
+          "pct_of_base": 100.0,
+          "phase0_pass": 30
+        },
+        {
+          "population": "B",
+          "population_label": "VISp L2/3 IT pyramidal",
+          "population_total": 311,
+          "stage": 4,
+          "stage_name": "Two distinct amplitudes",
+          "stage_definition": ">= 2 distinct depolarising amplitudes (1e-3 pA rounding)",
+          "stage_kind": "sequential",
+          "base_stage": "stage_03",
+          "base_n": 311,
+          "n": 311,
+          "pct_of_population": 100.0,
+          "pct_of_base": 100.0,
+          "phase0_pass": 30
+        },
+        {
+          "population": "B",
+          "population_label": "VISp L2/3 IT pyramidal",
+          "population_total": 311,
+          "stage": 5,
+          "stage_name": "Sufficient conditions",
+          "stage_definition": ">= 6 long-square CC sweeps AND >= 3 depolarising AND >= 2 distinct depolarising amplitudes",
+          "stage_kind": "sequential",
+          "base_stage": "stage_04",
+          "base_n": 311,
+          "n": 311,
+          "pct_of_population": 100.0,
+          "pct_of_base": 100.0,
+          "phase0_pass": 30
+        },
+        {
+          "population": "B",
+          "population_label": "VISp L2/3 IT pyramidal",
+          "population_total": 311,
+          "stage": 6,
+          "stage_name": "Downloadable NWB",
+          "stage_definition": "NWB download reference resolved in the inventory",
+          "stage_kind": "sequential",
+          "base_stage": "stage_05",
+          "base_n": 311,
+          "n": 311,
+          "pct_of_population": 100.0,
+          "pct_of_base": 100.0,
+          "phase0_pass": 30
+        },
+        {
+          "population": "B",
+          "population_label": "VISp L2/3 IT pyramidal",
+          "population_total": 311,
+          "stage": 7,
+          "stage_name": "Perisomatic model",
+          "stage_definition": ">= 1 Biophysical - perisomatic model",
+          "stage_kind": "facet",
+          "base_stage": "stage_06",
+          "base_n": 311,
+          "n": 28,
+          "pct_of_population": 9.0,
+          "pct_of_base": 9.0,
+          "phase0_pass": 30
+        },
+        {
+          "population": "B",
+          "population_label": "VISp L2/3 IT pyramidal",
+          "population_total": 311,
+          "stage": 8,
+          "stage_name": "All-active model",
+          "stage_definition": ">= 1 Biophysical - all active model",
+          "stage_kind": "facet",
+          "base_stage": "stage_06",
+          "base_n": 311,
+          "n": 25,
+          "pct_of_population": 8.0,
+          "pct_of_base": 8.0,
+          "phase0_pass": 30
+        },
+        {
+          "population": "B",
+          "population_label": "VISp L2/3 IT pyramidal",
+          "population_total": 311,
+          "stage": 9,
+          "stage_name": "Both model classes",
+          "stage_definition": ">= 1 perisomatic AND >= 1 all-active model",
+          "stage_kind": "facet",
+          "base_stage": "stage_06",
+          "base_n": 311,
+          "n": 23,
+          "pct_of_population": 7.4,
+          "pct_of_base": 7.4,
+          "phase0_pass": 30
+        },
+        {
+          "population": "B",
+          "population_label": "VISp L2/3 IT pyramidal",
+          "population_total": 311,
+          "stage": 10,
+          "stage_name": "Morphology asset",
+          "stage_definition": "has_morphology AND reconstruction id AND download URL AND not superseded",
+          "stage_kind": "facet",
+          "base_stage": "stage_06",
+          "base_n": 311,
+          "n": 91,
+          "pct_of_population": 29.3,
+          "pct_of_base": 29.3,
+          "phase0_pass": 30
+        },
+        {
+          "population": "B",
+          "population_label": "VISp L2/3 IT pyramidal",
+          "population_total": 311,
+          "stage": 11,
+          "stage_name": "Fit descriptor",
+          "stage_definition": ">= 1 biophysical model with a resolved fit-descriptor reference (metadata level; JSON not opened)",
+          "stage_kind": "facet",
+          "base_stage": "stage_06",
+          "base_n": 311,
+          "n": 30,
+          "pct_of_population": 9.6,
+          "pct_of_base": 9.6,
+          "phase0_pass": 30
+        },
+        {
+          "population": "B",
+          "population_label": "VISp L2/3 IT pyramidal",
+          "population_total": 311,
+          "stage": 12,
+          "stage_name": "Final eligible",
+          "stage_definition": "stages 1-6 plus >= 1 biophysical model with a resolved fit descriptor plus a usable morphology asset",
+          "stage_kind": "final",
+          "base_stage": "stage_06",
+          "base_n": 311,
+          "n": 30,
+          "pct_of_population": 9.6,
+          "pct_of_base": 9.6,
+          "phase0_pass": 30
+        }
+      ],
+      "final_both_models": 23,
+      "final_spiny": 7,
+      "final_identity_compatible": 2,
+      "final_identity_both": 0,
+      "phase0_pass": 30,
+      "recording": {
+        "population": "B",
+        "specimens": 311,
+        "recording_sessions": 311,
+        "nwb_files_referenced": 311,
+        "nwb_files_opened_in_repo": 1,
+        "sampling_50khz": 182,
+        "sampling_200khz": 129,
+        "n_long_square_cc_total": 8342,
+        "n_long_square_cc_median": 25.0,
+        "n_long_square_cc_min": 7,
+        "n_long_square_cc_max": 63,
+        "n_depolarizing_total": 6564,
+        "n_distinct_depolarizing_median": 14.0,
+        "n_distinct_depolarizing_min": 4,
+        "n_distinct_depolarizing_max": 51,
+        "n_with_ge3_distinct": 311,
+        "n_with_ge5_distinct": 309,
+        "n_with_repeated_amplitude": 291,
+        "units_label_counts": {
+          "Amps": 262,
+          "pA": 49
+        },
+        "n_failed_ephys": 0,
+        "n_implicit_clamp_mode_only": 49,
+        "depolarizing_range_pa": [
+          10.0,
+          950.0
+        ]
+      },
+      "models": {
+        "population": "B",
+        "population_label": "VISp L2/3 IT pyramidal",
+        "population_total": 311,
+        "n_any_biophysical": 30,
+        "n_perisomatic": 28,
+        "n_all_active": 25,
+        "n_both": 23,
+        "n_glif_only": 150,
+        "n_fit_descriptor_resolved": 30,
+        "n_morphology_usable": 91,
+        "n_final_any_model": 30,
+        "n_final_perisomatic": 28,
+        "n_final_all_active": 25,
+        "n_final_both_models": 23,
+        "n_final_spiny": 7,
+        "n_final_identity_compatible": 2,
+        "n_final_identity_perisomatic": 1,
+        "n_final_identity_all_active": 1,
+        "n_final_identity_both": 0,
+        "n_model_reconstruction_matches": 17,
+        "n_model_reconstruction_differs": 13,
+        "perisomatic_template_id": 329230710,
+        "all_active_template_id": 491455321,
+        "n_listed_any": 30,
+        "n_descriptor_resolved": 30,
+        "n_assets_in_repo": 1,
+        "n_executable_in_repo": 1,
+        "n_validated_against_recording": 0
+      },
+      "identity": {
+        "population": "B",
+        "population_total": 311,
+        "all_confidence_counts": {
+          "LAYER-ONLY": 7,
+          "NOT-CANDIDATE": 237,
+          "PROBABLE": 25,
+          "UNRESOLVED": 42
+        },
+        "final_confidence_counts": {
+          "LAYER-ONLY": 1,
+          "NOT-CANDIDATE": 22,
+          "PROBABLE": 2,
+          "UNRESOLVED": 5
+        },
+        "final_class_counts": {
+          "B": 2
+        },
+        "population_confidence": "LAYER-ONLY"
+      }
+    },
+    {
+      "key": "C",
+      "label": "VISp L5 ET/PT pyramidal",
+      "proposed_identity": "ET/PT pyramidal",
+      "layers": [
+        "5"
+      ],
+      "total": 505,
+      "stage_counts": {
+        "1": 505,
+        "2": 503,
+        "3": 503,
+        "4": 503,
+        "5": 503,
+        "6": 503,
+        "7": 71,
+        "8": 40,
+        "9": 32,
+        "10": 148,
+        "11": 79,
+        "12": 79
+      },
+      "stage_rows": [
+        {
+          "population": "C",
+          "population_label": "VISp L5 ET/PT pyramidal",
+          "population_total": 505,
+          "stage": 1,
+          "stage_name": "Total mouse V1 specimens",
+          "stage_definition": "Mus musculus specimens in the population's VISp layer(s)",
+          "stage_kind": "sequential",
+          "base_stage": "population",
+          "base_n": 505,
+          "n": 505,
+          "pct_of_population": 100.0,
+          "pct_of_base": 100.0,
+          "phase0_pass": 79
+        },
+        {
+          "population": "C",
+          "population_label": "VISp L5 ET/PT pyramidal",
+          "population_total": 505,
+          "stage": 2,
+          "stage_name": "Long-square current clamp",
+          "stage_definition": "non-failed EphysResult with >= 1 long-square sweep under the units-aware current-clamp rule",
+          "stage_kind": "sequential",
+          "base_stage": "stage_01",
+          "base_n": 505,
+          "n": 503,
+          "pct_of_population": 99.6,
+          "pct_of_base": 99.6,
+          "phase0_pass": 79
+        },
+        {
+          "population": "C",
+          "population_label": "VISp L5 ET/PT pyramidal",
+          "population_total": 505,
+          "stage": 3,
+          "stage_name": "Depolarising long square",
+          "stage_definition": ">= 1 depolarising long-square current-clamp sweep (stimulus amplitude > 0 pA)",
+          "stage_kind": "sequential",
+          "base_stage": "stage_02",
+          "base_n": 503,
+          "n": 503,
+          "pct_of_population": 99.6,
+          "pct_of_base": 100.0,
+          "phase0_pass": 79
+        },
+        {
+          "population": "C",
+          "population_label": "VISp L5 ET/PT pyramidal",
+          "population_total": 505,
+          "stage": 4,
+          "stage_name": "Two distinct amplitudes",
+          "stage_definition": ">= 2 distinct depolarising amplitudes (1e-3 pA rounding)",
+          "stage_kind": "sequential",
+          "base_stage": "stage_03",
+          "base_n": 503,
+          "n": 503,
+          "pct_of_population": 99.6,
+          "pct_of_base": 100.0,
+          "phase0_pass": 79
+        },
+        {
+          "population": "C",
+          "population_label": "VISp L5 ET/PT pyramidal",
+          "population_total": 505,
+          "stage": 5,
+          "stage_name": "Sufficient conditions",
+          "stage_definition": ">= 6 long-square CC sweeps AND >= 3 depolarising AND >= 2 distinct depolarising amplitudes",
+          "stage_kind": "sequential",
+          "base_stage": "stage_04",
+          "base_n": 503,
+          "n": 503,
+          "pct_of_population": 99.6,
+          "pct_of_base": 100.0,
+          "phase0_pass": 79
+        },
+        {
+          "population": "C",
+          "population_label": "VISp L5 ET/PT pyramidal",
+          "population_total": 505,
+          "stage": 6,
+          "stage_name": "Downloadable NWB",
+          "stage_definition": "NWB download reference resolved in the inventory",
+          "stage_kind": "sequential",
+          "base_stage": "stage_05",
+          "base_n": 503,
+          "n": 503,
+          "pct_of_population": 99.6,
+          "pct_of_base": 100.0,
+          "phase0_pass": 79
+        },
+        {
+          "population": "C",
+          "population_label": "VISp L5 ET/PT pyramidal",
+          "population_total": 505,
+          "stage": 7,
+          "stage_name": "Perisomatic model",
+          "stage_definition": ">= 1 Biophysical - perisomatic model",
+          "stage_kind": "facet",
+          "base_stage": "stage_06",
+          "base_n": 503,
+          "n": 71,
+          "pct_of_population": 14.1,
+          "pct_of_base": 14.1,
+          "phase0_pass": 79
+        },
+        {
+          "population": "C",
+          "population_label": "VISp L5 ET/PT pyramidal",
+          "population_total": 505,
+          "stage": 8,
+          "stage_name": "All-active model",
+          "stage_definition": ">= 1 Biophysical - all active model",
+          "stage_kind": "facet",
+          "base_stage": "stage_06",
+          "base_n": 503,
+          "n": 40,
+          "pct_of_population": 7.9,
+          "pct_of_base": 8.0,
+          "phase0_pass": 79
+        },
+        {
+          "population": "C",
+          "population_label": "VISp L5 ET/PT pyramidal",
+          "population_total": 505,
+          "stage": 9,
+          "stage_name": "Both model classes",
+          "stage_definition": ">= 1 perisomatic AND >= 1 all-active model",
+          "stage_kind": "facet",
+          "base_stage": "stage_06",
+          "base_n": 503,
+          "n": 32,
+          "pct_of_population": 6.3,
+          "pct_of_base": 6.4,
+          "phase0_pass": 79
+        },
+        {
+          "population": "C",
+          "population_label": "VISp L5 ET/PT pyramidal",
+          "population_total": 505,
+          "stage": 10,
+          "stage_name": "Morphology asset",
+          "stage_definition": "has_morphology AND reconstruction id AND download URL AND not superseded",
+          "stage_kind": "facet",
+          "base_stage": "stage_06",
+          "base_n": 503,
+          "n": 148,
+          "pct_of_population": 29.3,
+          "pct_of_base": 29.4,
+          "phase0_pass": 79
+        },
+        {
+          "population": "C",
+          "population_label": "VISp L5 ET/PT pyramidal",
+          "population_total": 505,
+          "stage": 11,
+          "stage_name": "Fit descriptor",
+          "stage_definition": ">= 1 biophysical model with a resolved fit-descriptor reference (metadata level; JSON not opened)",
+          "stage_kind": "facet",
+          "base_stage": "stage_06",
+          "base_n": 503,
+          "n": 79,
+          "pct_of_population": 15.6,
+          "pct_of_base": 15.7,
+          "phase0_pass": 79
+        },
+        {
+          "population": "C",
+          "population_label": "VISp L5 ET/PT pyramidal",
+          "population_total": 505,
+          "stage": 12,
+          "stage_name": "Final eligible",
+          "stage_definition": "stages 1-6 plus >= 1 biophysical model with a resolved fit descriptor plus a usable morphology asset",
+          "stage_kind": "final",
+          "base_stage": "stage_06",
+          "base_n": 503,
+          "n": 79,
+          "pct_of_population": 15.6,
+          "pct_of_base": 15.7,
+          "phase0_pass": 79
+        }
+      ],
+      "final_both_models": 32,
+      "final_spiny": 41,
+      "final_identity_compatible": 15,
+      "final_identity_both": 2,
+      "phase0_pass": 79,
+      "recording": {
+        "population": "C",
+        "specimens": 505,
+        "recording_sessions": 505,
+        "nwb_files_referenced": 505,
+        "nwb_files_opened_in_repo": 0,
+        "sampling_50khz": 231,
+        "sampling_200khz": 274,
+        "n_long_square_cc_total": 12362,
+        "n_long_square_cc_median": 23.0,
+        "n_long_square_cc_min": 7,
+        "n_long_square_cc_max": 64,
+        "n_depolarizing_total": 9495,
+        "n_distinct_depolarizing_median": 13.0,
+        "n_distinct_depolarizing_min": 2,
+        "n_distinct_depolarizing_max": 42,
+        "n_with_ge3_distinct": 504,
+        "n_with_ge5_distinct": 499,
+        "n_with_repeated_amplitude": 461,
+        "units_label_counts": {
+          "Amps": 454,
+          "pA": 51
+        },
+        "n_failed_ephys": 2,
+        "n_implicit_clamp_mode_only": 51,
+        "depolarizing_range_pa": [
+          10.0,
+          810.0
+        ]
+      },
+      "models": {
+        "population": "C",
+        "population_label": "VISp L5 ET/PT pyramidal",
+        "population_total": 505,
+        "n_any_biophysical": 79,
+        "n_perisomatic": 71,
+        "n_all_active": 40,
+        "n_both": 32,
+        "n_glif_only": 223,
+        "n_fit_descriptor_resolved": 79,
+        "n_morphology_usable": 148,
+        "n_final_any_model": 79,
+        "n_final_perisomatic": 71,
+        "n_final_all_active": 40,
+        "n_final_both_models": 32,
+        "n_final_spiny": 41,
+        "n_final_identity_compatible": 15,
+        "n_final_identity_perisomatic": 14,
+        "n_final_identity_all_active": 3,
+        "n_final_identity_both": 2,
+        "n_model_reconstruction_matches": 72,
+        "n_model_reconstruction_differs": 7,
+        "perisomatic_template_id": 329230710,
+        "all_active_template_id": 491455321,
+        "n_listed_any": 79,
+        "n_descriptor_resolved": 79,
+        "n_assets_in_repo": 0,
+        "n_executable_in_repo": 0,
+        "n_validated_against_recording": 0
+      },
+      "identity": {
+        "population": "C",
+        "population_total": 505,
+        "all_confidence_counts": {
+          "LAYER-ONLY": 72,
+          "NOT-CANDIDATE": 256,
+          "PROBABLE": 54,
+          "UNRESOLVED": 123
+        },
+        "final_confidence_counts": {
+          "NOT-CANDIDATE": 35,
+          "PROBABLE": 15,
+          "UNRESOLVED": 29
+        },
+        "final_class_counts": {
+          "C": 15
+        },
+        "population_confidence": "PROBABLE"
+      }
+    },
+    {
+      "key": "D",
+      "label": "VISp L6 corticothalamic",
+      "proposed_identity": "corticothalamic",
+      "layers": [
+        "6a",
+        "6b"
+      ],
+      "total": 272,
+      "stage_counts": {
+        "1": 272,
+        "2": 272,
+        "3": 272,
+        "4": 272,
+        "5": 272,
+        "6": 272,
+        "7": 21,
+        "8": 6,
+        "9": 6,
+        "10": 84,
+        "11": 21,
+        "12": 20
+      },
+      "stage_rows": [
+        {
+          "population": "D",
+          "population_label": "VISp L6 corticothalamic",
+          "population_total": 272,
+          "stage": 1,
+          "stage_name": "Total mouse V1 specimens",
+          "stage_definition": "Mus musculus specimens in the population's VISp layer(s)",
+          "stage_kind": "sequential",
+          "base_stage": "population",
+          "base_n": 272,
+          "n": 272,
+          "pct_of_population": 100.0,
+          "pct_of_base": 100.0,
+          "phase0_pass": 21
+        },
+        {
+          "population": "D",
+          "population_label": "VISp L6 corticothalamic",
+          "population_total": 272,
+          "stage": 2,
+          "stage_name": "Long-square current clamp",
+          "stage_definition": "non-failed EphysResult with >= 1 long-square sweep under the units-aware current-clamp rule",
+          "stage_kind": "sequential",
+          "base_stage": "stage_01",
+          "base_n": 272,
+          "n": 272,
+          "pct_of_population": 100.0,
+          "pct_of_base": 100.0,
+          "phase0_pass": 21
+        },
+        {
+          "population": "D",
+          "population_label": "VISp L6 corticothalamic",
+          "population_total": 272,
+          "stage": 3,
+          "stage_name": "Depolarising long square",
+          "stage_definition": ">= 1 depolarising long-square current-clamp sweep (stimulus amplitude > 0 pA)",
+          "stage_kind": "sequential",
+          "base_stage": "stage_02",
+          "base_n": 272,
+          "n": 272,
+          "pct_of_population": 100.0,
+          "pct_of_base": 100.0,
+          "phase0_pass": 21
+        },
+        {
+          "population": "D",
+          "population_label": "VISp L6 corticothalamic",
+          "population_total": 272,
+          "stage": 4,
+          "stage_name": "Two distinct amplitudes",
+          "stage_definition": ">= 2 distinct depolarising amplitudes (1e-3 pA rounding)",
+          "stage_kind": "sequential",
+          "base_stage": "stage_03",
+          "base_n": 272,
+          "n": 272,
+          "pct_of_population": 100.0,
+          "pct_of_base": 100.0,
+          "phase0_pass": 21
+        },
+        {
+          "population": "D",
+          "population_label": "VISp L6 corticothalamic",
+          "population_total": 272,
+          "stage": 5,
+          "stage_name": "Sufficient conditions",
+          "stage_definition": ">= 6 long-square CC sweeps AND >= 3 depolarising AND >= 2 distinct depolarising amplitudes",
+          "stage_kind": "sequential",
+          "base_stage": "stage_04",
+          "base_n": 272,
+          "n": 272,
+          "pct_of_population": 100.0,
+          "pct_of_base": 100.0,
+          "phase0_pass": 21
+        },
+        {
+          "population": "D",
+          "population_label": "VISp L6 corticothalamic",
+          "population_total": 272,
+          "stage": 6,
+          "stage_name": "Downloadable NWB",
+          "stage_definition": "NWB download reference resolved in the inventory",
+          "stage_kind": "sequential",
+          "base_stage": "stage_05",
+          "base_n": 272,
+          "n": 272,
+          "pct_of_population": 100.0,
+          "pct_of_base": 100.0,
+          "phase0_pass": 21
+        },
+        {
+          "population": "D",
+          "population_label": "VISp L6 corticothalamic",
+          "population_total": 272,
+          "stage": 7,
+          "stage_name": "Perisomatic model",
+          "stage_definition": ">= 1 Biophysical - perisomatic model",
+          "stage_kind": "facet",
+          "base_stage": "stage_06",
+          "base_n": 272,
+          "n": 21,
+          "pct_of_population": 7.7,
+          "pct_of_base": 7.7,
+          "phase0_pass": 21
+        },
+        {
+          "population": "D",
+          "population_label": "VISp L6 corticothalamic",
+          "population_total": 272,
+          "stage": 8,
+          "stage_name": "All-active model",
+          "stage_definition": ">= 1 Biophysical - all active model",
+          "stage_kind": "facet",
+          "base_stage": "stage_06",
+          "base_n": 272,
+          "n": 6,
+          "pct_of_population": 2.2,
+          "pct_of_base": 2.2,
+          "phase0_pass": 21
+        },
+        {
+          "population": "D",
+          "population_label": "VISp L6 corticothalamic",
+          "population_total": 272,
+          "stage": 9,
+          "stage_name": "Both model classes",
+          "stage_definition": ">= 1 perisomatic AND >= 1 all-active model",
+          "stage_kind": "facet",
+          "base_stage": "stage_06",
+          "base_n": 272,
+          "n": 6,
+          "pct_of_population": 2.2,
+          "pct_of_base": 2.2,
+          "phase0_pass": 21
+        },
+        {
+          "population": "D",
+          "population_label": "VISp L6 corticothalamic",
+          "population_total": 272,
+          "stage": 10,
+          "stage_name": "Morphology asset",
+          "stage_definition": "has_morphology AND reconstruction id AND download URL AND not superseded",
+          "stage_kind": "facet",
+          "base_stage": "stage_06",
+          "base_n": 272,
+          "n": 84,
+          "pct_of_population": 30.9,
+          "pct_of_base": 30.9,
+          "phase0_pass": 21
+        },
+        {
+          "population": "D",
+          "population_label": "VISp L6 corticothalamic",
+          "population_total": 272,
+          "stage": 11,
+          "stage_name": "Fit descriptor",
+          "stage_definition": ">= 1 biophysical model with a resolved fit-descriptor reference (metadata level; JSON not opened)",
+          "stage_kind": "facet",
+          "base_stage": "stage_06",
+          "base_n": 272,
+          "n": 21,
+          "pct_of_population": 7.7,
+          "pct_of_base": 7.7,
+          "phase0_pass": 21
+        },
+        {
+          "population": "D",
+          "population_label": "VISp L6 corticothalamic",
+          "population_total": 272,
+          "stage": 12,
+          "stage_name": "Final eligible",
+          "stage_definition": "stages 1-6 plus >= 1 biophysical model with a resolved fit descriptor plus a usable morphology asset",
+          "stage_kind": "final",
+          "base_stage": "stage_06",
+          "base_n": 272,
+          "n": 20,
+          "pct_of_population": 7.4,
+          "pct_of_base": 7.4,
+          "phase0_pass": 21
+        }
+      ],
+      "final_both_models": 6,
+      "final_spiny": 8,
+      "final_identity_compatible": 5,
+      "final_identity_both": 1,
+      "phase0_pass": 21,
+      "recording": {
+        "population": "D",
+        "specimens": 272,
+        "recording_sessions": 272,
+        "nwb_files_referenced": 272,
+        "nwb_files_opened_in_repo": 0,
+        "sampling_50khz": 205,
+        "sampling_200khz": 67,
+        "n_long_square_cc_total": 6730,
+        "n_long_square_cc_median": 25.0,
+        "n_long_square_cc_min": 6,
+        "n_long_square_cc_max": 50,
+        "n_depolarizing_total": 5301,
+        "n_distinct_depolarizing_median": 13.0,
+        "n_distinct_depolarizing_min": 3,
+        "n_distinct_depolarizing_max": 32,
+        "n_with_ge3_distinct": 272,
+        "n_with_ge5_distinct": 269,
+        "n_with_repeated_amplitude": 255,
+        "units_label_counts": {
+          "Amps": 227,
+          "pA": 45
+        },
+        "n_failed_ephys": 0,
+        "n_implicit_clamp_mode_only": 45,
+        "depolarizing_range_pa": [
+          10.0,
+          610.0
+        ]
+      },
+      "models": {
+        "population": "D",
+        "population_label": "VISp L6 corticothalamic",
+        "population_total": 272,
+        "n_any_biophysical": 21,
+        "n_perisomatic": 21,
+        "n_all_active": 6,
+        "n_both": 6,
+        "n_glif_only": 129,
+        "n_fit_descriptor_resolved": 21,
+        "n_morphology_usable": 84,
+        "n_final_any_model": 20,
+        "n_final_perisomatic": 20,
+        "n_final_all_active": 6,
+        "n_final_both_models": 6,
+        "n_final_spiny": 8,
+        "n_final_identity_compatible": 5,
+        "n_final_identity_perisomatic": 5,
+        "n_final_identity_all_active": 1,
+        "n_final_identity_both": 1,
+        "n_model_reconstruction_matches": 18,
+        "n_model_reconstruction_differs": 2,
+        "perisomatic_template_id": 329230710,
+        "all_active_template_id": 491455321,
+        "n_listed_any": 21,
+        "n_descriptor_resolved": 21,
+        "n_assets_in_repo": 0,
+        "n_executable_in_repo": 0,
+        "n_validated_against_recording": 0
+      },
+      "identity": {
+        "population": "D",
+        "population_total": 272,
+        "all_confidence_counts": {
+          "LAYER-ONLY": 60,
+          "NOT-CANDIDATE": 124,
+          "PROBABLE": 50,
+          "UNRESOLVED": 38
+        },
+        "final_confidence_counts": {
+          "NOT-CANDIDATE": 9,
+          "PROBABLE": 5,
+          "UNRESOLVED": 6
+        },
+        "final_class_counts": {
+          "D": 5
+        },
+        "population_confidence": "PROBABLE"
+      }
+    }
+  ],
+  "totals": {
+    "visp_mouse_specimens": 1588,
+    "four_population_specimens": 1546,
+    "outside_populations": 42,
+    "four_population_final_any": 192,
+    "four_population_final_both": 88,
+    "four_population_final_spiny": 110,
+    "four_population_final_identity": 69
+  },
+  "quality_checks": [
+    {
+      "check": "specimen_ids_unique",
+      "ok": true,
+      "detail": "1546 records, 1546 distinct specimen ids"
+    },
+    {
+      "check": "groups_are_disjoint_and_cover_the_four_layers",
+      "ok": true,
+      "detail": "four-group specimens=1546; expected 1546 (1588 VISp minus 42 L1)"
+    },
+    {
+      "check": "no_specimen_in_two_populations",
+      "ok": true,
+      "detail": "each specimen id appears in exactly one population"
+    },
+    {
+      "check": "every_model_maps_to_a_group_specimen",
+      "ok": true,
+      "detail": "all model rows used by the audit belong to inventoried specimens"
+    },
+    {
+      "check": "all_model_ids_are_unique",
+      "ok": true,
+      "detail": "perisomatic 183 ids / 183 distinct; all-active 99 ids / 99 distinct; cross-class overlap 0"
+    },
+    {
+      "check": "final_is_a_subset_of_every_required_facet",
+      "ok": true,
+      "detail": "every final specimen has recording, NWB, morphology and descriptor"
+    },
+    {
+      "check": "stage_counts_are_monotonic",
+      "ok": true,
+      "detail": "no stage exceeds its base"
+    },
+    {
+      "check": "every_nonfinal_specimen_has_a_reason",
+      "ok": true,
+      "detail": "first failing requirement recorded for every exclusion"
+    },
+    {
+      "check": "every_final_specimen_has_a_morphology_and_a_model",
+      "ok": true,
+      "detail": "final eligibility includes both assets"
+    },
+    {
+      "check": "identity_is_never_confirmed",
+      "ok": true,
+      "detail": "no projection field exists, so no specimen can be CONFIRMED"
+    },
+    {
+      "check": "phase0_pass_covers_final_A",
+      "ok": true,
+      "detail": "A: 64 Phase 0 PASS vs 63 final eligible; final adds a morphology requirement, so final must not exceed PASS"
+    },
+    {
+      "check": "phase0_pass_covers_final_B",
+      "ok": true,
+      "detail": "B: 30 Phase 0 PASS vs 30 final eligible; final adds a morphology requirement, so final must not exceed PASS"
+    },
+    {
+      "check": "phase0_pass_covers_final_C",
+      "ok": true,
+      "detail": "C: 79 Phase 0 PASS vs 79 final eligible; final adds a morphology requirement, so final must not exceed PASS"
+    },
+    {
+      "check": "phase0_pass_covers_final_D",
+      "ok": true,
+      "detail": "D: 21 Phase 0 PASS vs 20 final eligible; final adds a morphology requirement, so final must not exceed PASS"
+    }
+  ]
+}
