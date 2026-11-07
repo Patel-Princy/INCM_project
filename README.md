@@ -48,9 +48,11 @@ identity (IT/ET/PT/CT), so no projection labels are used.
 | 2G-B | All-active model execution (two axon branches) | ✓ Complete | `54b4326` |
 | 2G-C | All-active excitability mapping | ✓ Complete | `d04b13e` |
 | **3A** | **Detailed neuron pipeline audit & 4-population readiness** | **✓ Complete** | **`ccc60e6`** |
-| **3B** | **Held-out evaluation across four populations (109 sweeps)** | **✓ Complete** | **`ashish-work`** |
-| 4 | FHN fitting and held-out evaluation | 🔲 Planned |  |
-| 5 | Cross-population comparison and report | 🔲 Planned |  |
+| **3B** | **Held-out evaluation across four populations (109 sweeps)** | **✓ Complete** | **`ee8d116`** |
+| **3C** | **Phase 3B independent audit, metric recomputation & FHN readiness** | **✓ Complete** | **`685f0ca`** |
+| **4A** | **Dimensional FitzHugh–Nagumo solver & numerical validation** | **✓ Complete** | **`ashish-work`** |
+| 4B | FHN population calibration & held-out evaluation (109 sweeps) | 🔲 Planned | |
+| 5 | Cross-population comparison and reduction report | 🔲 Planned | |
 
 ---
 
@@ -110,6 +112,20 @@ is not reproducible without knowing the axon treatment used during fitting.
 
 ---
 
+## Key Phase 4A findings (2026-11-08)
+
+**Dimensional FitzHugh–Nagumo solver implementation and numerical validation:**
+- **Exact dimensional homogeneity:** Proved all current terms evaluate strictly in $\text{pA}$ ($V$ in $\text{mV}$, $t$ in $\text{ms}$, $C_m$ in $\text{pF}$, $g_L$ in $\text{nS}$, $k_v$ in $\text{nS/mV}^2$, $\tau_w$ in $\text{ms}$, $a_w$ in $\text{nS}$).
+- **Resting equilibrium & stability:** Zero-current resting equilibrium $(V_{\mathrm{rest}}, 0)$ is unconditionally asymptotically stable ($\mathrm{Tr}(J_{\mathrm{rest}}) < 0$, $\det(J_{\mathrm{rest}}) > 0$).
+- **Analytical input resistance:** Linearization yields $R_{\mathrm{in}} = 1000 / (g_L + a_w + K_{\mathrm{rest}})\text{ M}\Omega$, validated numerically within $0.51\%$.
+- **Hopf bifurcation & limit cycles:** Derived necessary and sufficient condition for sustained limit cycles: $\frac{C_m}{\tau_w} < f_V'(V^*) < a_w$ (requiring $\frac{a_w \tau_w}{C_m} > 1$).
+- **Numerical convergence:** 4th-order Runge–Kutta integration converges with a convergence ratio of $2.00$ and step-refinement discrepancy $< 0.09\text{ mV}$.
+- **Zero biological calibration in 4A:** Model parameters preserved strictly uncalibrated; 109 held-out sweeps untouched.
+- **Unit test suite:** 11/11 FHN unit tests pass; 366/366 total project tests pass.
+- **Artifacts:** Report in `results/phase4a/PHASE4A_NUMERICAL_VALIDATION.md` and 5 diagnostic plots in `results/phase4a/figures/`.
+
+---
+
 ## Dataset
 
 - **Source:** Allen Cell Types Database (Allen Institute for Brain Science)
@@ -145,7 +161,7 @@ tmp/                  Working outputs (git-ignored)
 python -m pytest tests/ -q
 ```
 
-All 340 tests pass on Python 3.14 with pytest ≥ 9.1.
+All 366 tests pass on Python 3.14 with pytest ≥ 9.1.
 
 ---
 
