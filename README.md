@@ -47,7 +47,8 @@ identity (IT/ET/PT/CT), so no projection labels are used.
 | 2G-A | All-active model readiness | ✓ Complete | `46f5500` |
 | 2G-B | All-active model execution (two axon branches) | ✓ Complete | `54b4326` |
 | 2G-C | All-active excitability mapping | ✓ Complete | `d04b13e` |
-| 3 | Four-population perisomatic execution | 🔲 Planned |  |
+| **3A** | **Detailed neuron pipeline audit & 4-population readiness** | **✓ Complete** |  |
+| 3B | Held-out evaluation across four populations | 🔲 Planned |  |
 | 4 | FHN fitting and held-out evaluation | 🔲 Planned |  |
 | 5 | Cross-population comparison and report | 🔲 Planned |  |
 
@@ -119,7 +120,7 @@ results/
   phase2/             Model execution reports
 scripts/              Analysis and validation scripts
 src/data_audit/       Core audit modules
-tests/                Pytest test suite (335 tests)
+tests/                Pytest test suite (340 tests)
 tmp/                  Working outputs (git-ignored)
 ```
 
@@ -131,7 +132,7 @@ tmp/                  Working outputs (git-ignored)
 python -m pytest tests/ -q
 ```
 
-All 335 tests pass on Python 3.14 with pytest ≥ 9.1.
+All 340 tests pass on Python 3.14 with pytest ≥ 9.1.
 
 ---
 

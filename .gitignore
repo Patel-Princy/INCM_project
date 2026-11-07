@@ -67,6 +67,7 @@ credentials.json
 *.rar
 *.exe
 *.msi
+*.npz
 
 # --- Temporary / scratch -----------------------------------------------------
 tmp/
