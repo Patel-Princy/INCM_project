@@ -232,3 +232,129 @@ def test_finite_outputs_and_no_overflow():
     assert len(res.v_mv) == len(res.time_ms)
     assert len(res.w_pa) == len(res.time_ms)
     assert len(res.i_stim_pa) == len(res.time_ms)
+
+
+def test_rk4_fourth_order_on_smooth_reference_ode():
+    """Verify standard fourth-order convergence (ratio ~ 16) on a smooth analytical ODE."""
+    def rk4_step(y: float, dt: float) -> float:
+        # dy/dt = -2y
+        k1 = -2.0 * y
+        k2 = -2.0 * (y + 0.5 * dt * k1)
+        k3 = -2.0 * (y + 0.5 * dt * k2)
+        k4 = -2.0 * (y + dt * k3)
+        return y + (dt / 6.0) * (k1 + 2.0 * k2 + 2.0 * k3 + k4)
+
+    def solve(dt: float, t_end: float = 1.0) -> float:
+        n = int(round(t_end / dt))
+        y = 1.0
+        for _ in range(n):
+            y = rk4_step(y, dt)
+        return y
+
+    exact = math.exp(-2.0)
+    err_01 = abs(solve(0.1) - exact)
+    err_005 = abs(solve(0.05) - exact)
+    err_0025 = abs(solve(0.025) - exact)
+
+    ratio1 = err_01 / err_005
+    ratio2 = err_005 / err_0025
+
+    # 4th order: ratio is approximately 2^4 = 16
+    assert ratio1 > 15.0, f"Expected ratio > 15.0, got {ratio1}"
+    assert ratio2 > 15.0, f"Expected ratio > 15.0, got {ratio2}"
+
+
+def test_fhn_fourth_order_convergence_under_continuous_stimulus():
+    """Under continuous stimulus without step discontinuities, FHN achieves 4th-order convergence."""
+    params = FHNParameters(C_m=50.0, g_L=1.0, k_v=0.005, V_rest=-70.0, V_th=-50.0, V_peak=20.0, tau_w=15.0, a_w=10.0)
+    model = FitzHughNagumoModel(params)
+
+    def run(dt: float) -> FHNResult:
+        c = FHNSimulationConfig(dt_ms=dt, t_stop_ms=100.0)
+        return model.simulate(c, stimulus=lambda t: 220.0)
+
+    r_100 = run(0.1)
+    r_050 = run(0.05)
+    r_025 = run(0.025)
+
+    eval_times = np.arange(0.0, 100.1, 0.1)
+    idx_100 = [int(round(t / 0.1)) for t in eval_times]
+    idx_050 = [int(round(t / 0.05)) for t in eval_times]
+    idx_025 = [int(round(t / 0.025)) for t in eval_times]
+
+    d1 = np.max(np.abs(r_100.v_mv[idx_100] - r_050.v_mv[idx_050]))
+    d2 = np.max(np.abs(r_050.v_mv[idx_050] - r_025.v_mv[idx_025]))
+
+    ratio = d1 / d2
+    # Confirms RK4 4th-order convergence (ratio ~ 16) on smooth FHN trajectories
+    assert ratio > 15.0, f"Expected convergence ratio > 15.0, got {ratio}"
+
+
+def test_analytical_unique_unstable_equilibrium_at_220pa():
+    """Verify algebraic uniqueness and unstable focus classification of the equilibrium at 220 pA."""
+    params = FHNParameters(C_m=50.0, g_L=1.0, k_v=0.005, V_rest=-70.0, V_th=-50.0, V_peak=20.0, tau_w=15.0, a_w=10.0)
+    # At V* = V_th = -50.0 mV: cubic is identically 0.
+    # f_V(-50) = -1.0 * (-50 - (-70)) = -20.0 pA.
+    # w* = 10.0 * 20.0 = 200.0 pA.
+    # dV/dt = (-20 - 200 + 220) / 50 = 0.
+    v_star = -50.0
+    w_star = 200.0
+    model = FitzHughNagumoModel(params)
+    dv, dw = model.derivatives(v_star, w_star, 220.0)
+    assert abs(dv) < 1e-12
+    assert abs(dw) < 1e-12
+
+    # Verify uniqueness: quadratic factor u^2 - 90u + 2200 has negative discriminant
+    # u = V - V_rest; Delta = 90^2 - 4 * 2200 = 8100 - 8800 = -700 < 0
+    disc = 90.0**2 - 4.0 * 2200.0
+    assert disc < 0.0
+
+    # Jacobian at (-50, 200):
+    # df_V/dV = -1.0 + 0.005 * 20 * 70 = 6.0 nS
+    # Tr(J) = 6.0 / 50 - 1 / 15 = 0.05333 > 0
+    # Det(J) = (10 - 6) / (50 * 15) = 4 / 750 > 0
+    df_dv = -params.g_L + params.k_v * (v_star - params.V_rest) * (params.V_peak - v_star)
+    assert pytest.approx(df_dv) == 6.0
+    tr = df_dv / params.C_m - 1.0 / params.tau_w
+    det = (params.a_w - df_dv) / (params.C_m * params.tau_w)
+    assert tr > 0.0
+    assert det > 0.0
+
+
+def test_bistability_near_subcritical_hopf_bifurcation():
+    """Verify subcritical Hopf bistability at I = 194 pA (coexistence of rest state and limit cycle)."""
+    params = FHNParameters(C_m=50.0, g_L=1.0, k_v=0.005, V_rest=-70.0, V_th=-50.0, V_peak=20.0, tau_w=15.0, a_w=10.0)
+    model = FitzHughNagumoModel(params)
+
+    # 1. Starting near resting equilibrium (-55 mV, 150 pA): settles to stable focus without spikes
+    c_rest = FHNSimulationConfig(dt_ms=0.025, t_stop_ms=500.0, V_init_mv=-55.0, w_init_pa=150.0)
+    r_rest = model.simulate(c_rest, stimulus=lambda t: 194.0)
+    assert len(r_rest.detect_spikes(threshold_mv=0.0)) == 0
+
+    # 2. Starting on excited branch (0 mV, 300 pA): sustains limit cycle firing
+    c_exc = FHNSimulationConfig(dt_ms=0.025, t_stop_ms=500.0, V_init_mv=0.0, w_init_pa=300.0)
+    r_exc = model.simulate(c_exc, stimulus=lambda t: 194.0)
+    assert len(r_exc.detect_spikes(threshold_mv=0.0)) >= 4
+
+
+def test_poincare_return_map_limit_cycle_convergence():
+    """Verify that successive crossings on the Poincare section contract geometrically to a periodic orbit."""
+    params = FHNParameters(C_m=50.0, g_L=1.0, k_v=0.005, V_rest=-70.0, V_th=-50.0, V_peak=20.0, tau_w=15.0, a_w=10.0)
+    model = FitzHughNagumoModel(params)
+    config = FHNSimulationConfig(dt_ms=0.025, t_stop_ms=1000.0)
+    res = model.simulate(config, stimulus=lambda t: 220.0)
+
+    # Crossings of V = 0 mV with dV/dt > 0
+    crossings = np.where((res.v_mv[:-1] < 0.0) & (res.v_mv[1:] >= 0.0))[0]
+    assert len(crossings) >= 8
+
+    w_crossings = []
+    for idx in crossings:
+        v0, v1 = res.v_mv[idx], res.v_mv[idx + 1]
+        w0, w1 = res.w_pa[idx], res.w_pa[idx + 1]
+        frac = (0.0 - v0) / (v1 - v0)
+        w_crossings.append(w0 + frac * (w1 - w0))
+
+    # Successive difference between final crossings must contract tightly
+    diff_last = abs(w_crossings[-1] - w_crossings[-2])
+    assert diff_last < 0.01, f"Poincare return map difference was {diff_last} pA"
