@@ -358,3 +358,84 @@ def test_poincare_return_map_limit_cycle_convergence():
     # Successive difference between final crossings must contract tightly
     diff_last = abs(w_crossings[-1] - w_crossings[-2])
     assert diff_last < 0.01, f"Poincare return map difference was {diff_last} pA"
+
+
+def test_exact_analytical_hopf_bifurcation_point():
+    """Verify exact analytical Hopf bifurcation current I_H1 = 195.3113 pA and pure imaginary eigenvalues."""
+    params = FHNParameters(C_m=50.0, g_L=1.0, k_v=0.005, V_rest=-70.0, V_th=-50.0, V_peak=20.0, tau_w=15.0, a_w=10.0)
+    # Exact analytical root: u_H1 = (110 - 10*sqrt(41)) / 3
+    u_h1 = (110.0 - 10.0 * math.sqrt(41.0)) / 3.0
+    v_h1 = params.V_rest + u_h1
+    i_h1 = 0.005 * u_h1**3 - 0.55 * u_h1**2 + 20.0 * u_h1
+
+    assert pytest.approx(v_h1, abs=1e-4) == -54.6771
+    assert pytest.approx(i_h1, abs=1e-4) == 195.3113
+
+    # Check Jacobian trace and determinant at exact Hopf point
+    df_dv = -0.015 * u_h1**2 + 1.1 * u_h1 - 10.0
+    assert pytest.approx(df_dv) == 10.0 / 3.0
+    tr = (df_dv - params.C_m / params.tau_w) / params.C_m
+    det = (params.a_w - df_dv) / (params.C_m * params.tau_w)
+    assert abs(tr) < 1e-15
+    assert pytest.approx(det) == 2.0 / 225.0
+
+
+def test_analytical_first_lyapunov_coefficient_is_positive():
+    """Verify exact first Lyapunov coefficient l_1 = +1.575e-4 > 0, proving subcritical Hopf bifurcation."""
+    Cm, gL, kv = 50.0, 1.0, 0.005
+    tau_w, aw = 15.0, 10.0
+    u_h1 = (110.0 - 10.0 * np.sqrt(41.0)) / 3.0
+    d2f = 0.1 * np.sqrt(41.0)
+    d3f = -0.030
+
+    A = np.array([[1.0 / tau_w, -1.0 / Cm], [aw / tau_w, -1.0 / tau_w]])
+    omega0 = np.sqrt(np.linalg.det(A))
+    q = np.array([1.0, Cm * (1.0 / tau_w - 1j * omega0)])
+    p_raw = np.array([-(aw / tau_w) / (1.0 / tau_w + 1j * omega0), 1.0])
+    p = p_raw / np.conj(np.vdot(p_raw, q))
+
+    def b_vec(x, y):
+        return np.array([(d2f / Cm) * x[0] * y[0], 0.0 + 0j])
+
+    def c_vec(x, y, z):
+        return np.array([(d3f / Cm) * x[0] * y[0] * z[0], 0.0 + 0j])
+
+    t1 = np.vdot(p, c_vec(q, q, np.conj(q)))
+    t2 = -2.0 * np.vdot(p, b_vec(q, np.linalg.solve(A, b_vec(q, np.conj(q)))))
+    t3 = np.vdot(p, b_vec(np.conj(q), np.linalg.solve(2j * omega0 * np.eye(2) - A, b_vec(q, q))))
+
+    l1 = 0.5 * np.real(t1 + t2 + t3)
+    assert l1 > 0.0
+    assert pytest.approx(l1, abs=1e-6) == 1.575e-4
+
+
+def test_fold_of_limit_cycles_bistability_boundary():
+    """Verify that bistability terminates below I_LPC ~ 191.0 pA where the stable limit cycle disappears."""
+    params = FHNParameters(C_m=50.0, g_L=1.0, k_v=0.005, V_rest=-70.0, V_th=-50.0, V_peak=20.0, tau_w=15.0, a_w=10.0)
+    model = FitzHughNagumoModel(params)
+
+    # At I = 191.0 pA: inside bistable window, sustained limit cycle from excited state
+    c_191 = FHNSimulationConfig(dt_ms=0.025, t_stop_ms=800.0, V_init_mv=0.0, w_init_pa=300.0)
+    r_191 = model.simulate(c_191, stimulus=lambda t: 191.0)
+    assert len(r_191.detect_spikes(threshold_mv=0.0)) >= 6
+
+    # At I = 180.0 pA: below fold of limit cycles, collapses to resting state without spikes
+    c_180 = FHNSimulationConfig(dt_ms=0.025, t_stop_ms=800.0, V_init_mv=0.0, w_init_pa=300.0)
+    r_180 = model.simulate(c_180, stimulus=lambda t: 180.0)
+    assert len(r_180.detect_spikes(threshold_mv=0.0)) == 0
+    assert abs(r_180.v_mv[-1] - (-56.76)) < 0.5
+
+
+def test_reproducibility_220pa_orbit_across_independent_initial_conditions():
+    """Verify that widely separated initial conditions all converge to the identical stable periodic orbit."""
+    params = FHNParameters(C_m=50.0, g_L=1.0, k_v=0.005, V_rest=-70.0, V_th=-50.0, V_peak=20.0, tau_w=15.0, a_w=10.0)
+    model = FitzHughNagumoModel(params)
+
+    for v0, w0 in [(-70.0, 0.0), (10.0, 500.0), (-85.0, -100.0)]:
+        c = FHNSimulationConfig(dt_ms=0.025, t_stop_ms=1000.0, V_init_mv=v0, w_init_pa=w0)
+        res = model.simulate(c, stimulus=lambda t: 220.0)
+        spikes = res.detect_spikes(threshold_mv=0.0)
+        late_spikes = spikes[spikes > 400.0]
+        isis = np.diff(late_spikes)
+        assert abs(np.mean(isis) - 82.77) < 0.05
+        assert np.std(isis) < 0.02

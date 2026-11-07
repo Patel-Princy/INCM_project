@@ -51,7 +51,8 @@ identity (IT/ET/PT/CT), so no projection labels are used.
 | **3B** | **Held-out evaluation across four populations (109 sweeps)** | **✓ Complete** | **`ee8d116`** |
 | **3C** | **Phase 3B independent audit, metric recomputation & FHN readiness** | **✓ Complete** | **`685f0ca`** |
 | **4A** | **Dimensional FitzHugh–Nagumo solver & numerical validation** | **✓ Complete** | **`1c98d5f`** |
-| **4A.1** | **Independent mathematical audit, stability verification & RK4 convergence** | **✓ Complete** | **`ashish-work`** |
+| **4A.1** | **Independent mathematical audit, stability verification & RK4 convergence** | **✓ Complete** | **`c4c8e59`** |
+| **4A.2** | **Hopf bifurcation and bistability verification** | **✓ Complete** | **`ashish-work`** |
 | 4B | FHN population calibration & held-out evaluation (109 sweeps) | 🔲 Planned | |
 | 5 | Cross-population comparison and reduction report | 🔲 Planned | |
 
@@ -162,7 +163,7 @@ tmp/                  Working outputs (git-ignored)
 python -m pytest tests/ -q
 ```
 
-All 371 tests pass on Python 3.14 with pytest ≥ 9.1.
+All 375 tests pass on Python 3.14 with pytest ≥ 9.1.
 
 ---
 
