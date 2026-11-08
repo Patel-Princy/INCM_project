@@ -118,7 +118,7 @@ By comparing the 2-variable dimensional FHN model directly against both intracel
 1. **The Primary Excitability Threshold (Rheobase Transition):**
    The two-variable FHN model captures the fundamental nonlinear bifurcation from resting quiescence to repetitive firing. In fact, across all 109 sweeps, **FHN correctly identified 44 spiking sweeps (out of 40 recorded)**, whereas the Detailed Allen models **missed 16 biological spiking sweeps** (only spiking in 24 sweeps due to overly high active thresholds in Populations A and C).
 2. **Subthreshold Passive Linearity and Input Resistance ($R_{\mathrm{in}}$):**
-   Across negative and small positive current injections (-110 pA to +70 pA), the FHN steady-state membrane potential $V^*$ tracks the biological recording with high fidelity ($R^2 > 0.98$ on subthreshold I-V curves).
+   Across negative and small positive current injections (-110 pA to +70 pA), the FHN steady-state membrane potential $V^*$ tracks the biological recording with high fidelity. As independently audited in Phase 4C.1, the biological recordings themselves display strict subthreshold linearity ($r^2 > 0.98$ across all four specimens). In mutually subthreshold sweeps, FHN tracks the recorded voltage with correlation $r^2 \in [0.925, 0.995]$ (exceeding $0.98$ in Populations B and D). The classical coefficient of determination $R^2$ is $0.44\text{--}0.67$ due to small static resting potential offsets.
 3. **Resting Membrane Potential ($V_{\mathrm{rest}}$):**
    FHN maintained an exact resting potential ($V_{\mathrm{rest}} \in [-75.9, -69.3]\text{ mV}$) that perfectly matches the biological baseline. In contrast, the Detailed Allen model for Population A suffered from a massive resting potential offset ($\Delta V_{\mathrm{baseline}} = +13.6\text{ mV}$), which gave FHN a lower overall RMSE (8.24 mV vs 12.73 mV) on Population A.
 4. **General Excitability Scaling ($F-I$ Monotonicity):**
@@ -126,17 +126,17 @@ By comparing the 2-variable dimensional FHN model directly against both intracel
 
 ### 5.2 What Behaviors Are Intrinsically Lost in a Reduced 2-Variable FHN Model?
 1. **Spike-Frequency Adaptation (SFA) / Spike Rate Accommodation:**
-   - **Biological Reality:** Cortical pyramidal neurons exhibit strong initial firing followed by progressive deceleration of inter-spike intervals (ISIs) due to slow calcium-activated potassium currents ($I_{\mathrm{SK}}$, $I_M$).
-   - **FHN Reduction:** With only one recovery variable $w(t)$ operating on timescale $\tau_w \approx 7\text{--}38\text{ ms}$, the limit cycle trajectory rapidly settles into a strictly periodic orbit within 1–2 cycles. FHN is mathematically incapable of multi-timescale spike-frequency adaptation without a third state variable.
+   - **Biological Reality:** Cortical pyramidal neurons exhibit strong initial firing followed by progressive deceleration of inter-spike intervals (ISIs) due to slow calcium-activated potassium currents ($I_{\mathrm{SK}}$, $I_M$). Independent measurement in Phase 4C.1 reveals a 5.4-fold (Pop A) and 11.3-fold (Pop C) expansion of ISIs during the 1-second pulse.
+   - **FHN Reduction:** With only one recovery variable $w(t)$ operating on timescale $\tau_w \approx 7\text{--}38\text{ ms}$, the limit cycle trajectory rapidly settles into a strictly periodic orbit within 1–2 cycles (ISI ratio = 1.000). FHN is mathematically incapable of multi-timescale spike-frequency adaptation without a third state variable.
 2. **Action Potential Kinetics and Fast Waveform Geometry:**
-   - **Biological Reality:** Somatic action potentials display rapid upstrokes ($>150\text{ V/s}$) driven by fast transient sodium channels ($\mathrm{Na}_v$), overshoot up to $+30\text{--}+40\text{ mV}$, and sharp afterhyperpolarization (AHP) troughs driven by fast delayed rectifiers ($K_v3$).
-   - **FHN Reduction:** FHN action potentials are smooth cubic relaxation oscillations with peak amplitudes of $+50\text{--}+65\text{ mV}$ and broad repolarization phases. This kinetic mismatch accounts for the elevated step RMSE ($12\text{--}24\text{ mV}$).
+   - **Biological Reality:** Somatic action potentials display rapid upstrokes ($\mathrm{d}V/\mathrm{d}t \approx 397\text{--}466\text{ V/s}$) driven by fast transient sodium channels ($\mathrm{Na}_v$), overshoot up to $+30\text{--}+40\text{ mV}$, and sharp afterhyperpolarization (AHP) troughs driven by fast delayed rectifiers ($K_v3$).
+   - **FHN Reduction:** FHN action potentials are smooth cubic relaxation oscillations with peak upstroke velocities of only $5.7\text{--}6.2\text{ V/s}$ ($60\times\text{--}75\times$ slower) and broad repolarization phases. This kinetic mismatch accounts for the elevated step RMSE ($12\text{--}24\text{ mV}$).
 3. **Onset Latency / Delayed Firing in Population D:**
-   - **Biological Reality:** Layer 6a pyramidal neurons display prolonged first-spike latency ($t_{\mathrm{lat}} > 50\text{--}150\text{ ms}$) at near-threshold currents, mediated by transient A-type potassium currents ($I_A / I_D$).
+   - **Biological Reality:** Layer 6a pyramidal neurons display prolonged first-spike latency ($t_{\mathrm{lat}} > 50\text{--}150\text{ ms}$) at near-threshold currents, attributed in the biophysical literature to transient A-type potassium currents ($I_A / I_D$). Note that channel-specific currents were not isolated in the Allen dataset; this mechanism remains an untested biological hypothesis.
    - **FHN Reduction:** As proven numerically in Phase 4B.2, FHN models calibrated with moderate $\tau_w$ fire almost instantaneously upon step onset ($t_{\mathrm{lat}} \le 16\text{ ms}$) whenever $N_{\mathrm{spk}} > 4$. To achieve latency $>50\text{ ms}$, FHN requires an extreme timescale ($\tau_w > 50\text{ ms}$), which suppresses repetitive firing entirely ($N_{\mathrm{spk}} \le 2$). Consequently, Population D's held-out firing rate was under-predicted (1.04 spikes vs 4.85 recorded).
 4. **Hyperpolarization-Activated Inward Rectification ($I_h$ Sag):**
-   - **Biological Reality:** Deep hyperpolarizing current injections (-110 pA) trigger an inward current sag ($I_h$) that depolarizes the membrane toward rest during prolonged hyperpolarization.
-   - **FHN Reduction:** FHN's linear recovery equation $w = a_w(V - V_{\mathrm{rest}})$ produces a monotonic exponential decay with no voltage sag or rebound depolarization.
+   - **Biological Reality:** Deep hyperpolarizing current injections (-110 pA) trigger a modest inward current sag ($0.63\text{--}1.86\text{ mV}$ across specimens) that depolarizes the membrane toward rest during prolonged hyperpolarization.
+   - **FHN Reduction:** FHN's linear recovery equation $w = a_w(V - V_{\mathrm{rest}})$ produces a monotonic exponential decay with no voltage sag ($\Delta V_{\mathrm{sag}} = 0.00\text{ mV}$) or rebound depolarization.
 
 ---
 
@@ -214,4 +214,16 @@ The empirical findings from INCM Phase 4C establish a precise, quantitatively gr
 Therefore, while a 2-variable FHN model provides an elegant, computationally lightweight proxy for neuronal excitability state and coarse firing threshold, reproducing biological spike timing, adaptation, and waveform energetics strictly requires the conductance-based multi-variable detail of Hodgkin–Huxley class models.
 
 ---
-*Report autonomously prepared and verified under INCM Phase 4C.*
+
+## 10. Phase 4C.1 Independent Audit & Correction Log
+
+As documented in [`results/phase4c1/PHASE4C1_INDEPENDENT_RESULTS_AUDIT.md`](../phase4c1/PHASE4C1_INDEPENDENT_RESULTS_AUDIT.md):
+1. **Specimen Count Semantics:** Clarified that the 109 evaluated sweeps derive from repeated out-of-sample protocols on four layer-specific biological specimens, not 109 independent neurons.
+2. **Subthreshold Linearity Qualification:** Audited subthreshold I-V curves. Proved biological recordings have $r^2 > 0.98$ linear regression, while FHN achieves $r^2 > 0.98$ strictly in Populations B and D under mutually subthreshold sweeps ($r^2 = 0.925$ in Pop A, $0.952$ in Pop C; classical coefficient of determination $R^2 = 0.44\text{--}0.67$ due to small static offsets).
+3. **Subcritical Hopf Proof:** Proved that all four calibrated parameter sets undergo a lower subcritical Hopf bifurcation with first Lyapunov coefficient $l_1 > 0$ strictly (Pop A: $4.39\times 10^{-5}$, Pop B: $8.87\times 10^{-5}$, Pop C: $6.07\times 10^{-5}$, Pop D: $3.30\times 10^{-5}$).
+4. **Resolution of Pop A RMSE Reversal:** Demonstrated via numerical MSE decomposition that Detailed model overall RMSE ($12.73\text{ mV}$) is $92.3\%$ driven by a $+13.6\text{ mV}$ resting baseline offset over the 7-second non-stimulus duration ($87.5\%$ of sweep), whereas FHN overall RMSE ($8.24\text{ mV}$) is $89.2\%$ driven by in-step action potential phase jitter.
+5. **A-Type Current Hypothesis:** Qualified that while delayed firing in Population D is consistent with $I_A / I_D$ literature, specific channel currents were not measured in the Allen dataset.
+6. **Sag Magnitude:** Measured biological inward sag at $-110\text{ pA}$ as modest ($0.63\text{--}1.86\text{ mV}$) across specimens, contrasting with $0.00\text{ mV}$ in FHN.
+
+---
+*Report autonomously prepared and verified under INCM Phase 4C, updated with Phase 4C.1 audit.*

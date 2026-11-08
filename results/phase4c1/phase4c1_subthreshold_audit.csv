@@ -1,0 +1,13 @@
+population,subset_definition,n_sweeps,n_unique_stimulus_amplitudes,current_min_pa,current_max_pa,recorded_iv_linearity_r2,fhn_iv_linearity_r2,fhn_vs_recorded_correlation_r2,coefficient_of_determination_r2,r2_exceeds_0_98
+A,all_rec_subthreshold,20,20,-110.0,270.0,0.9855,0.771,0.6823,0.6052,False
+A,mutually_subthreshold,16,16,-110.0,190.0,0.9907,0.9634,0.9249,0.6742,False
+A,hyperpolarizing_only,6,6,-110.0,-10.0,0.9993,0.9993,0.9982,-0.7851,True
+B,all_rec_subthreshold,10,10,-110.0,110.0,0.9868,0.9872,0.99,0.4894,True
+B,mutually_subthreshold,10,10,-110.0,110.0,0.9868,0.9872,0.99,0.4894,True
+B,hyperpolarizing_only,4,4,-110.0,-30.0,0.9958,0.9991,0.9988,-2.2805,True
+C,all_rec_subthreshold,23,23,-110.0,320.0,0.9807,0.9569,0.8924,0.488,False
+C,mutually_subthreshold,21,21,-110.0,290.0,0.9859,0.9874,0.9518,0.4423,False
+C,hyperpolarizing_only,5,5,-110.0,-10.0,0.9976,0.9998,0.996,-0.0709,True
+D,all_rec_subthreshold,16,16,-110.0,190.0,0.9906,0.8603,0.8765,0.6308,False
+D,mutually_subthreshold,15,15,-110.0,170.0,0.9888,0.9862,0.9952,0.5648,True
+D,hyperpolarizing_only,6,6,-110.0,-10.0,0.9996,0.9992,0.9985,-1.1215,True

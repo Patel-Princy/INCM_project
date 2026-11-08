@@ -57,7 +57,8 @@ identity (IT/ET/PT/CT), so no projection labels are used.
 | **4B** | **FHN parameter calibration framework across four populations** | **✓ Complete** | **`e2bcf25`** |
 | **4B.1** | **Independent calibration quality, identifiability audit & Pareto frontier proof** | **✓ Complete** | **`9185cf0`** |
 | **4B.2** | **Scientific claim and robustness audit (trade-off qualification & Hessian audit)** | **✓ Complete** | **`422ebf5`** |
-| **4C** | **Out-of-sample held-out evaluation of four frozen FHN models (109 sweeps)** | **✓ Complete** | **`ashish-work`** |
+| **4C** | **Out-of-sample held-out evaluation of four frozen FHN models (109 sweeps)** | **✓ Complete** | **`b4c497a`** |
+| **4C.1** | **Independent held-out results and scientific claims audit (Hopf & RMSE proof)** | **✓ Complete** | **`ashish-work`** |
 | 5 | Cross-population comparison and reduction report | 🔲 Planned | |
 
 ---
@@ -154,9 +155,22 @@ is not reproducible without knowing the axon treatment used during fitting.
 - **100% numerical completion:** 109/109 sweeps executed with zero numerical divergences, NaN states, or crashes.
 - **Dual-reporting enforcement:** Contrasts calibration feature loss with continuous step RMSE ($12\text{--}24\text{ mV}$) and Pearson correlation ($r \approx 0.84\text{--}0.90$). Explains the phase-jitter double-penalty and the passive flatline paradox.
 - **Excitability threshold detection:** FHN successfully detected 44 spiking sweeps (out of 40 biological spiking sweeps), whereas the Detailed Allen models severely under-fired (missed 16 biological spiking sweeps, detecting only 24).
-- **Core preserved behaviors:** Subthreshold linearity ($R^2 > 0.98$), passive input resistance $R_{\mathrm{in}}$, resting potential ($V_{\mathrm{rest}}$), and qualitative monotonic $F-I$ rate scaling.
+- **Core preserved behaviors:** Subthreshold linearity ($r^2 \in [0.925, 0.995]$ in mutually subthreshold conditions), passive input resistance $R_{\mathrm{in}}$, resting potential ($V_{\mathrm{rest}}$), and qualitative monotonic $F-I$ rate scaling.
 - **Core lost behaviors:** Spike-frequency adaptation (requires a 3rd state variable), action potential waveform kinetics and overshoot height, delayed onset firing in Population D (planar limitation), and hyperpolarization-activated inward sag ($I_h$).
 - **Artifacts & tests:** Comprehensive report in `results/phase4c/PHASE4C_HELDOUT_EVALUATION_REPORT.md`, 5 structured CSV/JSON tables, 7 diagnostic figures in `results/phase4c/figures/`, and 6 dedicated regression tests (435/435 repository tests passing).
+
+---
+
+## Key Phase 4C.1 findings (2026-11-08)
+
+**Independent held-out results and scientific claims audit:**
+- **Bit-for-bit reproduction (100% pass):** Independently verified all 109 held-out evaluations and recomputed summary metrics (A=31, B=18, C=34, D=26 sweeps across 4 single specimens).
+- **Resolution of Pop A RMSE reversal:** Exact mathematical interval decomposition of MSE proves the Detailed model's $12.73\text{ mV}$ overall error is $92.3\%$ driven by a $+13.6\text{ mV}$ resting offset over the 7-second non-stimulus intervals ($87.5\%$ of duration), while FHN's $8.24\text{ mV}$ overall error is $89.2\%$ driven by in-step action potential phase jitter.
+- **Excitability detection vs firing pattern:** FHN achieves $92.5\%$ sensitivity (37/40) in detecting biological spiking sweeps (missing only 3 vs 16 missed by Detailed model), but does not reproduce high-frequency firing rates or spike times.
+- **Subthreshold linearity audit:** Biological recordings have regression linearity $r^2 > 0.98$ across all 4 cells. FHN tracks with $r^2 > 0.98$ strictly in Populations B ($0.990$) and D ($0.995$) under mutual subthreshold sweeps ($r^2 = 0.925$ in Pop A, $0.952$ in Pop C; classical coefficient of determination $R^2 = 0.44\text{--}0.67$).
+- **Population-specific subcritical Hopf proof:** Independently derived and computed first Lyapunov coefficient $l_1 > 0$ strictly for all four calibrated parameter sets (Pop A: $4.39\times 10^{-5}$, Pop B: $8.87\times 10^{-5}$, Pop C: $6.07\times 10^{-5}$, Pop D: $3.30\times 10^{-5}$), verifying that subcritical Hopf bifurcation is an established structural property of all four calibrated models.
+- **Quantification of lost biological behaviors:** Measured $5\times\text{--}11\times$ biological adaptation vs stationary FHN limit cycles ($\mathrm{ISI}_{\mathrm{final}}/\mathrm{ISI}_{\mathrm{initial}} = 1.000$); measured biological upstroke velocity ($397\text{--}466\text{ V/s}$) vs FHN ($5.7\text{--}6.2\text{ V/s}$, $60\times\text{--}75\times$ slower); measured modest biological inward sag ($0.63\text{--}1.86\text{ mV}$) vs FHN ($0.00\text{ mV}$); reclassified $I_A$ as an untested biological literature hypothesis.
+- **Artifacts & tests:** Audit report in `results/phase4c1/PHASE4C1_INDEPENDENT_RESULTS_AUDIT.md`, 5 structured audit tables, 7 dedicated regression tests (442/442 repository tests passing).
 
 ---
 
@@ -183,7 +197,7 @@ results/
   phase2/             Model execution reports
 scripts/              Analysis and validation scripts
 src/data_audit/       Core audit modules
-tests/                Pytest test suite (435 tests)
+tests/                Pytest test suite (442 tests)
 tmp/                  Working outputs (git-ignored)
 ```
 
@@ -195,7 +209,7 @@ tmp/                  Working outputs (git-ignored)
 python -m pytest tests/ -q
 ```
 
-All 435 tests pass on Python 3.14 with pytest ≥ 9.1.
+All 442 tests pass on Python 3.14 with pytest ≥ 9.1.
 
 ---
 
