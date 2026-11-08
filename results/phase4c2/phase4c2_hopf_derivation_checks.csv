@@ -1,0 +1,5 @@
+population,check_equilibrium_residual_dV,check_equilibrium_residual_dw,check_trace_is_zero,check_determinant_positive,check_eigenvalues_pure_imaginary,check_transversality_positive,check_lyapunov_positive,check_subcritical_bistability_demonstrated
+A,True,True,True,True,True,True,True,True
+B,True,True,True,True,True,True,True,True
+C,True,True,True,True,True,True,True,True
+D,True,True,True,True,True,True,True,True

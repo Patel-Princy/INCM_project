@@ -58,7 +58,8 @@ identity (IT/ET/PT/CT), so no projection labels are used.
 | **4B.1** | **Independent calibration quality, identifiability audit & Pareto frontier proof** | **✓ Complete** | **`9185cf0`** |
 | **4B.2** | **Scientific claim and robustness audit (trade-off qualification & Hessian audit)** | **✓ Complete** | **`422ebf5`** |
 | **4C** | **Out-of-sample held-out evaluation of four frozen FHN models (109 sweeps)** | **✓ Complete** | **`b4c497a`** |
-| **4C.1** | **Independent held-out results and scientific claims audit (Hopf & RMSE proof)** | **✓ Complete** | **`ashish-work`** |
+| **4C.1** | **Independent held-out results and scientific claims audit (Hopf & RMSE proof)** | **✓ Complete** | **`aa6036a`** |
+| **4C.2** | **Transient adaptation & population Hopf verification (local vs global)** | **✓ Complete** | **`ashish-work`** |
 | 5 | Cross-population comparison and reduction report | 🔲 Planned | |
 
 ---
@@ -174,6 +175,17 @@ is not reproducible without knowing the axon treatment used during fitting.
 
 ---
 
+## Key Phase 4C.2 findings (2026-11-08)
+
+**Transient adaptation and population-specific bifurcation verification:**
+- **Transient adaptation vs asymptotic limit cycle:** Qualified the Phase 4C.1 claim of "strictly zero adaptation." FHN trajectories exhibit brief initial transient cycle-to-cycle adjustments as the orbit contracts from rest onto the limit cycle (Pop B: initial ISI expansion of $+0.5\%\text{ to }+1.2\%$; Pops A and C: initial ISI contraction of $-0.3\%\text{ to }-0.5\%$).
+- **Rapid geometric convergence ($\le 2$ cycles):** Because the single recovery variable $w$ operates on timescale $\tau_w \approx 7\text{--}39\text{ ms}$, trajectories contract onto the periodic orbit within $\le 2$ cycles ($\le 120\text{ ms}$), after which successive ISIs are stationary to $< 0.01\%$. In contrast, biological neurons exhibit continuous multi-timescale adaptation across 10–25 cycles throughout the entire 1000 ms step ($2\times\text{ to }11\times$ ISI expansion), requiring slower secondary recovery processes ($I_{\mathrm{SK}}, I_M$).
+- **Analytical Hopf conditions & transversality:** Independently derived and verified lower Hopf bifurcation currents ($I_{H1}$: Pop A = $234.34\text{ pA}$, Pop B = $161.28\text{ pA}$, Pop C = $385.33\text{ pA}$, Pop D = $236.27\text{ pA}$), zero trace ($|\mathrm{Tr}(J)| < 10^{-14}$), positive determinant ($\det(J) > 0$), and pure imaginary eigenvalues ($\pm i \omega_0$). Transversality derivative $\mu'(I_{H1}) = \frac{F''(V_{H1})}{2 C_m (a_w - C_m/\tau_w)} > 0$ strictly across all 4 calibrated models.
+- **Local vs global bifurcation separation:** Decoupled local subcritical Hopf criticality ($l_1 > 0$, generating small unstable cycles for $I < I_{H1}$) from global limit-cycle folding. Numerically located global fold of limit cycles ($I_{\mathrm{fold}}$) and demonstrated robust bistability intervals $[I_{\mathrm{fold}}, I_{H1}]$ spanning $14.0\text{ to }25.0\text{ pA}$ across all four populations.
+- **Artifacts & tests:** Comprehensive audit report in `results/phase4c2/PHASE4C2_DYNAMICAL_BEHAVIOUR_AND_HOPF_AUDIT.md`, 3 structured CSV tables, 2 diagnostic figures in `results/phase4c2/figures/`, and 4 dedicated regression tests (446/446 repository tests passing).
+
+---
+
 ## Dataset
 
 - **Source:** Allen Cell Types Database (Allen Institute for Brain Science)
@@ -197,7 +209,7 @@ results/
   phase2/             Model execution reports
 scripts/              Analysis and validation scripts
 src/data_audit/       Core audit modules
-tests/                Pytest test suite (442 tests)
+tests/                Pytest test suite (446 tests)
 tmp/                  Working outputs (git-ignored)
 ```
 
@@ -209,7 +221,7 @@ tmp/                  Working outputs (git-ignored)
 python -m pytest tests/ -q
 ```
 
-All 442 tests pass on Python 3.14 with pytest ≥ 9.1.
+All 446 tests pass on Python 3.14 with pytest ≥ 9.1.
 
 ---
 
