@@ -55,7 +55,8 @@ identity (IT/ET/PT/CT), so no projection labels are used.
 | **4A.2** | **Hopf bifurcation and bistability verification** | **✓ Complete** | **`f6edb1d`** |
 | **4A.3** | **Complete equilibrium branch and bifurcation audit** | **✓ Complete** | **`91f69ef`** |
 | **4B** | **FHN parameter calibration framework across four populations** | **✓ Complete** | **`e2bcf25`** |
-| **4B.1** | **Independent calibration quality, identifiability audit & Pareto frontier proof** | **✓ Complete** | **`ashish-work`** |
+| **4B.1** | **Independent calibration quality, identifiability audit & Pareto frontier proof** | **✓ Complete** | **`9185cf0`** |
+| **4B.2** | **Scientific claim and robustness audit (trade-off qualification & Hessian audit)** | **✓ Complete** | **`ashish-work`** |
 | 4C | Out-of-sample held-out evaluation of four FHN models (109 sweeps) | 🔲 Planned | |
 | 5 | Cross-population comparison and reduction report | 🔲 Planned | |
 
@@ -168,7 +169,7 @@ results/
   phase2/             Model execution reports
 scripts/              Analysis and validation scripts
 src/data_audit/       Core audit modules
-tests/                Pytest test suite (422 tests)
+tests/                Pytest test suite (429 tests)
 tmp/                  Working outputs (git-ignored)
 ```
 
@@ -180,7 +181,7 @@ tmp/                  Working outputs (git-ignored)
 python -m pytest tests/ -q
 ```
 
-All 422 tests pass on Python 3.14 with pytest ≥ 9.1.
+All 429 tests pass on Python 3.14 with pytest ≥ 9.1.
 
 ---
 
