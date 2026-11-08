@@ -1,0 +1,5 @@
+population,layer,specimen_id,bistability_interval_claimed,bistability_interval_verified,bistability_width_verified_pa,resting_state_stable_throughout,limit_cycle_stable_throughout,coexistence_demonstrated,separatrix_dv_crit_at_hopf_mv,separatrix_dv_crit_near_fold_mv,cycle_annihilation_verified_below_fold
+A,4,484564503,"[214.3, 234.3] pA","[214.16, 234.34] pA",20.18,True,True,True,4.74,10.38,True
+B,2/3,318808427,"[147.3, 161.3] pA","[146.72, 161.28] pA",14.55,True,True,True,3.51,10.62,True
+C,5,471129934,"[360.3, 385.3] pA","[360.03, 385.33] pA",25.29,True,True,True,4.09,9.63,True
+D,6a,471786879,"[216.3, 236.3] pA","[215.92, 236.27] pA",20.36,True,True,True,4.91,9.39,True

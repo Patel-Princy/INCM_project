@@ -1,0 +1,5 @@
+specimen_id,population,layer,total_heldout_sweeps,sweeps_with_zero_spikes,sweeps_with_single_spike,sweeps_with_two_spikes,sweeps_multi_cycle_ge3,sweeps_expansion,sweeps_contraction,sweeps_approx_stationary,sweeps_ratio_ge_2,sweeps_ratio_ge_5,min_ratio,median_ratio,max_ratio
+484564503,A,4,31,20,5,0,6,6,0,0,5,2,1.17,3.45,8.06
+318808427,B,2/3,18,10,2,0,6,6,0,0,4,0,1.45,2.57,3.97
+471129934,C,5,34,23,6,1,4,4,0,0,3,1,1.89,2.83,11.27
+471786879,D,6a,26,16,3,0,7,7,0,0,3,0,1.13,1.97,2.47

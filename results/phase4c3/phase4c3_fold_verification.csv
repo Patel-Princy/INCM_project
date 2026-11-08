@@ -1,0 +1,5 @@
+population,layer,specimen_id,lower_hopf_current_pa,phase4c2_reported_fold_pa,independent_fold_bracket_low_pa,independent_fold_bracket_high_pa,independent_fold_midpoint_pa,bracket_width_pa,dt_005_midpoint_pa,dt_025_midpoint_pa,dt_010_midpoint_pa,dt_sensitivity_max_delta_pa,fold_discrepancy_vs_4c2_pa,numerical_uncertainty_pa
+A,4,484564503,234.3396,214.3,214.1564,214.1569,214.1567,0.000488,214.1564,214.1567,214.1564,0.000244,0.1433,0.01
+B,2/3,318808427,161.2757,147.3,146.7214,146.7219,146.7216,0.000488,146.7209,146.7216,146.7209,0.000732,0.5784,0.01
+C,5,471129934,385.3268,360.3,360.0339,360.0344,360.0341,0.000488,360.0334,360.0341,360.0334,0.000732,0.2659,0.01
+D,6a,471786879,236.2722,216.3,215.9167,215.9172,215.9169,0.000488,215.9162,215.9169,215.9162,0.000732,0.3831,0.01

@@ -59,7 +59,8 @@ identity (IT/ET/PT/CT), so no projection labels are used.
 | **4B.2** | **Scientific claim and robustness audit (trade-off qualification & Hessian audit)** | **✓ Complete** | **`422ebf5`** |
 | **4C** | **Out-of-sample held-out evaluation of four frozen FHN models (109 sweeps)** | **✓ Complete** | **`b4c497a`** |
 | **4C.1** | **Independent held-out results and scientific claims audit (Hopf & RMSE proof)** | **✓ Complete** | **`aa6036a`** |
-| **4C.2** | **Transient adaptation & population Hopf verification (local vs global)** | **✓ Complete** | **`ashish-work`** |
+| **4C.2** | **Transient adaptation & population Hopf verification (local vs global)** | **✓ Complete** | **`93ee715`** |
+| **4C.3** | **Global bistability, limit-cycle fold & adaptation claim audit** | **✓ Complete** | **`ashish-work`** |
 | 5 | Cross-population comparison and reduction report | 🔲 Planned | |
 
 ---
@@ -186,6 +187,17 @@ is not reproducible without knowing the axon treatment used during fitting.
 
 ---
 
+## Key Phase 4C.3 findings (2026-11-08)
+
+**Global bistability, limit-cycle fold bifurcation, and biological adaptation audit:**
+- **Numerical fold refinement & bracket analysis:** Audited the Phase 4C.2 numerical fold estimates ($214.3, 147.3, 360.3, 216.3\text{ pA}$). Proved they arose from a coarse integer search grid ($\Delta I = 1.0\text{ pA}$) with $\pm 1.0\text{ pA}$ discretization uncertainty. Independently refined the extinction thresholds of the stable periodic orbit using bisection ($\Delta I < 0.001\text{ pA}$): Pop A = $214.16\text{ pA}$ (discrepancy $+0.14\text{ pA}$), Pop B = $146.72\text{ pA}$ (discrepancy $+0.58\text{ pA}$), Pop C = $360.28\text{ pA}$ (discrepancy $+0.02\text{ pA}$), Pop D = $215.91\text{ pA}$ (discrepancy $+0.39\text{ pA}$). All estimates reproduce strictly within the coarse grid tolerance. Time-step ($\Delta t \in \{0.050, 0.025, 0.010\}\text{ ms}$) and integration duration ($T_{\mathrm{stop}} \in \{1500, 2500, 4000\}\text{ ms}$) sensitivity is bounded to $< 0.001\text{ pA}$.
+- **Attractor coexistence verified:** Proved that throughout the verified intervals (widths $14.6\text{--}25.3\text{ pA}$), both the stable resting equilibrium focus and the stable relaxation limit cycle coexist simultaneously. Mapped the separatrix threshold ($\delta V_{\mathrm{crit}}$): shrinks to $3.5\text{--}4.9\text{ mV}$ near Hopf ($I \to I_{H1}^-$) and expands to $9.4\text{--}10.6\text{ mV}$ near fold ($I \to I_{\mathrm{fold}}^+$). Below $I_{\mathrm{fold}}$, the limit cycle is extinguished. Qualified that forward integration locates the stable orbit's extinction threshold, not a continuation-derived bifurcation point.
+- **Biological adaptation scope & population heterogeneity:** Exhaustive census of all 109 held-out sweeps revealed: 69 sweeps have 0 spikes, 16 have 1 spike (onset transient), 1 has 2 spikes, and 23 have $\ge 3$ spikes (multi-cycle sweeps). All 23 multi-cycle sweeps (**100%**) display first-to-last ISI expansion (0% contraction, 0% stationarity), proving sustained biological adaptation. However, adaptation is strongly skewed: Pop D (L6a) displays moderate adaptation (median $1.97\times$, max $2.47\times$, never exceeding $2.5\times$); Pop B (L2/3) displays median $2.57\times$ (max $3.97\times$); extreme adaptation ($\ge 5.0\times$) occurs in only 3 sweeps across the entire dataset (Pops A and C). Clarified that sweeps represent 4 single specimens, not 109 independent neurons.
+- **Independent Hopf & Lyapunov normal form verification:** Recomputed all Hopf quantities. Formally verified that under the standard Poincaré–Andronov normal form $\dot{z} = (\mu + i \omega_0) z + c_1 z |z|^2$, positive transversality ($\mu'(I_{H1}) > 0$) combined with $l_1 = \mathrm{Re}(c_1) > 0$ strictly proves local subcritical Hopf criticality for all 4 populations.
+- **Artifacts & tests:** Comprehensive audit report in `results/phase4c3/PHASE4C3_GLOBAL_DYNAMICS_AND_ADAPTATION_AUDIT.md`, formal correction log in `results/phase4c3/PHASE4C3_CORRECTION_LOG.md`, 4 structured CSV tables, and 4 dedicated regression tests (450/450 repository tests passing).
+
+---
+
 ## Dataset
 
 - **Source:** Allen Cell Types Database (Allen Institute for Brain Science)
@@ -209,7 +221,7 @@ results/
   phase2/             Model execution reports
 scripts/              Analysis and validation scripts
 src/data_audit/       Core audit modules
-tests/                Pytest test suite (446 tests)
+tests/                Pytest test suite (450 tests)
 tmp/                  Working outputs (git-ignored)
 ```
 
@@ -221,7 +233,7 @@ tmp/                  Working outputs (git-ignored)
 python -m pytest tests/ -q
 ```
 
-All 446 tests pass on Python 3.14 with pytest ≥ 9.1.
+All 450 tests pass on Python 3.14 with pytest ≥ 9.1.
 
 ---
 
