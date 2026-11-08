@@ -54,7 +54,8 @@ identity (IT/ET/PT/CT), so no projection labels are used.
 | **4A.1** | **Independent mathematical audit, stability verification & RK4 convergence** | **✓ Complete** | **`c4c8e59`** |
 | **4A.2** | **Hopf bifurcation and bistability verification** | **✓ Complete** | **`f6edb1d`** |
 | **4A.3** | **Complete equilibrium branch and bifurcation audit** | **✓ Complete** | **`91f69ef`** |
-| **4B** | **FHN parameter calibration framework across four populations** | **✓ Complete** | **`ashish-work`** |
+| **4B** | **FHN parameter calibration framework across four populations** | **✓ Complete** | **`e2bcf25`** |
+| **4B.1** | **Independent calibration quality, identifiability audit & Pareto frontier proof** | **✓ Complete** | **`ashish-work`** |
 | 4C | Out-of-sample held-out evaluation of four FHN models (109 sweeps) | 🔲 Planned | |
 | 5 | Cross-population comparison and reduction report | 🔲 Planned | |
 
@@ -130,6 +131,20 @@ is not reproducible without knowing the axon treatment used during fitting.
 
 ---
 
+## Key Phase 4B & 4B.1 findings (2026-11-08)
+
+**FHN parameter calibration and independent quality/identifiability audit:**
+- **Deterministic calibration:** Strictly single designated calibration sweep per population; zero held-out sweeps used or accessed.
+- **Independent reproduction (100% pass):** All spike counts, latencies, input resistances, peak voltages, step RMSEs, correlations, and losses reproduced bit-for-bit from raw traces and serialized parameters.
+- **Resolution of Low-Loss / High-RMSE discrepancy:** The objective function optimizes physiological excitability features ($\mathcal{L}_{\mathrm{spk}}, \mathcal{L}_{\mathrm{rate}}, \mathcal{L}_{\mathrm{lat}}, \mathcal{L}_{\mathrm{rin}}, \mathcal{L}_{\mathrm{peak}}$) rather than continuous waveform tracking. Action potential broadening and minor phase shifts incur a severe "double penalty" on squared errors. In fact, a silent flatline trace achieves lower RMSE ($\sim 28 - 34\text{ mV}$) than an active spiking model ($\sim 41 - 46\text{ mV}$), proving that minimizing raw voltage RMSE directly would extinguish spiking excitability. Dual reporting of feature loss and physical waveform RMSE is formally mandated.
+- **Constrained vs. Emergent taxonomy:** $V_{\mathrm{rest}}$, $R_{\mathrm{in}}$, and $V_{\mathrm{peak}}$ are directly constrained/fixed (Group A); spike count, firing rate, and onset latency are directly optimized (Group B); linear resting stability, continuous waveform correlation ($r \approx 0.70 - 0.76$), subthreshold charging kinetics, and lack of adaptation are emergent (Group C).
+- **Proof of Population D (L6a) 2D Pareto frontier:** Systematic 625-point $(C_m, \tau_w)$ parameter sweep proves that 2D FHN cannot simultaneously achieve $t_{\mathrm{lat}} \approx 58\text{ ms}$ and $N_{\mathrm{spk}} = 13$. In biology, onset delay is mediated by slowly-inactivating A-type potassium current ($I_A / I_D$), which delays the initial spike and then inactivates to permit fast rhythmic firing. Because 2D FHN has only *one* recovery variable $w$, it cannot decouple transient onset delay from periodic limit-cycle period. The mismatch is an irreducible planar dynamical limitation, not an optimization defect.
+- **Parameter identifiability:** Adaptation coupling $a_w$ accounts for $59\% - 77\%$ of resting conductance across populations, creating an identifiability valley along $g_L + a_w \approx \text{const}$.
+- **Readiness authorization:** Phase 4B.1 audit gates passed; Phase 4C held-out evaluation officially authorized.
+- **Artifacts:** Full audit report in `results/phase4b1/PHASE4B1_INDEPENDENT_CALIBRATION_AUDIT.md`, 4 structured CSV tables, and 3 diagnostic figures in `results/phase4b1/figures/`.
+
+---
+
 ## Dataset
 
 - **Source:** Allen Cell Types Database (Allen Institute for Brain Science)
@@ -153,7 +168,7 @@ results/
   phase2/             Model execution reports
 scripts/              Analysis and validation scripts
 src/data_audit/       Core audit modules
-tests/                Pytest test suite (394 tests)
+tests/                Pytest test suite (422 tests)
 tmp/                  Working outputs (git-ignored)
 ```
 
@@ -165,7 +180,7 @@ tmp/                  Working outputs (git-ignored)
 python -m pytest tests/ -q
 ```
 
-All 394 tests pass on Python 3.14 with pytest ≥ 9.1.
+All 422 tests pass on Python 3.14 with pytest ≥ 9.1.
 
 ---
 

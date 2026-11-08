@@ -1,0 +1,5 @@
+population,specimen_id,layer,sweep_id,orig_spikes_fhn,recomputed_spikes_fhn,spikes_match,orig_lat_fhn_ms,recomputed_lat_fhn_ms,lat_diff_ms,orig_rmse_step_mv,recomputed_rmse_step_mv,rmse_step_diff_mv,orig_corr,recomputed_corr,corr_diff,orig_rin_mohm,recomputed_rin_mohm,rin_diff_mohm,orig_loss,recomputed_loss,loss_diff,reproduction_verified
+A,484564503,4,49,9,9,True,22.2,22.2,-0.0,42.26,42.26,0.0015,0.7595,0.7595,-0.0,44.29,44.29,0.001,2e-05,2.028278759087147e-05,0.0,True
+B,318808427,2/3,40,17,17,True,14.95,14.95,0.0,43.34,43.34,0.001,0.6993,0.6993,-0.0,78.67,78.67,0.0033,0.212575,0.2125651042820444,-1e-05,True
+C,471129934,5,51,9,9,True,25.12,25.12,0.005,41.37,41.37,0.0024,0.7074,0.7075,0.0001,31.29,31.29,0.005,1.2e-05,1.2340700178479571e-05,0.0,True
+D,471786879,6a,42,4,4,True,59.9,59.9,-0.0,45.91,45.91,0.0036,0.7225,0.7224,-0.0001,51.96,51.96,0.0018,2.878971,2.8789536803536877,-1.7e-05,True
