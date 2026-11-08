@@ -1,0 +1,5 @@
+population,layer,specimen_id,n_heldout_sweeps,n_unique_conditions,mean_spikes_rec,mean_spikes_det,mean_spikes_fhn,mean_abs_spike_delta_det,mean_abs_spike_delta_fhn,mean_rmse_during_det_mv,median_rmse_during_det_mv,mean_rmse_during_fhn_mv,median_rmse_during_fhn_mv,mean_rmse_overall_det_mv,mean_rmse_overall_fhn_mv,mean_corr_det,median_corr_det,mean_corr_fhn,median_corr_fhn,n_spiking_sweeps_rec,n_spiking_sweeps_det,n_spiking_sweeps_fhn
+A,4,484564503,31,28,1.77,3.71,4.0,3.23,2.74,8.3,5.31,22.1,12.2,12.73,8.24,0.8036,0.8804,0.8352,0.7701,11,4,15
+B,2/3,318808427,18,17,6.83,7.67,3.78,1.06,4.28,7.61,6.96,23.73,18.96,4.04,11.97,0.957,0.9949,0.896,0.943,8,6,6
+C,5,471129934,34,28,0.97,0.94,1.0,0.62,0.38,4.15,3.41,12.36,10.11,4.73,4.81,0.961,0.9893,0.8775,0.9569,11,4,12
+D,6a,471786879,26,24,4.85,6.19,1.04,1.73,4.58,5.89,5.05,23.56,14.64,2.23,9.03,0.9699,0.9922,0.8889,0.9569,10,10,11

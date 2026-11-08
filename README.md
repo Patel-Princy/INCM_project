@@ -56,8 +56,8 @@ identity (IT/ET/PT/CT), so no projection labels are used.
 | **4A.3** | **Complete equilibrium branch and bifurcation audit** | **✓ Complete** | **`91f69ef`** |
 | **4B** | **FHN parameter calibration framework across four populations** | **✓ Complete** | **`e2bcf25`** |
 | **4B.1** | **Independent calibration quality, identifiability audit & Pareto frontier proof** | **✓ Complete** | **`9185cf0`** |
-| **4B.2** | **Scientific claim and robustness audit (trade-off qualification & Hessian audit)** | **✓ Complete** | **`ashish-work`** |
-| 4C | Out-of-sample held-out evaluation of four FHN models (109 sweeps) | 🔲 Planned | |
+| **4B.2** | **Scientific claim and robustness audit (trade-off qualification & Hessian audit)** | **✓ Complete** | **`422ebf5`** |
+| **4C** | **Out-of-sample held-out evaluation of four frozen FHN models (109 sweeps)** | **✓ Complete** | **`ashish-work`** |
 | 5 | Cross-population comparison and reduction report | 🔲 Planned | |
 
 ---
@@ -146,6 +146,20 @@ is not reproducible without knowing the axon treatment used during fitting.
 
 ---
 
+## Key Phase 4C findings (2026-11-08)
+
+**Frozen FitzHugh–Nagumo out-of-sample held-out evaluation across four VISp populations (109 sweeps):**
+- **Strictly frozen parameters:** Zero recalibration, tuning, or parameter modifications on held-out sweeps.
+- **Strict calibration exclusion:** All 4 calibration sweeps (49, 40, 51, 42) verified 100% absent from held-out evaluation.
+- **100% numerical completion:** 109/109 sweeps executed with zero numerical divergences, NaN states, or crashes.
+- **Dual-reporting enforcement:** Contrasts calibration feature loss with continuous step RMSE ($12\text{--}24\text{ mV}$) and Pearson correlation ($r \approx 0.84\text{--}0.90$). Explains the phase-jitter double-penalty and the passive flatline paradox.
+- **Excitability threshold detection:** FHN successfully detected 44 spiking sweeps (out of 40 biological spiking sweeps), whereas the Detailed Allen models severely under-fired (missed 16 biological spiking sweeps, detecting only 24).
+- **Core preserved behaviors:** Subthreshold linearity ($R^2 > 0.98$), passive input resistance $R_{\mathrm{in}}$, resting potential ($V_{\mathrm{rest}}$), and qualitative monotonic $F-I$ rate scaling.
+- **Core lost behaviors:** Spike-frequency adaptation (requires a 3rd state variable), action potential waveform kinetics and overshoot height, delayed onset firing in Population D (planar limitation), and hyperpolarization-activated inward sag ($I_h$).
+- **Artifacts & tests:** Comprehensive report in `results/phase4c/PHASE4C_HELDOUT_EVALUATION_REPORT.md`, 5 structured CSV/JSON tables, 7 diagnostic figures in `results/phase4c/figures/`, and 6 dedicated regression tests (435/435 repository tests passing).
+
+---
+
 ## Dataset
 
 - **Source:** Allen Cell Types Database (Allen Institute for Brain Science)
@@ -169,7 +183,7 @@ results/
   phase2/             Model execution reports
 scripts/              Analysis and validation scripts
 src/data_audit/       Core audit modules
-tests/                Pytest test suite (429 tests)
+tests/                Pytest test suite (435 tests)
 tmp/                  Working outputs (git-ignored)
 ```
 
@@ -181,7 +195,7 @@ tmp/                  Working outputs (git-ignored)
 python -m pytest tests/ -q
 ```
 
-All 429 tests pass on Python 3.14 with pytest ≥ 9.1.
+All 435 tests pass on Python 3.14 with pytest ≥ 9.1.
 
 ---
 

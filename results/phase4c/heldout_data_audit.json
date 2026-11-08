@@ -1,0 +1,23 @@
+{
+  "total_heldout_sweeps": 109,
+  "population_counts": {
+    "C": 34,
+    "A": 31,
+    "D": 26,
+    "B": 18
+  },
+  "specimen_ids": [
+    484564503,
+    318808427,
+    471129934,
+    471786879
+  ],
+  "calibration_sweeps_excluded": {
+    "A": 49,
+    "B": 40,
+    "C": 51,
+    "D": 42
+  },
+  "all_nwb_files_verified": true,
+  "audit_timestamp_iso": "2026-11-08T07:57:19Z"
+}
