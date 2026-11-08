@@ -93,3 +93,24 @@ def test_hopf_normal_form_convention():
         assert df.loc[pop, "check_lyapunov_positive"] is True or df.loc[pop, "check_lyapunov_positive"] == 1
         assert df.loc[pop, "first_lyapunov_coefficient"] > 0.0
         assert df.loc[pop, "local_criticality"] == "SUBCRITICAL_HOPF"
+
+
+def test_bistability_boundary_semantics():
+    """Verify that bistability intervals strictly use open-interval semantics with explicit boundary classifications."""
+    bist_file = RESULTS_4C3 / "phase4c3_bistability_verification.csv"
+    assert bist_file.exists(), f"Missing {bist_file}"
+
+    df = pd.read_csv(bist_file).set_index("population")
+    assert len(df) == 4
+
+    for pop in ["A", "B", "C", "D"]:
+        # Verify interval representation uses open parentheses
+        val_str = str(df.loc[pop, "bistability_interval_verified"])
+        assert val_str.startswith("("), f"Interval must be open: {val_str}"
+        assert ")" in val_str, f"Interval must be open: {val_str}"
+
+        # Verify explicit semantic column values
+        assert df.loc[pop, "interval_semantics"] == "open_interval_I_fold_lt_I_lt_I_H1"
+        assert df.loc[pop, "endpoint_semantics_interior"] == "coexistence_of_stable_resting_and_stable_spiking"
+        assert df.loc[pop, "endpoint_semantics_fold_boundary"] == "non_hyperbolic_cycle_fold_boundary"
+        assert df.loc[pop, "endpoint_semantics_hopf_boundary"] == "non_hyperbolic_hopf_equilibrium"

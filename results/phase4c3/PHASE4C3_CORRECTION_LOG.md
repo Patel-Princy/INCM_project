@@ -82,3 +82,27 @@ Phase 4C.1 and 4C.2 reported first Lyapunov coefficients $l_1 > 0$ for all four 
 
 ### Formal Confirmation:
 > *"The sign of the first Lyapunov coefficient ($l_1 > 0$) is mathematically consistent with the standard Poincaré–Andronov normal form and positive transversality ($\mu'(I_{H1}) > 0$), rigorously establishing local subcritical Hopf criticality across all four calibrated FHN parameter sets."*
+
+---
+
+## 4. Bistability Boundary Semantics and Non-Hyperbolic Endpoint Qualification
+
+### Context
+Earlier Phase 4C.2 and 4C.3 descriptions used closed intervals $[I_{\mathrm{fold}}, I_{H1}]$ when referring to the parameter regime of bistable attractor coexistence.
+
+### Mathematical Correction
+The simultaneous coexistence of two ordinary, hyperbolic, asymptotically stable attractors (the resting equilibrium focus and the periodic orbit) is mathematically restricted to the **open parameter interval**:
+$$I_{\mathrm{fold}} < I < I_{H1} \quad \Longleftrightarrow \quad I \in (I_{\mathrm{fold}}, I_{H1})$$
+
+### Boundary Endpoint Classifications:
+1. **Interior Region ($I_{\mathrm{fold}} < I < I_{H1}$):**  
+   Numerically demonstrated coexistence of two ordinary attractors: the stable resting equilibrium focus $(V^*, w^*)$ and the stable large-amplitude spiking periodic orbit. Each possesses a non-empty open basin of attraction.
+2. **Fold Boundary ($I = I_{\mathrm{fold}}$):**  
+   At the exact limit-cycle fold (LPC), the stable periodic orbit and the unstable periodic orbit coalesce in a saddle-node bifurcation of limit cycles. The coalesced orbit has a Floquet multiplier equal to $+1$ and is **non-hyperbolic**. Because it is semi-stable (attracting on the exterior, repelling on the interior), it is not an ordinary asymptotically stable spiking attractor. Ordinary cycle stability is not asserted at this exact boundary point.
+3. **Hopf Boundary ($I = I_{H1}$):**  
+   At the exact lower Hopf current $I_{H1}$, the Jacobian eigenvalues are purely imaginary:
+   $$\lambda_{1,2} = \pm i \omega_0 \quad (\mathrm{Re}(\lambda) = 0)$$
+   The linearized system has a center, rendering the equilibrium **non-hyperbolic**. Nonlinear stability is governed by the center manifold normal form ($l_1 > 0$), where the critical point is weakly unstable (repelling) within the subcritical unfolding. Ordinary hyperbolic resting stability is not asserted at $I = I_{H1}$.
+
+### Distinguishing Numerical Precision from Mathematical Certainty:
+The sub-$0.001\text{ pA}$ bisection bracket represents the algorithmic stopping criterion of the binary search under fixed numerical settings ($\Delta t = 0.025\text{ ms}$, $T_{\mathrm{stop}} = 2500\text{--}4000\text{ ms}$). It is an algorithmic discretization resolution, not an exact mathematical or physical certainty bound. The documented numerical uncertainty of the fold boundary is $\pm 0.01\text{ pA}$.

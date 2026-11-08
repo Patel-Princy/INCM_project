@@ -124,11 +124,12 @@ A local subcritical Hopf bifurcation guarantees the birth of an unstable periodi
 
 Through numerical continuation and backward initial-condition integration, we separately established:
 1. **Fold of Limit Cycles (LPC / Saddle-Node of Cycles):** The unstable limit cycle branch turns around at a global fold point $I_{\mathrm{fold}} < I_{H1}$, giving birth to the stable large-amplitude spiking orbit.
-2. **Global Bistability Intervals:** Across $[I_{\mathrm{fold}}, I_{H1}]$, two stable attractors coexist: the resting equilibrium focus $(V^*, w^*)$ and the large relaxation limit cycle:
-   - **Population A:** $I_{\mathrm{fold}} \approx 214.3\text{ pA}$, $I_{H1} = 234.3\text{ pA} \implies \text{Bistability interval: } [214.3, 234.3]\text{ pA}$ (width **$20.0\text{ pA}$**)
-   - **Population B:** $I_{\mathrm{fold}} \approx 147.3\text{ pA}$, $I_{H1} = 161.3\text{ pA} \implies \text{Bistability interval: } [147.3, 161.3]\text{ pA}$ (width **$14.0\text{ pA}$**)
-   - **Population C:** $I_{\mathrm{fold}} \approx 360.3\text{ pA}$, $I_{H1} = 385.3\text{ pA} \implies \text{Bistability interval: } [360.3, 385.3]\text{ pA}$ (width **$25.0\text{ pA}$**)
-   - **Population D:** $I_{\mathrm{fold}} \approx 216.3\text{ pA}$, $I_{H1} = 236.3\text{ pA} \implies \text{Bistability interval: } [216.3, 236.3]\text{ pA}$ (width **$20.0\text{ pA}$**)
+2. **Global Bistability Intervals:** Across the open interior $(I_{\mathrm{fold}}, I_{H1})$, two stable attractors coexist: the resting equilibrium focus $(V^*, w^*)$ and the large relaxation limit cycle:
+   - **Population A:** $I_{\mathrm{fold}} \approx 214.3\text{ pA}$, $I_{H1} = 234.3\text{ pA} \implies \text{Open bistability interval: } (214.3, 234.3)\text{ pA}$ (width **$20.0\text{ pA}$**)
+   - **Population B:** $I_{\mathrm{fold}} \approx 147.3\text{ pA}$, $I_{H1} = 161.3\text{ pA} \implies \text{Open bistability interval: } (147.3, 161.3)\text{ pA}$ (width **$14.0\text{ pA}$**)
+   - **Population C:** $I_{\mathrm{fold}} \approx 360.3\text{ pA}$, $I_{H1} = 385.3\text{ pA} \implies \text{Open bistability interval: } (360.3, 385.3)\text{ pA}$ (width **$25.0\text{ pA}$**)
+   - **Population D:** $I_{\mathrm{fold}} \approx 216.3\text{ pA}$, $I_{H1} = 236.3\text{ pA} \implies \text{Open bistability interval: } (216.3, 236.3)\text{ pA}$ (width **$20.0\text{ pA}$**)
+   *(Note on boundary semantics: At the exact fold boundary $I_{\mathrm{fold}}$, the periodic orbit is non-hyperbolic; at the exact Hopf boundary $I_{H1}$, the equilibrium has purely imaginary eigenvalues and is non-hyperbolic. Dual stable attractor coexistence strictly applies to the open interior $I_{\mathrm{fold}} < I < I_{H1}$.)*
 
 ---
 

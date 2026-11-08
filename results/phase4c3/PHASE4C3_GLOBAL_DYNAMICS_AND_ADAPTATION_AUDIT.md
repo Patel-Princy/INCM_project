@@ -59,21 +59,38 @@ Using fine-resolution bisection ($\Delta I < 0.001\text{ pA}$) initialized on th
 
 ## 3. Task 2: Global Bistability and Attractor Coexistence Verification
 
-### 3.1 Coexistence of Dual Attractors
-For each population, we tested current levels spanning the verified bistability intervals $[I_{\mathrm{fold}}, I_{H1}]$ ([`phase4c3_bistability_verification.csv`](file:///e:/INCM%20project/new%20incm%20project/INCM-Project/results/phase4c3/phase4c3_bistability_verification.csv)):
+### 3.1 Coexistence of Dual Attractors Across the Open Interval
+In nonlinear dynamical systems theory, the simultaneous coexistence of two ordinary asymptotically stable attractors (the resting equilibrium focus and the periodic orbit) is strictly defined on the **open parameter interval**:
+$$I_{\mathrm{fold}} < I < I_{H1} \quad \Longleftrightarrow \quad I \in (I_{\mathrm{fold}}, I_{H1})$$
+Throughout this open interior, both attractors possess well-defined, open basins of attraction separated by the manifold of the unstable limit cycle ([`phase4c3_bistability_verification.csv`](file:///e:/INCM%20project/new%20incm%20project/INCM-Project/results/phase4c3/phase4c3_bistability_verification.csv)):
 
-| Population | Layer | Claimed Interval [pA] | Independently Verified Interval [pA] | Verified Width [pA] | Resting State Asymptotically Stable? | Spiking Limit Cycle Stable? | Dual Attractor Coexistence Demonstrated? | Separatrix $\delta V_{\mathrm{crit}}$ at $I_{H1}-0.5$ [mV] | Separatrix $\delta V_{\mathrm{crit}}$ near $I_{\mathrm{fold}}+0.5$ [mV] | Limit Cycle Annihilated Below $I_{\mathrm{fold}}$? |
+| Population | Layer | Claimed Interval [pA] | Independently Verified Open Interval [pA] | Verified Width [pA] | Resting State Asymptotically Stable? | Spiking Limit Cycle Stable? | Dual Attractor Coexistence Demonstrated? | Separatrix $\delta V_{\mathrm{crit}}$ at $I_{H1}-0.5$ [mV] | Separatrix $\delta V_{\mathrm{crit}}$ near $I_{\mathrm{fold}}+0.5$ [mV] | Limit Cycle Annihilated Below $I_{\mathrm{fold}}$? |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Pop A** | 4 | [214.3, 234.3] | **[214.16, 234.34]** | **20.18** | **Yes (100%)** | **Yes (100%)** | **YES** | 4.74 | 10.38 | **Yes** |
-| **Pop B** | 2/3 | [147.3, 161.3] | **[146.72, 161.28]** | **14.55** | **Yes (100%)** | **Yes (100%)** | **YES** | 3.51 | 10.62 | **Yes** |
-| **Pop C** | 5 | [360.3, 385.3] | **[360.03, 385.33]** | **25.29** | **Yes (100%)** | **Yes (100%)** | **YES** | 4.09 | 9.63 | **Yes** |
-| **Pop D** | 6a | [216.3, 236.3] | **[215.92, 236.27]** | **20.36** | **Yes (100%)** | **Yes (100%)** | **YES** | 4.91 | 9.39 | **Yes** |
+| **Pop A** | 4 | (214.3, 234.3) | **(214.16, 234.34)** | **20.18** | **Yes (100%)** | **Yes (100%)** | **YES** | 4.74 | 10.38 | **Yes** |
+| **Pop B** | 2/3 | (147.3, 161.3) | **(146.72, 161.28)** | **14.55** | **Yes (100%)** | **Yes (100%)** | **YES** | 3.51 | 10.62 | **Yes** |
+| **Pop C** | 5 | (360.3, 385.3) | **(360.03, 385.33)** | **25.29** | **Yes (100%)** | **Yes (100%)** | **YES** | 4.09 | 9.63 | **Yes** |
+| **Pop D** | 6a | (216.3, 236.3) | **(215.92, 236.27)** | **20.36** | **Yes (100%)** | **Yes (100%)** | **YES** | 4.91 | 9.39 | **Yes** |
 
 ### 3.2 Basin of Attraction and Separatrix Dynamics
 By perturbing the resting equilibrium $(V^*, w^*)$ with voltage increments $\delta V$, we identified the threshold $\delta V_{\mathrm{crit}}$ that separates trajectories decaying into the resting focus from trajectories escaping to the large relaxation limit cycle:
-1. **At Near-Hopf Currents ($I \to I_{H1}^-$):** $\delta V_{\mathrm{crit}}$ is small ($3.8\text{--}6.2\text{ mV}$), confirming that the unstable limit cycle born at the subcritical Hopf bifurcation emerges with vanishingly small amplitude around $(V^*, w^*)$.
-2. **Near the Fold Point ($I \to I_{\mathrm{fold}}^+$):** $\delta V_{\mathrm{crit}}$ expands significantly ($8.1\text{--}12.3\text{ mV}$), establishing that the unstable periodic orbit expands toward the amplitude of the large relaxation limit cycle.
+1. **At Near-Hopf Currents ($I \to I_{H1}^-$):** $\delta V_{\mathrm{crit}}$ is small ($3.5\text{--}4.9\text{ mV}$), confirming that the unstable limit cycle born at the subcritical Hopf bifurcation emerges with vanishingly small amplitude around $(V^*, w^*)$.
+2. **Near the Fold Point ($I \to I_{\mathrm{fold}}^+$):** $\delta V_{\mathrm{crit}}$ expands significantly ($9.4\text{--}10.6\text{ mV}$), establishing that the unstable periodic orbit expands toward the amplitude of the large relaxation limit cycle.
 3. **Below the Fold ($I < I_{\mathrm{fold}}$):** Even large perturbations ($\delta V > 30\text{ mV}$) fail to sustain repetitive firing; the stable limit cycle has been annihilated, leaving the resting equilibrium as the sole global attractor.
+
+### 3.3 Explicit Boundary Semantics: Interior vs Fold vs Hopf
+To eliminate any ambiguity between interior attractor coexistence and bifurcation boundary points:
+1. **Interior Region ($I_{\mathrm{fold}} < I < I_{H1}$):**  
+   Coexistence of two ordinary hyperbolic attractors is fully demonstrated: the resting equilibrium focus is linearly and nonlinearly stable, and the large relaxation limit cycle is an asymptotically stable periodic orbit. Initial conditions within their respective basins converge asymptotically to the respective attractor.
+2. **Fold Boundary ($I = I_{\mathrm{fold}}$):**  
+   At the exact limit-cycle fold (fold of cycles / LPC), the stable periodic orbit and the unstable periodic orbit coalesce in a saddle-node bifurcation of limit cycles. The resulting periodic orbit has a Floquet multiplier equal to $+1$ and is **non-hyperbolic**. Because it is semi-stable (attracting from one side, repelling from the other), it is **not** an ordinary asymptotically stable spiking attractor. Ordinary hyperbolic attractor coexistence is therefore not asserted at the exact fold boundary.
+3. **Hopf Boundary ($I = I_{H1}$):**  
+   At the exact lower Hopf current $I_{H1}$, the Jacobian eigenvalues are purely imaginary:
+   $$\lambda_{1,2} = \pm i \omega_0 \quad (\mathrm{Re}(\lambda) = 0)$$
+   The linearized system has a center, rendering the equilibrium **non-hyperbolic**. The linear stability test is inconclusive; the nonlinear classification is determined by the first Lyapunov coefficient ($l_1 > 0$), which makes the critical equilibrium weakly unstable (repelling) within the subcritical center manifold unfolding. Therefore, ordinary hyperbolic resting stability is not asserted at the exact Hopf boundary.
+
+### 3.4 Distinguishing Numerical Algorithmic Precision from Mathematical Certainty
+- **Algorithmic Resolution:** The sub-$0.001\text{ pA}$ bracket obtained from our bisection procedure represents the *numerical stopping tolerance* of the binary search algorithm under a specific time-step ($\Delta t = 0.025\text{ ms}$) and integration duration ($T_{\mathrm{stop}} = 2500\text{--}4000\text{ ms}$).
+- **Scientific Interpretation:** It is **not** a universal mathematical or physical certainty bound. A slight shift in numerical integration parameters, floating-point roundoff, or external model perturbations can displace the numerical extinction threshold by $\mathcal{O}(\Delta t^4) \approx 10^{-4}\text{--}10^{-3}\text{ pA}$. The conservative, defensible numerical uncertainty of the fold boundary is documented as $\pm 0.01\text{ pA}$ numerically, and should never be conflated with an exact closed-form algebraic root.
 
 ---
 
