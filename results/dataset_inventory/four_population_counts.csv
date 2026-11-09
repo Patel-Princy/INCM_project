@@ -1,0 +1,49 @@
+population,population_label,population_total,stage,stage_name,stage_definition,stage_kind,base_stage,base_n,n,pct_of_population,pct_of_base,phase0_pass
+A,VISp L4 excitatory (spiny stellate / IT-like),458,1,Total mouse V1 specimens,Mus musculus specimens in the population's VISp layer(s),sequential,population,458,458,100,100,64
+A,VISp L4 excitatory (spiny stellate / IT-like),458,2,Long-square current clamp,non-failed EphysResult with >= 1 long-square sweep under the units-aware current-clamp rule,sequential,stage_01,458,457,99.8,99.8,64
+A,VISp L4 excitatory (spiny stellate / IT-like),458,3,Depolarising long square,>= 1 depolarising long-square current-clamp sweep (stimulus amplitude > 0 pA),sequential,stage_02,457,457,99.8,100,64
+A,VISp L4 excitatory (spiny stellate / IT-like),458,4,Two distinct amplitudes,>= 2 distinct depolarising amplitudes (1e-3 pA rounding),sequential,stage_03,457,457,99.8,100,64
+A,VISp L4 excitatory (spiny stellate / IT-like),458,5,Sufficient conditions,>= 6 long-square CC sweeps AND >= 3 depolarising AND >= 2 distinct depolarising amplitudes,sequential,stage_04,457,457,99.8,100,64
+A,VISp L4 excitatory (spiny stellate / IT-like),458,6,Downloadable NWB,NWB download reference resolved in the inventory,sequential,stage_05,457,457,99.8,100,64
+A,VISp L4 excitatory (spiny stellate / IT-like),458,7,Perisomatic model,>= 1 Biophysical - perisomatic model,facet,stage_06,457,63,13.8,13.8,64
+A,VISp L4 excitatory (spiny stellate / IT-like),458,8,All-active model,>= 1 Biophysical - all active model,facet,stage_06,457,28,6.1,6.1,64
+A,VISp L4 excitatory (spiny stellate / IT-like),458,9,Both model classes,>= 1 perisomatic AND >= 1 all-active model,facet,stage_06,457,27,5.9,5.9,64
+A,VISp L4 excitatory (spiny stellate / IT-like),458,10,Morphology asset,has_morphology AND reconstruction id AND download URL AND not superseded,facet,stage_06,457,109,23.8,23.9,64
+A,VISp L4 excitatory (spiny stellate / IT-like),458,11,Fit descriptor,>= 1 biophysical model with a resolved fit-descriptor reference (metadata level; JSON not opened),facet,stage_06,457,64,14,14,64
+A,VISp L4 excitatory (spiny stellate / IT-like),458,12,Final eligible,stages 1-6 plus >= 1 biophysical model with a resolved fit descriptor plus a usable morphology asset,final,stage_06,457,63,13.8,13.8,64
+B,VISp L2/3 IT pyramidal,311,1,Total mouse V1 specimens,Mus musculus specimens in the population's VISp layer(s),sequential,population,311,311,100,100,30
+B,VISp L2/3 IT pyramidal,311,2,Long-square current clamp,non-failed EphysResult with >= 1 long-square sweep under the units-aware current-clamp rule,sequential,stage_01,311,311,100,100,30
+B,VISp L2/3 IT pyramidal,311,3,Depolarising long square,>= 1 depolarising long-square current-clamp sweep (stimulus amplitude > 0 pA),sequential,stage_02,311,311,100,100,30
+B,VISp L2/3 IT pyramidal,311,4,Two distinct amplitudes,>= 2 distinct depolarising amplitudes (1e-3 pA rounding),sequential,stage_03,311,311,100,100,30
+B,VISp L2/3 IT pyramidal,311,5,Sufficient conditions,>= 6 long-square CC sweeps AND >= 3 depolarising AND >= 2 distinct depolarising amplitudes,sequential,stage_04,311,311,100,100,30
+B,VISp L2/3 IT pyramidal,311,6,Downloadable NWB,NWB download reference resolved in the inventory,sequential,stage_05,311,311,100,100,30
+B,VISp L2/3 IT pyramidal,311,7,Perisomatic model,>= 1 Biophysical - perisomatic model,facet,stage_06,311,28,9,9,30
+B,VISp L2/3 IT pyramidal,311,8,All-active model,>= 1 Biophysical - all active model,facet,stage_06,311,25,8,8,30
+B,VISp L2/3 IT pyramidal,311,9,Both model classes,>= 1 perisomatic AND >= 1 all-active model,facet,stage_06,311,23,7.4,7.4,30
+B,VISp L2/3 IT pyramidal,311,10,Morphology asset,has_morphology AND reconstruction id AND download URL AND not superseded,facet,stage_06,311,91,29.3,29.3,30
+B,VISp L2/3 IT pyramidal,311,11,Fit descriptor,>= 1 biophysical model with a resolved fit-descriptor reference (metadata level; JSON not opened),facet,stage_06,311,30,9.6,9.6,30
+B,VISp L2/3 IT pyramidal,311,12,Final eligible,stages 1-6 plus >= 1 biophysical model with a resolved fit descriptor plus a usable morphology asset,final,stage_06,311,30,9.6,9.6,30
+C,VISp L5 ET/PT pyramidal,505,1,Total mouse V1 specimens,Mus musculus specimens in the population's VISp layer(s),sequential,population,505,505,100,100,79
+C,VISp L5 ET/PT pyramidal,505,2,Long-square current clamp,non-failed EphysResult with >= 1 long-square sweep under the units-aware current-clamp rule,sequential,stage_01,505,503,99.6,99.6,79
+C,VISp L5 ET/PT pyramidal,505,3,Depolarising long square,>= 1 depolarising long-square current-clamp sweep (stimulus amplitude > 0 pA),sequential,stage_02,503,503,99.6,100,79
+C,VISp L5 ET/PT pyramidal,505,4,Two distinct amplitudes,>= 2 distinct depolarising amplitudes (1e-3 pA rounding),sequential,stage_03,503,503,99.6,100,79
+C,VISp L5 ET/PT pyramidal,505,5,Sufficient conditions,>= 6 long-square CC sweeps AND >= 3 depolarising AND >= 2 distinct depolarising amplitudes,sequential,stage_04,503,503,99.6,100,79
+C,VISp L5 ET/PT pyramidal,505,6,Downloadable NWB,NWB download reference resolved in the inventory,sequential,stage_05,503,503,99.6,100,79
+C,VISp L5 ET/PT pyramidal,505,7,Perisomatic model,>= 1 Biophysical - perisomatic model,facet,stage_06,503,71,14.1,14.1,79
+C,VISp L5 ET/PT pyramidal,505,8,All-active model,>= 1 Biophysical - all active model,facet,stage_06,503,40,7.9,8,79
+C,VISp L5 ET/PT pyramidal,505,9,Both model classes,>= 1 perisomatic AND >= 1 all-active model,facet,stage_06,503,32,6.3,6.4,79
+C,VISp L5 ET/PT pyramidal,505,10,Morphology asset,has_morphology AND reconstruction id AND download URL AND not superseded,facet,stage_06,503,148,29.3,29.4,79
+C,VISp L5 ET/PT pyramidal,505,11,Fit descriptor,>= 1 biophysical model with a resolved fit-descriptor reference (metadata level; JSON not opened),facet,stage_06,503,79,15.6,15.7,79
+C,VISp L5 ET/PT pyramidal,505,12,Final eligible,stages 1-6 plus >= 1 biophysical model with a resolved fit descriptor plus a usable morphology asset,final,stage_06,503,79,15.6,15.7,79
+D,VISp L6 corticothalamic,272,1,Total mouse V1 specimens,Mus musculus specimens in the population's VISp layer(s),sequential,population,272,272,100,100,21
+D,VISp L6 corticothalamic,272,2,Long-square current clamp,non-failed EphysResult with >= 1 long-square sweep under the units-aware current-clamp rule,sequential,stage_01,272,272,100,100,21
+D,VISp L6 corticothalamic,272,3,Depolarising long square,>= 1 depolarising long-square current-clamp sweep (stimulus amplitude > 0 pA),sequential,stage_02,272,272,100,100,21
+D,VISp L6 corticothalamic,272,4,Two distinct amplitudes,>= 2 distinct depolarising amplitudes (1e-3 pA rounding),sequential,stage_03,272,272,100,100,21
+D,VISp L6 corticothalamic,272,5,Sufficient conditions,>= 6 long-square CC sweeps AND >= 3 depolarising AND >= 2 distinct depolarising amplitudes,sequential,stage_04,272,272,100,100,21
+D,VISp L6 corticothalamic,272,6,Downloadable NWB,NWB download reference resolved in the inventory,sequential,stage_05,272,272,100,100,21
+D,VISp L6 corticothalamic,272,7,Perisomatic model,>= 1 Biophysical - perisomatic model,facet,stage_06,272,21,7.7,7.7,21
+D,VISp L6 corticothalamic,272,8,All-active model,>= 1 Biophysical - all active model,facet,stage_06,272,6,2.2,2.2,21
+D,VISp L6 corticothalamic,272,9,Both model classes,>= 1 perisomatic AND >= 1 all-active model,facet,stage_06,272,6,2.2,2.2,21
+D,VISp L6 corticothalamic,272,10,Morphology asset,has_morphology AND reconstruction id AND download URL AND not superseded,facet,stage_06,272,84,30.9,30.9,21
+D,VISp L6 corticothalamic,272,11,Fit descriptor,>= 1 biophysical model with a resolved fit-descriptor reference (metadata level; JSON not opened),facet,stage_06,272,21,7.7,7.7,21
+D,VISp L6 corticothalamic,272,12,Final eligible,stages 1-6 plus >= 1 biophysical model with a resolved fit descriptor plus a usable morphology asset,final,stage_06,272,20,7.4,7.4,21

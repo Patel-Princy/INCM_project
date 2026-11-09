@@ -1,0 +1,5 @@
+specimen_id,model_id,fit_file_id,sweep_id,sweep_number,protocol_family,stimulus_description,stimulus_amplitude_pa,stimulus_onset_ms,stimulus_duration_ms,classification,evidence,data_quality_status,exclusion_reason
+484564503,485591776,497237137,484569441,49,COARSE,C1LSCOARSE150216[24],370.0,1020.0,1000.0,FITTING,Named in fitting[0].sweeps of fit descriptor 497237137.json,VALID,
+318808427,473863035,497237588,396323779,40,COARSE,C1LSCOARSE141203[15],190.0,1020.0,1000.0,FITTING,Named in fitting[0].sweeps of fit descriptor 497237588.json,VALID,
+471129934,480624414,497236153,471136916,51,COARSE,C1LSCOARSE150216[26],410.0,1020.0,1000.0,FITTING,Named in fitting[0].sweeps of fit descriptor 497236153.json,VALID,
+471786879,480632594,497236229,471789612,42,COARSE,C1LSCOARSE150216[18],250.0,1020.0,1000.0,FITTING,Named in fitting[0].sweeps of fit descriptor 497236229.json,VALID,

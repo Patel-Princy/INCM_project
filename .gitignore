@@ -1,0 +1,90 @@
+# INCM Project — Phase 0 repository exclusions
+#
+# Everything ignored here is either regenerable, machine-local, or a Phase 1
+# artefact that must not be uploaded. The scientific results (CSV inventories,
+# JSON summaries, coverage scan and the inventory report) are committed, and
+# data/metadata/.generated_manifest.json carries their SHA-256 hashes so a
+# reviewer can prove nothing was altered after generation.
+
+# --- Allen RMA response cache ------------------------------------------------
+# Raw cached API JSON. 102 MiB across 240 hash-named files; fully regenerable
+# by re-running src/data_audit/allen_inventory.py against the live API.
+data/metadata/api_cache/
+
+# --- Run logs ----------------------------------------------------------------
+# Chronological, machine-local (absolute paths + timestamps). Every run rewrites
+# it, so tracking it would generate permanent noise in the history.
+*.log
+
+# --- Python bytecode / packaging ---------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+build/
+dist/
+
+# --- Test and linting caches -------------------------------------------------
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+# --- Virtual environments / interpreters -------------------------------------
+.venv/
+venv/
+env/
+ENV/
+.python
+pip-wheel-metadata/
+
+# --- Credentials and secrets -------------------------------------------------
+# The Phase 0 audit needs no API key; nothing here should ever exist, but the
+# patterns are pinned so a future Phase 1 token cannot be committed by accident.
+.env
+.env.*
+*.key
+*.pem
+*.p12
+*.crt
+credentials*
+credentials.json
+*_token*
+.secrets*
+
+# --- Large binary downloads (explicitly out of scope for Phase 0) ------------
+# Raw NWB recordings, morphologies and downloaded neuronal model archives.
+*.nwb
+*.h5
+*.hdf5
+*.swc
+*.zip
+*.tar
+*.gz
+*.7z
+*.rar
+*.exe
+*.msi
+*.npz
+
+# --- Temporary / scratch -----------------------------------------------------
+tmp/
+temp/
+*.tmp
+*.bak
+*.swp
+*.~lock.*
+
+# --- Editors / IDE -----------------------------------------------------------
+.vscode/
+.idea/
+*.sublime-workspace
+
+# --- Operating-system / machine-specific -------------------------------------
+Thumbs.db
+ehthumbs.db
+desktop.ini
+.DS_Store
+$RECYCLE.BIN/

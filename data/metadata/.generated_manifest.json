@@ -1,0 +1,13 @@
+{
+  "generated_by": "src/data_audit/allen_inventory.py",
+  "generated_at": "2026-11-02T19:05:52+00:00",
+  "files": {
+    "data/metadata/cell_inventory.csv": "40120a1484a992705674cd40779245151dbd84173eb149af289a94d0d553beb9",
+    "data/metadata/region_summary.csv": "1a3594650757a3512e92b1fa45c7fb4a4b902ce16a7bb7debe49e04d96f8d375",
+    "data/metadata/sweep_inventory.csv": "ce389b7363a2f9eefb709527749a7eb41d5127955296d1e9baae0fca7921cd96",
+    "data/metadata/model_inventory.csv": "76a1a350765810d85d4952a5fb0572cf48eb4faca860c8efe2cc468ce43bd0d5",
+    "results/dataset_inventory/DATASET_INVENTORY_REPORT.md": "d7573da96bb886ab3b3e47efc4ebcaa53655df4670412fa26de20be0de140168",
+    "results/dataset_inventory/inventory_summary.json": "ebbb879a079d23d7bbd17c9b94065c0cd0c5e0d47ce75ae3e7a26134f9d58dac",
+    "results/dataset_inventory/database_structure_coverage.json": "5dd10f7764582ee778f5c6589aaaa6649e32549b3440584025c4994d1225119e"
+  }
+}

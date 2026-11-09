@@ -1,0 +1,65 @@
+{
+  "specimen_id": 484564503,
+  "population": "A",
+  "layer": "4",
+  "structure": "VISp4",
+  "model_id": 485591776,
+  "fit_file_id": 497237137,
+  "sweep_id": 47,
+  "condition_type": "HELD_OUT",
+  "is_calibration": false,
+  "timestamp_iso": "2026-11-07T19:35:27Z",
+  "hashes": {
+    "nwb_sha256": "e00a3f34822f3fadd3a11dd93e8848fd250baac2876bf95039aa0bf46fbd2195",
+    "fit_sha256": "9495fe527680edc92d4ab2ef48b98c7d84f8d7faf13b3a93fea11ff74f5fa9ed",
+    "swc_sha256": "6824f3479e102527384eac93c8569c51a40fb3b5af9360293a802dd678acd14f",
+    "manifest_sha256": "6e9992fbb9efb67d55c6520b29c5ef8238f7435df731c9fade006b658c30590c"
+  },
+  "environment": {
+    "neuron_version": "8.2.7",
+    "python_version": "3.11.18",
+    "elapsed_seconds": 12.9
+  },
+  "stimulus": {
+    "amplitude_pa": 329.9999995487468,
+    "onset_ms": 1020.0,
+    "duration_ms": 1000.0,
+    "sampling_rate_hz": 200000.0
+  },
+  "metrics": {
+    "baseline_recorded_mv": -75.033,
+    "baseline_simulated_mv": -61.071,
+    "baseline_delta_mv": 13.962,
+    "mean_step_v_rec_mv": -47.452,
+    "mean_step_v_sim_mv": -49.684,
+    "max_depol_rec_mv": 30.813,
+    "max_depol_sim_mv": -47.163,
+    "rmse_overall_mv": 13.403,
+    "rmse_pre_stimulus_mv": 14.115,
+    "rmse_during_stimulus_mv": 5.643,
+    "rmse_post_stimulus_mv": 14.176,
+    "mae_mv": 12.763,
+    "correlation": 0.9666,
+    "spike_count_recorded_total": 6,
+    "spike_count_simulated_total": 0,
+    "spike_count_recorded_in_step": 6,
+    "spike_count_simulated_in_step": 0,
+    "spike_count_delta": -6,
+    "first_spike_recorded_ms": 1051.2950000113422,
+    "first_spike_simulated_ms": null,
+    "first_spike_delta_ms": null,
+    "mean_isi_rec_ms": 59.473,
+    "mean_isi_sim_ms": null,
+    "post_step_excursions_recorded": 0,
+    "post_step_excursions_simulated": 0,
+    "spike_times_recorded_in_step_ms": [
+      1051.295,
+      1082.735,
+      1122.46,
+      1166.305,
+      1230.06,
+      1348.66
+    ],
+    "spike_times_simulated_in_step_ms": []
+  }
+}

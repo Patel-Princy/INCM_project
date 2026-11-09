@@ -1,0 +1,73 @@
+{
+  "calibrator_version": "1.0.0",
+  "random_seed": 42,
+  "optimization_algorithm": "multi_start_nelder_mead",
+  "loss_weights": {
+    "w_spk": 4.0,
+    "w_rate": 2.0,
+    "w_lat": 1.0,
+    "w_rin": 1.0,
+    "w_peak": 0.5,
+    "w_rest": 0.0
+  },
+  "parameter_bounds": {
+    "C_m_pf": [
+      20.0,
+      250.0
+    ],
+    "g_L_ns": [
+      0.2,
+      15.0
+    ],
+    "V_th_mv": [
+      -75.0,
+      -45.0
+    ],
+    "V_peak_mv": [
+      20.0,
+      65.0
+    ],
+    "k_v_ns_per_mv2": [
+      0.0005,
+      0.02
+    ],
+    "tau_w_ms": [
+      4.0,
+      60.0
+    ],
+    "a_w_ns": [
+      1.0,
+      25.0
+    ]
+  },
+  "convergence_summary": {
+    "A": {
+      "n_starts_evaluated": 4,
+      "total_function_evaluations": 1301,
+      "best_loss": 2.025007961987545e-05,
+      "converged": true,
+      "resting_equilibrium_stable": true
+    },
+    "B": {
+      "n_starts_evaluated": 4,
+      "total_function_evaluations": 1380,
+      "best_loss": 0.21257527079624353,
+      "converged": true,
+      "resting_equilibrium_stable": true
+    },
+    "C": {
+      "n_starts_evaluated": 4,
+      "total_function_evaluations": 1381,
+      "best_loss": 1.2250000191659901e-05,
+      "converged": true,
+      "resting_equilibrium_stable": true
+    },
+    "D": {
+      "n_starts_evaluated": 4,
+      "total_function_evaluations": 1389,
+      "best_loss": 2.8789706838483866,
+      "converged": true,
+      "resting_equilibrium_stable": true
+    }
+  }
+}

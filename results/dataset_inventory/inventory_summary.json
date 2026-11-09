@@ -1,0 +1,1048 @@
+{
+  "generated_at": "2026-11-02T19:05:52+00:00",
+  "api": {
+    "endpoint": "http://api.brain-map.org/api/v2/data/query.json",
+    "live_requests": 0,
+    "cache_hits": 206,
+    "errors_recorded": 0
+  },
+  "thresholds": {
+    "min_long_square": 6,
+    "min_depolarizing_long_square": 3
+  },
+  "structure_notes": {
+    "regions_absent": [
+      "ALM"
+    ],
+    "regions_unknown": []
+  },
+  "neuronal_model_templates": [
+    {
+      "id": 329230710,
+      "name": "Biophysical - perisomatic",
+      "description": "Biophysical Neuronal Model Template",
+      "audit_class": "biophysical_perisomatic"
+    },
+    {
+      "id": 395310469,
+      "name": "1 Leaky Integrate and Fire (LIF)",
+      "description": "Generalized Leaky Integrate-and-Fire Model Template",
+      "audit_class": "glif"
+    },
+    {
+      "id": 395310475,
+      "name": "3 LIF + Afterspike Currents (LIF-ASC)",
+      "description": "Generalized Leaky Integrate-and-Fire Model Template",
+      "audit_class": "glif"
+    },
+    {
+      "id": 395310479,
+      "name": "2 LIF + Reset Rules (LIF-R)",
+      "description": "Generalized Leaky Integrate-and-Fire Model Template",
+      "audit_class": "glif"
+    },
+    {
+      "id": 395310498,
+      "name": "5 LIF-R-ASC + Threshold Adaptation (LIF-R-ASC-A)",
+      "description": "Generalized Leaky Integrate-and-Fire Model Template",
+      "audit_class": "glif"
+    },
+    {
+      "id": 471355161,
+      "name": "4 LIF-R + Afterspike Currents (LIF-R-ASC)",
+      "description": "Generalized Leaky Integrate-and-Fire Model Template",
+      "audit_class": "glif"
+    },
+    {
+      "id": 491455321,
+      "name": "Biophysical - all active",
+      "description": "Biophysical Neuronal Model Template",
+      "audit_class": "biophysical_all_active"
+    }
+  ],
+  "totals": {
+    "specimens_retrieved": 1694,
+    "specimens_mouse": 1694,
+    "specimens_human": 0,
+    "specimens_other_species": 0,
+    "sweep_rows": 128869,
+    "model_rows": 3262,
+    "distinct_regions_with_specimens": 3
+  },
+  "mouse_findings": {
+    "with_ephys_result": 1694,
+    "ephys_failed": 3,
+    "with_current_clamp_sweeps": 1513,
+    "with_long_square_cc": 1513,
+    "meeting_long_square_threshold": 1513,
+    "with_perisomatic": 189,
+    "with_all_active": 104,
+    "with_any_biophysical": 201,
+    "glif_only": 810,
+    "with_morphology": 468
+  },
+  "eligibility": {
+    "CONDITIONAL": 1309,
+    "PASS": 201,
+    "FAIL": 184
+  },
+  "eligibility_mouse": {
+    "CONDITIONAL": 1309,
+    "PASS": 201,
+    "FAIL": 184
+  },
+  "eligibility_by_region_role": {
+    "sensory": {
+      "VISp": {
+        "region": "VISp",
+        "n_specimens": 1588,
+        "n_mouse": 1588,
+        "n_with_ephys_result": 1588,
+        "n_with_current_clamp": 1424,
+        "n_with_long_square_cc": 1424,
+        "n_with_perisomatic": 184,
+        "n_with_all_active": 100,
+        "n_with_any_biophysical": 195,
+        "n_with_morphology": 444,
+        "n_pass": 195,
+        "n_conditional": 1226,
+        "n_fail": 167,
+        "n_unknown": 0
+      },
+      "VISl": {
+        "region": "VISl",
+        "n_specimens": 89,
+        "n_mouse": 89,
+        "n_with_ephys_result": 89,
+        "n_with_current_clamp": 76,
+        "n_with_long_square_cc": 76,
+        "n_with_perisomatic": 4,
+        "n_with_all_active": 2,
+        "n_with_any_biophysical": 4,
+        "n_with_morphology": 18,
+        "n_pass": 4,
+        "n_conditional": 72,
+        "n_fail": 13,
+        "n_unknown": 0
+      },
+      "VISal": {
+        "region": "VISal",
+        "n_specimens": 17,
+        "n_mouse": 17,
+        "n_with_ephys_result": 17,
+        "n_with_current_clamp": 13,
+        "n_with_long_square_cc": 13,
+        "n_with_perisomatic": 1,
+        "n_with_all_active": 2,
+        "n_with_any_biophysical": 2,
+        "n_with_morphology": 6,
+        "n_pass": 2,
+        "n_conditional": 11,
+        "n_fail": 4,
+        "n_unknown": 0
+      }
+    },
+    "motor": {
+      "MOp": {
+        "region": "MOp",
+        "n_specimens": 0,
+        "n_mouse": 0,
+        "n_with_ephys_result": 0,
+        "n_with_current_clamp": 0,
+        "n_with_long_square_cc": 0,
+        "n_with_perisomatic": 0,
+        "n_with_all_active": 0,
+        "n_with_any_biophysical": 0,
+        "n_with_morphology": 0,
+        "n_pass": 0,
+        "n_conditional": 0,
+        "n_fail": 0,
+        "n_unknown": 0
+      }
+    },
+    "qualifying_threshold": 4
+  },
+  "best_supported": {
+    "sensory": "VISp",
+    "motor": null,
+    "comparison_feasible": false,
+    "motor_confirmed_empty": true,
+    "sensory_ranking": [
+      [
+        "VISp",
+        {
+          "region": "VISp",
+          "n_specimens": 1588,
+          "n_mouse": 1588,
+          "n_with_ephys_result": 1588,
+          "n_with_current_clamp": 1424,
+          "n_with_long_square_cc": 1424,
+          "n_with_perisomatic": 184,
+          "n_with_all_active": 100,
+          "n_with_any_biophysical": 195,
+          "n_with_morphology": 444,
+          "n_pass": 195,
+          "n_conditional": 1226,
+          "n_fail": 167,
+          "n_unknown": 0
+        }
+      ],
+      [
+        "VISl",
+        {
+          "region": "VISl",
+          "n_specimens": 89,
+          "n_mouse": 89,
+          "n_with_ephys_result": 89,
+          "n_with_current_clamp": 76,
+          "n_with_long_square_cc": 76,
+          "n_with_perisomatic": 4,
+          "n_with_all_active": 2,
+          "n_with_any_biophysical": 4,
+          "n_with_morphology": 18,
+          "n_pass": 4,
+          "n_conditional": 72,
+          "n_fail": 13,
+          "n_unknown": 0
+        }
+      ],
+      [
+        "VISal",
+        {
+          "region": "VISal",
+          "n_specimens": 17,
+          "n_mouse": 17,
+          "n_with_ephys_result": 17,
+          "n_with_current_clamp": 13,
+          "n_with_long_square_cc": 13,
+          "n_with_perisomatic": 1,
+          "n_with_all_active": 2,
+          "n_with_any_biophysical": 2,
+          "n_with_morphology": 6,
+          "n_pass": 2,
+          "n_conditional": 11,
+          "n_fail": 4,
+          "n_unknown": 0
+        }
+      ]
+    ],
+    "motor_ranking": [
+      [
+        "MOp",
+        {
+          "region": "MOp",
+          "n_specimens": 0,
+          "n_mouse": 0,
+          "n_with_ephys_result": 0,
+          "n_with_current_clamp": 0,
+          "n_with_long_square_cc": 0,
+          "n_with_perisomatic": 0,
+          "n_with_all_active": 0,
+          "n_with_any_biophysical": 0,
+          "n_with_morphology": 0,
+          "n_pass": 0,
+          "n_conditional": 0,
+          "n_fail": 0,
+          "n_unknown": 0
+        }
+      ]
+    ]
+  },
+  "database_coverage": {
+    "complete": true,
+    "incomplete_stages": [],
+    "biophysical_template_ids": [
+      329230710,
+      491455321
+    ],
+    "glif_template_ids": [
+      395310469,
+      395310475,
+      395310479,
+      395310498,
+      471355161
+    ],
+    "cell_specimens_retrieved": 2336,
+    "distinct_structures": 79,
+    "biophysical_models_retrieved": 345,
+    "glif_models_retrieved": 3753,
+    "totals": {
+      "cells": 2336,
+      "mouse_cells": 1923,
+      "human_or_other_cells": 413,
+      "biophysical_models": 345,
+      "biophysical_models_mouse": 302,
+      "biophysical_perisomatic": 238,
+      "biophysical_all_active": 107,
+      "glif_models": 3753,
+      "structures_with_any_biophysical": 19,
+      "structures_with_four_plus_mouse_biophysical": 5,
+      "orphan_models": 0
+    },
+    "motor_related_structures": [
+      {
+        "structure_id": 12141,
+        "acronym": "MTG",
+        "name": "middle temporal gyrus",
+        "parent_structure_id": 12139,
+        "cells": 309,
+        "mouse_cells": 0,
+        "human_or_other_cells": 309,
+        "biophysical_models": 32,
+        "biophysical_models_mouse": 0,
+        "biophysical_perisomatic": 32,
+        "biophysical_all_active": 0,
+        "glif_models": 324,
+        "glif_models_mouse": 0,
+        "orphan_models": 0
+      },
+      {
+        "structure_id": 12113,
+        "acronym": "FroL",
+        "name": "frontal lobe",
+        "parent_structure_id": 12112,
+        "cells": 23,
+        "mouse_cells": 0,
+        "human_or_other_cells": 23,
+        "biophysical_models": 5,
+        "biophysical_models_mouse": 0,
+        "biophysical_perisomatic": 5,
+        "biophysical_all_active": 0,
+        "glif_models": 29,
+        "glif_models_mouse": 0,
+        "orphan_models": 0
+      },
+      {
+        "structure_id": 12116,
+        "acronym": "MFG",
+        "name": "middle frontal gyrus",
+        "parent_structure_id": 12113,
+        "cells": 26,
+        "mouse_cells": 0,
+        "human_or_other_cells": 26,
+        "biophysical_models": 3,
+        "biophysical_models_mouse": 0,
+        "biophysical_perisomatic": 3,
+        "biophysical_all_active": 0,
+        "glif_models": 68,
+        "glif_models_mouse": 0,
+        "orphan_models": 0
+      },
+      {
+        "structure_id": 12142,
+        "acronym": "ITG",
+        "name": "inferior temporal gyrus",
+        "parent_structure_id": 12139,
+        "cells": 15,
+        "mouse_cells": 0,
+        "human_or_other_cells": 15,
+        "biophysical_models": 2,
+        "biophysical_models_mouse": 0,
+        "biophysical_perisomatic": 2,
+        "biophysical_all_active": 0,
+        "glif_models": 28,
+        "glif_models_mouse": 0,
+        "orphan_models": 0
+      },
+      {
+        "structure_id": 12139,
+        "acronym": "TemL",
+        "name": "temporal lobe",
+        "parent_structure_id": 12112,
+        "cells": 11,
+        "mouse_cells": 0,
+        "human_or_other_cells": 11,
+        "biophysical_models": 1,
+        "biophysical_models_mouse": 0,
+        "biophysical_perisomatic": 1,
+        "biophysical_all_active": 0,
+        "glif_models": 4,
+        "glif_models_mouse": 0,
+        "orphan_models": 0
+      },
+      {
+        "structure_id": 12136,
+        "acronym": "AnG",
+        "name": "angular gyrus",
+        "parent_structure_id": 12134,
+        "cells": 16,
+        "mouse_cells": 0,
+        "human_or_other_cells": 16,
+        "biophysical_models": 0,
+        "biophysical_models_mouse": 0,
+        "biophysical_perisomatic": 0,
+        "biophysical_all_active": 0,
+        "glif_models": 8,
+        "glif_models_mouse": 0,
+        "orphan_models": 0
+      },
+      {
+        "structure_id": 965,
+        "acronym": "RSPagl2/3",
+        "name": "Retrosplenial area, lateral agranular part, layer 2/3",
+        "parent_structure_id": 894,
+        "cells": 6,
+        "mouse_cells": 6,
+        "human_or_other_cells": 0,
+        "biophysical_models": 0,
+        "biophysical_models_mouse": 0,
+        "biophysical_perisomatic": 0,
+        "biophysical_all_active": 0,
+        "glif_models": 4,
+        "glif_models_mouse": 4,
+        "orphan_models": 0
+      },
+      {
+        "structure_id": 774,
+        "acronym": "RSPagl5",
+        "name": "Retrosplenial area, lateral agranular part, layer 5",
+        "parent_structure_id": 894,
+        "cells": 6,
+        "mouse_cells": 6,
+        "human_or_other_cells": 0,
+        "biophysical_models": 0,
+        "biophysical_models_mouse": 0,
+        "biophysical_perisomatic": 0,
+        "biophysical_all_active": 0,
+        "glif_models": 11,
+        "glif_models_mouse": 11,
+        "orphan_models": 0
+      },
+      {
+        "structure_id": 906,
+        "acronym": "RSPagl6a",
+        "name": "Retrosplenial area, lateral agranular part, layer 6a",
+        "parent_structure_id": 894,
+        "cells": 5,
+        "mouse_cells": 5,
+        "human_or_other_cells": 0,
+        "biophysical_models": 0,
+        "biophysical_models_mouse": 0,
+        "biophysical_perisomatic": 0,
+        "biophysical_all_active": 0,
+        "glif_models": 4,
+        "glif_models_mouse": 4,
+        "orphan_models": 0
+      },
+      {
+        "structure_id": 12117,
+        "acronym": "IFG",
+        "name": "inferior frontal gyrus",
+        "parent_structure_id": 12113,
+        "cells": 4,
+        "mouse_cells": 0,
+        "human_or_other_cells": 4,
+        "biophysical_models": 0,
+        "biophysical_models_mouse": 0,
+        "biophysical_perisomatic": 0,
+        "biophysical_all_active": 0,
+        "glif_models": 4,
+        "glif_models_mouse": 0,
+        "orphan_models": 0
+      },
+      {
+        "structure_id": 12115,
+        "acronym": "SFG",
+        "name": "superior frontal gyrus",
+        "parent_structure_id": 12113,
+        "cells": 3,
+        "mouse_cells": 0,
+        "human_or_other_cells": 3,
+        "biophysical_models": 0,
+        "biophysical_models_mouse": 0,
+        "biophysical_perisomatic": 0,
+        "biophysical_all_active": 0,
+        "glif_models": 0,
+        "glif_models_mouse": 0,
+        "orphan_models": 0
+      },
+      {
+        "structure_id": 671,
+        "acronym": "RSPagl1",
+        "name": "Retrosplenial area, lateral agranular part, layer 1",
+        "parent_structure_id": 894,
+        "cells": 2,
+        "mouse_cells": 2,
+        "human_or_other_cells": 0,
+        "biophysical_models": 0,
+        "biophysical_models_mouse": 0,
+        "biophysical_perisomatic": 0,
+        "biophysical_all_active": 0,
+        "glif_models": 0,
+        "glif_models_mouse": 0,
+        "orphan_models": 0
+      }
+    ],
+    "structures_meeting_population_rule": [
+      {
+        "acronym": "VISp5",
+        "name": "Primary visual area, layer 5",
+        "cells": 505,
+        "mouse_cells": 505,
+        "biophysical_models_mouse": 111,
+        "perisomatic": 71,
+        "all_active": 40
+      },
+      {
+        "acronym": "VISp4",
+        "name": "Primary visual area, layer 4",
+        "cells": 458,
+        "mouse_cells": 458,
+        "biophysical_models_mouse": 91,
+        "perisomatic": 63,
+        "all_active": 28
+      },
+      {
+        "acronym": "VISp2/3",
+        "name": "Primary visual area, layer 2/3",
+        "cells": 311,
+        "mouse_cells": 311,
+        "biophysical_models_mouse": 53,
+        "perisomatic": 28,
+        "all_active": 25
+      },
+      {
+        "acronym": "VISp6a",
+        "name": "Primary visual area, layer 6a",
+        "cells": 224,
+        "mouse_cells": 224,
+        "biophysical_models_mouse": 27,
+        "perisomatic": 21,
+        "all_active": 6
+      },
+      {
+        "acronym": "VISl4",
+        "name": "Lateral visual area, layer 4",
+        "cells": 18,
+        "mouse_cells": 18,
+        "biophysical_models_mouse": 5,
+        "perisomatic": 3,
+        "all_active": 2
+      }
+    ]
+  },
+  "region_level_cell_counts": [
+    {
+      "structure_acronym": "ALM",
+      "structure_id": null,
+      "structure_name": null,
+      "ontology_status": "absent_from_ontology",
+      "role": "control",
+      "checked_because": "motor/somatosensory control acronym",
+      "cell_specimens_at_this_level": null,
+      "note": "acronym returned zero rows from model::Structure on a successful query (confirmed absence from the ontology)"
+    },
+    {
+      "structure_acronym": "AN",
+      "structure_id": 1017,
+      "structure_name": "Ansiform lobule",
+      "ontology_status": "present",
+      "role": "control",
+      "checked_because": "motor/somatosensory control acronym",
+      "cell_specimens_at_this_level": 0,
+      "note": ""
+    },
+    {
+      "structure_acronym": "FRP",
+      "structure_id": 184,
+      "structure_name": "Frontal pole, cerebral cortex",
+      "ontology_status": "present",
+      "role": "control",
+      "checked_because": "motor/somatosensory control acronym",
+      "cell_specimens_at_this_level": 0,
+      "note": ""
+    },
+    {
+      "structure_acronym": "MOp",
+      "structure_id": 985,
+      "structure_name": "Primary motor area",
+      "ontology_status": "present",
+      "role": "motor",
+      "checked_because": "candidate region (parent level)",
+      "cell_specimens_at_this_level": 0,
+      "note": ""
+    },
+    {
+      "structure_acronym": "MOp1",
+      "structure_id": 320,
+      "structure_name": "Primary motor area, Layer 1",
+      "ontology_status": "present",
+      "role": "motor",
+      "checked_because": "layer of MOp",
+      "cell_specimens_at_this_level": 0,
+      "note": ""
+    },
+    {
+      "structure_acronym": "MOp2/3",
+      "structure_id": 943,
+      "structure_name": "Primary motor area, Layer 2/3",
+      "ontology_status": "present",
+      "role": "motor",
+      "checked_because": "layer of MOp",
+      "cell_specimens_at_this_level": 0,
+      "note": ""
+    },
+    {
+      "structure_acronym": "MOp5",
+      "structure_id": 648,
+      "structure_name": "Primary motor area, Layer 5",
+      "ontology_status": "present",
+      "role": "motor",
+      "checked_because": "layer of MOp",
+      "cell_specimens_at_this_level": 0,
+      "note": ""
+    },
+    {
+      "structure_acronym": "MOp6a",
+      "structure_id": 844,
+      "structure_name": "Primary motor area, Layer 6a",
+      "ontology_status": "present",
+      "role": "motor",
+      "checked_because": "layer of MOp",
+      "cell_specimens_at_this_level": 0,
+      "note": ""
+    },
+    {
+      "structure_acronym": "MOp6b",
+      "structure_id": 882,
+      "structure_name": "Primary motor area, Layer 6b",
+      "ontology_status": "present",
+      "role": "motor",
+      "checked_because": "layer of MOp",
+      "cell_specimens_at_this_level": 0,
+      "note": ""
+    },
+    {
+      "structure_acronym": "MOs",
+      "structure_id": 993,
+      "structure_name": "Secondary motor area",
+      "ontology_status": "present",
+      "role": "control",
+      "checked_because": "motor/somatosensory control acronym",
+      "cell_specimens_at_this_level": 0,
+      "note": ""
+    },
+    {
+      "structure_acronym": "PT",
+      "structure_id": 7554,
+      "structure_name": "paratenial nucleus",
+      "ontology_status": "present",
+      "role": "control",
+      "checked_because": "motor/somatosensory control acronym",
+      "cell_specimens_at_this_level": 0,
+      "note": ""
+    },
+    {
+      "structure_acronym": "SC",
+      "structure_id": 9123,
+      "structure_name": "superior colliculus, right",
+      "ontology_status": "present",
+      "role": "control",
+      "checked_because": "motor/somatosensory control acronym",
+      "cell_specimens_at_this_level": 0,
+      "note": ""
+    },
+    {
+      "structure_acronym": "SSp",
+      "structure_id": 9696,
+      "structure_name": "supraspinal nucleus, right",
+      "ontology_status": "present",
+      "role": "control",
+      "checked_because": "motor/somatosensory control acronym",
+      "cell_specimens_at_this_level": 0,
+      "note": ""
+    },
+    {
+      "structure_acronym": "SSs",
+      "structure_id": 378,
+      "structure_name": "Supplemental somatosensory area",
+      "ontology_status": "present",
+      "role": "control",
+      "checked_because": "motor/somatosensory control acronym",
+      "cell_specimens_at_this_level": 0,
+      "note": ""
+    },
+    {
+      "structure_acronym": "VISal",
+      "structure_id": 402,
+      "structure_name": "Anterolateral visual area",
+      "ontology_status": "present",
+      "role": "sensory",
+      "checked_because": "candidate region (parent level)",
+      "cell_specimens_at_this_level": 0,
+      "note": ""
+    },
+    {
+      "structure_acronym": "VISal1",
+      "structure_id": 1074,
+      "structure_name": "Anterolateral visual area, layer 1",
+      "ontology_status": "present",
+      "role": "sensory",
+      "checked_because": "layer of VISal",
+      "cell_specimens_at_this_level": 2,
+      "note": ""
+    },
+    {
+      "structure_acronym": "VISal2/3",
+      "structure_id": 905,
+      "structure_name": "Anterolateral visual area, layer 2/3",
+      "ontology_status": "present",
+      "role": "sensory",
+      "checked_because": "layer of VISal",
+      "cell_specimens_at_this_level": 6,
+      "note": ""
+    },
+    {
+      "structure_acronym": "VISal4",
+      "structure_id": 1114,
+      "structure_name": "Anterolateral visual area, layer 4",
+      "ontology_status": "present",
+      "role": "sensory",
+      "checked_because": "layer of VISal",
+      "cell_specimens_at_this_level": 2,
+      "note": ""
+    },
+    {
+      "structure_acronym": "VISal5",
+      "structure_id": 233,
+      "structure_name": "Anterolateral visual area, layer 5",
+      "ontology_status": "present",
+      "role": "sensory",
+      "checked_because": "layer of VISal",
+      "cell_specimens_at_this_level": 5,
+      "note": ""
+    },
+    {
+      "structure_acronym": "VISal6a",
+      "structure_id": 601,
+      "structure_name": "Anterolateral visual area, layer 6a",
+      "ontology_status": "present",
+      "role": "sensory",
+      "checked_because": "layer of VISal",
+      "cell_specimens_at_this_level": 1,
+      "note": ""
+    },
+    {
+      "structure_acronym": "VISal6b",
+      "structure_id": 649,
+      "structure_name": "Anterolateral visual area, layer 6b",
+      "ontology_status": "present",
+      "role": "sensory",
+      "checked_because": "layer of VISal",
+      "cell_specimens_at_this_level": 1,
+      "note": ""
+    },
+    {
+      "structure_acronym": "VISl",
+      "structure_id": 409,
+      "structure_name": "Lateral visual area",
+      "ontology_status": "present",
+      "role": "sensory",
+      "checked_because": "candidate region (parent level)",
+      "cell_specimens_at_this_level": 0,
+      "note": ""
+    },
+    {
+      "structure_acronym": "VISl1",
+      "structure_id": 421,
+      "structure_name": "Lateral visual area, layer 1",
+      "ontology_status": "present",
+      "role": "sensory",
+      "checked_because": "layer of VISl",
+      "cell_specimens_at_this_level": 3,
+      "note": ""
+    },
+    {
+      "structure_acronym": "VISl2/3",
+      "structure_id": 973,
+      "structure_name": "Lateral visual area, layer 2/3",
+      "ontology_status": "present",
+      "role": "sensory",
+      "checked_because": "layer of VISl",
+      "cell_specimens_at_this_level": 8,
+      "note": ""
+    },
+    {
+      "structure_acronym": "VISl4",
+      "structure_id": 573,
+      "structure_name": "Lateral visual area, layer 4",
+      "ontology_status": "present",
+      "role": "sensory",
+      "checked_because": "layer of VISl",
+      "cell_specimens_at_this_level": 18,
+      "note": ""
+    },
+    {
+      "structure_acronym": "VISl5",
+      "structure_id": 613,
+      "structure_name": "Lateral visual area, layer 5",
+      "ontology_status": "present",
+      "role": "sensory",
+      "checked_because": "layer of VISl",
+      "cell_specimens_at_this_level": 34,
+      "note": ""
+    },
+    {
+      "structure_acronym": "VISl6a",
+      "structure_id": 74,
+      "structure_name": "Lateral visual area, layer 6a",
+      "ontology_status": "present",
+      "role": "sensory",
+      "checked_because": "layer of VISl",
+      "cell_specimens_at_this_level": 21,
+      "note": ""
+    },
+    {
+      "structure_acronym": "VISl6b",
+      "structure_id": 121,
+      "structure_name": "Lateral visual area, layer 6b",
+      "ontology_status": "present",
+      "role": "sensory",
+      "checked_because": "layer of VISl",
+      "cell_specimens_at_this_level": 5,
+      "note": ""
+    },
+    {
+      "structure_acronym": "VISp",
+      "structure_id": 385,
+      "structure_name": "Primary visual area",
+      "ontology_status": "present",
+      "role": "sensory",
+      "checked_because": "candidate region (parent level)",
+      "cell_specimens_at_this_level": 0,
+      "note": ""
+    },
+    {
+      "structure_acronym": "VISp1",
+      "structure_id": 593,
+      "structure_name": "Primary visual area, layer 1",
+      "ontology_status": "present",
+      "role": "sensory",
+      "checked_because": "layer of VISp",
+      "cell_specimens_at_this_level": 42,
+      "note": ""
+    },
+    {
+      "structure_acronym": "VISp2/3",
+      "structure_id": 821,
+      "structure_name": "Primary visual area, layer 2/3",
+      "ontology_status": "present",
+      "role": "sensory",
+      "checked_because": "layer of VISp",
+      "cell_specimens_at_this_level": 311,
+      "note": ""
+    },
+    {
+      "structure_acronym": "VISp4",
+      "structure_id": 721,
+      "structure_name": "Primary visual area, layer 4",
+      "ontology_status": "present",
+      "role": "sensory",
+      "checked_because": "layer of VISp",
+      "cell_specimens_at_this_level": 458,
+      "note": ""
+    },
+    {
+      "structure_acronym": "VISp5",
+      "structure_id": 778,
+      "structure_name": "Primary visual area, layer 5",
+      "ontology_status": "present",
+      "role": "sensory",
+      "checked_because": "layer of VISp",
+      "cell_specimens_at_this_level": 505,
+      "note": ""
+    },
+    {
+      "structure_acronym": "VISp6a",
+      "structure_id": 33,
+      "structure_name": "Primary visual area, layer 6a",
+      "ontology_status": "present",
+      "role": "sensory",
+      "checked_because": "layer of VISp",
+      "cell_specimens_at_this_level": 224,
+      "note": ""
+    },
+    {
+      "structure_acronym": "VISp6b",
+      "structure_id": 305,
+      "structure_name": "Primary visual area, layer 6b",
+      "ontology_status": "present",
+      "role": "sensory",
+      "checked_because": "layer of VISp",
+      "cell_specimens_at_this_level": 48,
+      "note": ""
+    }
+  ],
+  "stimulus_vocabulary_observed": {
+    "Long Square": 42231,
+    "Short Square": 27248,
+    "Test": 14260,
+    "Short Square - Triple": 12991,
+    "Square - 2s Suprathreshold": 8897,
+    "Ramp": 4754,
+    "Square - 0.5ms Subthreshold": 4465,
+    "Noise 1": 4077,
+    "Noise 2": 3979,
+    "Short Square - Hold -80mV": 2217,
+    "Short Square - Hold -60mV": 1767,
+    "Ramp to Rheobase": 1007,
+    "Short Square - Hold -70mV": 976
+  },
+  "api_errors": [],
+  "quality_checks": [
+    {
+      "check": "specimen_ids_unique",
+      "passed": true,
+      "detail": "1694 rows, 1694 distinct specimen_id"
+    },
+    {
+      "check": "model_ids_unique",
+      "passed": true,
+      "detail": "3262 rows, 3262 distinct model_id"
+    },
+    {
+      "check": "model_ids_disjoint_from_specimen_ids",
+      "passed": true,
+      "detail": "overlapping ids: none"
+    },
+    {
+      "check": "every_model_maps_to_an_inventoried_specimen",
+      "passed": true,
+      "detail": "models with specimen_id outside the cell inventory: 0"
+    },
+    {
+      "check": "region_counts_match_specimen_inventory",
+      "passed": true,
+      "detail": "region_summary layer rows total=1694, cell_inventory rows=1694"
+    },
+    {
+      "check": "glif_never_classified_as_biophysical",
+      "passed": true,
+      "detail": "misclassified GLIF models: 0"
+    },
+    {
+      "check": "biophysical_rows_have_biophysical_model_names",
+      "passed": true,
+      "detail": "template/name mismatches: 0"
+    },
+    {
+      "check": "no_glif_ids_in_cell_biophysical_counts",
+      "passed": true,
+      "detail": "n_biophysical_models == perisomatic + all_active for every cell"
+    },
+    {
+      "check": "embedded_and_direct_model_queries_agree",
+      "passed": true,
+      "detail": "embedded=3262 direct=3262 only_embedded=0 only_direct=0"
+    },
+    {
+      "check": "sweep_specimen_ids_subset_of_cells",
+      "passed": true,
+      "detail": "128869 sweep rows"
+    },
+    {
+      "check": "csv_opens_cleanly:cell_inventory.csv",
+      "passed": true,
+      "detail": "1694 data rows, 57 columns"
+    },
+    {
+      "check": "csv_opens_cleanly:region_summary.csv",
+      "passed": true,
+      "detail": "20 data rows, 27 columns"
+    },
+    {
+      "check": "csv_opens_cleanly:sweep_inventory.csv",
+      "passed": true,
+      "detail": "128869 data rows, 15 columns"
+    },
+    {
+      "check": "csv_opens_cleanly:model_inventory.csv",
+      "passed": true,
+      "detail": "3262 data rows, 18 columns"
+    }
+  ],
+  "reference_specimen": {
+    "specimen_id": 485909730,
+    "returned_by_current_api": true,
+    "in_candidate_inventory": true,
+    "cell": {
+      "specimen_id": 485909730,
+      "specimen_name": "Cux2-CreERT2;Ai14-205530.03.02.01",
+      "region_acronym": "VISp",
+      "region_name": "Primary visual area",
+      "region_role": "sensory",
+      "cortical_layer": "5",
+      "structure_id": 778,
+      "structure_acronym": "VISp5",
+      "structure_name": "Primary visual area, layer 5",
+      "cortex_layer_id": null,
+      "species": "Mus musculus",
+      "organism_id": 2,
+      "donor_id": 485250100,
+      "donor_sex": "M",
+      "donor_full_genotype": "Cux2-CreERT2/wt;Ai14(RCL-tdT)/wt",
+      "transgenic_driver_line": "Cux2-CreERT2",
+      "transgenic_reporter_line": "Ai14(RCL-tdT)",
+      "dendrite_type": "spiny",
+      "apical_dendrite_status": "intact",
+      "cell_reporter_id": 491913822,
+      "ephys_result_id": 485909728,
+      "ephys_available": true,
+      "ephys_failed": false,
+      "ephys_sampling_rate": 200000,
+      "nwb_file_id": "491316386",
+      "nwb_download_url": "http://api.brain-map.org/api/v2/well_known_file_download/491316386",
+      "n_sweeps_total": 35,
+      "n_sweeps_current_clamp": 29,
+      "n_long_square": 12,
+      "n_long_square_cc": 12,
+      "n_long_square_depolarizing_cc": 6,
+      "n_long_square_hyperpolarizing_cc": 6,
+      "n_short_square_cc": 13,
+      "n_ramp_cc": 3,
+      "n_noise_cc": 0,
+      "n_other_cc": 1,
+      "long_square_sweep_numbers": "24;25;26;27;28;29;30;31;32;33;34;35",
+      "has_morphology": true,
+      "reconstruction_id": 500961528,
+      "reconstruction_type": "dendrite-only",
+      "reconstruction_superseded": false,
+      "morphology_download_url": "http://api.brain-map.org/api/v2/well_known_file_download/500961530",
+      "n_models_total": 1,
+      "n_biophysical_perisomatic": 1,
+      "n_biophysical_all_active": 0,
+      "n_biophysical_models": 1,
+      "n_glif_models": 0,
+      "biophysical_classes": "perisomatic",
+      "biophysical_model_id": 486509232,
+      "biophysical_model_name": "Biophysical - perisomatic_Cux2-CreERT2;Ai14-205530.03.02.01",
+      "biophysical_model_download_url": "http://api.brain-map.org/api/v2/well_known_file_download/501606122",
+      "metadata_complete": true,
+      "eligibility": "PASS",
+      "eligibility_reasons": "Mus musculus | region VISp layer '5' | current-clamp electrophysiology present | 12 current-clamp Long Square sweeps | >= 6 Long Square sweeps for calibration + held-out split | >= 3 depolarising Long Square sweeps for an F-I curve | biophysical model present: perisomatic | biophysical model download reference resolved | NWB download reference resolved",
+      "eligibility_concerns": "PASS is metadata-level only; NWB and model download validation still required",
+      "needs_nwb_validation": true,
+      "needs_model_validation": true
+    },
+    "models": [
+      {
+        "model_id": 486509232,
+        "template_name": "Biophysical - perisomatic",
+        "model_class": "biophysical_perisomatic",
+        "model_name": "Biophysical - perisomatic_Cux2-CreERT2;Ai14-205530.03.02.01",
+        "neuron_reconstruction_id": 500961528
+      }
+    ],
+    "api_note": ""
+  },
+  "incomplete_stages": [],
+  "outputs": {
+    "data/metadata/cell_inventory.csv": 1409270,
+    "data/metadata/region_summary.csv": 2933,
+    "data/metadata/sweep_inventory.csv": 16638168,
+    "data/metadata/model_inventory.csv": 1692757,
+    "results/dataset_inventory/DATASET_INVENTORY_REPORT.md": 29211,
+    "results/dataset_inventory/inventory_summary.json": 32224,
+    "results/dataset_inventory/database_structure_coverage.json": 48564
+  }
+}

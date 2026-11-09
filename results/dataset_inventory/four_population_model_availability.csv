@@ -1,0 +1,5 @@
+population,population_label,population_total,n_any_biophysical,n_perisomatic,n_all_active,n_both,n_glif_only,n_fit_descriptor_resolved,n_morphology_usable,n_final_any_model,n_final_perisomatic,n_final_all_active,n_final_both_models,n_final_spiny,n_final_identity_compatible,n_final_identity_perisomatic,n_final_identity_all_active,n_final_identity_both,n_model_reconstruction_matches,n_model_reconstruction_differs,perisomatic_template_id,all_active_template_id,n_listed_any,n_descriptor_resolved,n_assets_in_repo,n_executable_in_repo,n_validated_against_recording
+A,VISp L4 excitatory (spiny stellate / IT-like),458,64,63,28,27,234,64,109,63,62,28,27,54,47,47,18,18,60,3,329230710,491455321,64,64,0,0,0
+B,VISp L2/3 IT pyramidal,311,30,28,25,23,150,30,91,30,28,25,23,7,2,1,1,0,17,13,329230710,491455321,30,30,1,1,0
+C,VISp L5 ET/PT pyramidal,505,79,71,40,32,223,79,148,79,71,40,32,41,15,14,3,2,72,7,329230710,491455321,79,79,0,0,0
+D,VISp L6 corticothalamic,272,21,21,6,6,129,21,84,20,20,6,6,8,5,5,1,1,18,2,329230710,491455321,21,21,0,0,0

@@ -1,0 +1,33 @@
+# Line-ending policy for the INCM Phase 0 repository.
+#
+# This machine runs git with core.autocrlf=true, which silently rewrites CRLF to
+# LF when a file is staged. data/metadata/.generated_manifest.json records the
+# SHA-256 digest of every generated artefact, and the inventory script re-checks
+# those digests as a reproducibility guarantee. Any byte rewritten by git would
+# therefore make a fresh clone fail the project's own integrity check, so the
+# generated artefacts below are pinned to "store exactly what is on disk".
+#
+# Syntax note: .gitattributes takes only <pattern> <attributes> pairs.
+
+# --- Generated data and results: byte-frozen, never eol-converted ------------
+# The CSV inventories are emitted LF; the report and JSON summaries are emitted
+# CRLF by Python's text-mode writer on Windows. Both are covered by the manifest,
+# so both must round-trip through git unchanged.
+data/metadata/** -text
+results/dataset_inventory/** -text
+*.csv -text
+*.json -text
+
+# --- Handwritten documentation: keep the authored bytes ----------------------
+docs/*.md -text
+
+# --- Python sources: normalise to LF in the repository -----------------------
+# No hash covers these, so normalising is safe and keeps diffs stable whether a
+# contributor's checkout is Windows or Linux.
+*.py text eol=lf
+
+# --- Payloads that eol heuristics would corrupt ------------------------------
+*.png -text
+*.pdf -text
+*.gz -text
+*.zip -text
