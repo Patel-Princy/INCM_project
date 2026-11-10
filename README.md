@@ -300,6 +300,33 @@ All 451 tests pass on Python 3.14 with pytest ≥ 9.1.
 
 ---
 
+## Author contributions & disclosures
+
+<!-- ================================================================= -->
+<!-- TEMPLATE: FILL IN BEFORE FINAL COURSE SUBMISSION                  -->
+<!-- ================================================================= -->
+
+### Author contributions
+
+- **Princy Patel:**
+  - [CONTRIBUTION DESCRIPTION]
+- **Ashish Beniwal:**
+  - [CONTRIBUTION DESCRIPTION]
+
+### AI-use disclosure
+
+In accordance with university course academic integrity policies, the use of generative AI / coding assistance tools in this project is disclosed below:
+
+| Tool / Model | Task / Scope of Assistance | Verification & Independent Checks Performed |
+| :--- | :--- | :--- |
+| `[TOOL]` | `[TASK]` | `[WHAT I VERIFIED YOURSELF]` |
+| `[TOOL]` | `[TASK]` | `[WHAT I VERIFIED YOURSELF]` |
+
+**Statement of Responsibility:**  
+[STATEMENT: e.g., All submitted code, derivations, numerical calculations, and report conclusions were independently reviewed, verified, and understood by the authors.]
+
+---
+
 ## Citation
 
 Allen Institute for Brain Science. Allen Cell Types Database. Available from:
