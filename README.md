@@ -238,6 +238,32 @@ tests/                Pytest test suite (451 tests)
 tmp/                  Working outputs (git-ignored)
 ```
 
+### Repository layout by authorship
+
+Based strictly on git commit history (`git log --format='%an' -- <path>`):
+
+- **Ashish-Beniwal004**:
+  - `src/models/fitzhugh_nagumo.py` (dimensional FHN implementation and RK4 numerical solver)
+  - `src/calibration/fhn_calibration.py` (multi-objective calibration framework)
+  - `src/data_audit/` (Allen metadata query and verification modules)
+  - `scripts/` (reproduction, protocol audit, bifurcation, and excitability analysis scripts)
+  - `tests/` (unit and integration test suite across all project phases)
+  - `docs/` and `data/metadata/` (methodology documentation and Allen cell/sweep inventories)
+  - `results/dataset_inventory/`, `results/phase1/` through `results/phase4c3/`
+  - `results/phase5/` cross-population synthesis, evidence audits, and final manuscript (`FINAL_RESEARCH_REPORT.md`, HTML, PDF)
+
+- **Patel-Princy**:
+  - `data_loader.py` (current-clamp NWB extraction and spike detection for Layer 2/3 and Layer 5)
+  - `fhn_simulation.py` (dimensionless 2-variable forward Euler FHN simulation and single-sweep calibration)
+  - `evaluate_models.py` (held-out performance evaluation, RMSE/MAE metrics, and F-I / voltage overlay plots)
+  - `results/phase5/TEAMMATE_LAYER_L23_LITERATURE_REVIEW.md` (Layer 2/3 literature review and electrophysiology report)
+  - `results/phase5/TEAMMATE_LAYER_L5_LITERATURE_REVIEW.md` (Layer 5 literature review and electrophysiology report)
+  - `results/phase5/fhn_fitted_parameters_student.csv` (calibrated parameters for L2/3 and L5)
+  - `results/phase5/model_evaluation_metrics.csv` (summary quantitative evaluation table)
+  - `results/phase5/l23_extracted_sweeps.csv`, `results/phase5/l5_extracted_sweeps.csv` (extracted sweep summaries)
+  - `results/phase5/l23_fhn_simulation_results.csv`, `results/phase5/l5_fhn_simulation_results.csv` (FHN simulation results)
+  - `results/phase5/figures/` (`l23_fi_curve.png`, `l5_fi_curve.png`, `l23_voltage_comparison.png`, `l5_voltage_comparison.png`)
+
 ---
 
 ## Running the tests
