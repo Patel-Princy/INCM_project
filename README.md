@@ -62,7 +62,8 @@ identity (IT/ET/PT/CT), so no projection labels are used.
 | **4C.2** | **Transient adaptation & population Hopf verification (local vs global)** | **✓ Complete** | **`93ee715`** |
 | **4C.3** | **Global bistability, limit-cycle fold & adaptation claim audit** | **✓ Complete** | **`67fb438`** |
 | **4C.3.1** | **Bistability boundary semantics correction (open interval enforcement)** | **✓ Complete** | **`ashish-work`** |
-| 5 | Cross-population comparison and reduction report | 🔲 Planned | |
+| **5** | **Cross-population comparison and reduction report** | **✓ Complete** | **`5509ddd`** |
+| **Princy** | **L2/3 and L5 data pipeline, simple FHN fit, held-out metrics** | **✓ Complete** | **`020a792`** |
 
 ---
 
