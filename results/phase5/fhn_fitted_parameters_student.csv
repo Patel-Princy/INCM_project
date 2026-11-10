@@ -1,0 +1,3 @@
+layer,population,specimen_id,calibration_sweep,target_current_pa,a,b,eps,gamma_gain,tau_ms,target_spikes,fitted_spikes
+L2/3,B,318808427,40,190.0,0.7,0.8,0.05,0.003,1.0,19,19
+L5,C,471129934,51,410.0,0.7,0.8,0.05,0.001,2.0,9,9
