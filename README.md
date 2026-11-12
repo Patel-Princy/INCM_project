@@ -276,6 +276,53 @@ All 451 tests pass on Python 3.14 with pytest ≥ 9.1.
 
 ---
 
+## Running the student pipeline (Princy)
+
+Dependencies are listed in `requirements-student.txt` (`numpy`, `pandas`, `h5py`, `matplotlib`).
+
+Execute the three standalone scripts in the following exact order:
+
+1. **Data extraction & preprocessing:**
+   ```bash
+   python data_loader.py
+   ```
+   - **Input files required:**
+     - `results/phase3b/heldout_sweeps.csv` (manifest ensuring calibration sweep isolation)
+     - `data/nwb_cache/318808427.nwb` (downloaded automatically if missing from `http://api.brain-map.org/api/v2/well_known_file_download/491199000`)
+     - `data/nwb_cache/471129934.nwb` (downloaded automatically if missing from `http://api.brain-map.org/api/v2/well_known_file_download/491202812`)
+   - **Output files produced:**
+     - `results/phase5/l23_extracted_sweeps.csv`
+     - `results/phase5/l5_extracted_sweeps.csv`
+
+2. **FHN calibration & simulation:**
+   ```bash
+   python fhn_simulation.py
+   ```
+   - **Input files required:**
+     - `results/phase5/l23_extracted_sweeps.csv`
+     - `results/phase5/l5_extracted_sweeps.csv`
+   - **Output files produced:**
+     - `results/phase5/fhn_fitted_parameters_student.csv`
+     - `results/phase5/l23_fhn_simulation_results.csv`
+     - `results/phase5/l5_fhn_simulation_results.csv`
+
+3. **Performance evaluation & plotting:**
+   ```bash
+   python evaluate_models.py
+   ```
+   - **Input files required:**
+     - `data/nwb_cache/318808427.nwb` and `data/nwb_cache/471129934.nwb`
+     - `results/phase4c/fhn_detailed_comparison.csv`
+     - `fhn_simulation.py` (imported simulation module)
+   - **Output files produced:**
+     - `results/phase5/model_evaluation_metrics.csv`
+     - `results/phase5/figures/l23_fi_curve.png`
+     - `results/phase5/figures/l5_fi_curve.png`
+     - `results/phase5/figures/l23_voltage_comparison.png`
+     - `results/phase5/figures/l5_voltage_comparison.png`
+
+---
+
 ## Reproducibility notes
 
 1. **NWB files** are not committed (large binaries). They are downloaded
