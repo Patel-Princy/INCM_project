@@ -1,0 +1,13 @@
+# Third-party dependencies for the student pipeline (Princy)
+# Derived strictly from direct imports in:
+#   - data_loader.py (numpy, pandas, h5py)
+#   - fhn_simulation.py (numpy, pandas)
+#   - evaluate_models.py (numpy, pandas, h5py, matplotlib)
+#
+# Pinned to the Python 3.12 active environment (installed under user site-packages:
+# C:\Users\Admin\AppData\Roaming\Python\Python312\site-packages)
+
+numpy==2.4.4
+pandas==3.1.1
+h5py==3.16.0
+matplotlib==3.11.1

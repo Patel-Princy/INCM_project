@@ -1,0 +1,3 @@
+layer,population,specimen_id,num_heldout_sweeps,detailed_subthreshold_rmse_mv,fhn_subthreshold_rmse_mv,detailed_mean_step_rmse_mv,fhn_mean_step_rmse_mv,detailed_mean_spike_error,fhn_mean_spike_error,detailed_mean_rate_diff_hz,fhn_mean_rate_diff_hz
+L2/3,B,318808427,18,4.14,11.19,7.61,23.73,1.06,4.28,0.83,-3.06
+L5,C,471129934,34,3.69,7.41,4.15,12.36,0.62,0.38,-0.03,0.03

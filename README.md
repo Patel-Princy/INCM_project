@@ -62,7 +62,8 @@ identity (IT/ET/PT/CT), so no projection labels are used.
 | **4C.2** | **Transient adaptation & population Hopf verification (local vs global)** | **✓ Complete** | **`93ee715`** |
 | **4C.3** | **Global bistability, limit-cycle fold & adaptation claim audit** | **✓ Complete** | **`67fb438`** |
 | **4C.3.1** | **Bistability boundary semantics correction (open interval enforcement)** | **✓ Complete** | **`ashish-work`** |
-| 5 | Cross-population comparison and reduction report | 🔲 Planned | |
+| **5** | **Cross-population comparison and reduction report** | **✓ Complete** | **`5509ddd`** |
+| **Princy** | **L2/3 and L5 data pipeline, simple FHN fit, held-out metrics** | **✓ Complete** | **`020a792`** |
 
 ---
 
@@ -237,6 +238,32 @@ tests/                Pytest test suite (451 tests)
 tmp/                  Working outputs (git-ignored)
 ```
 
+### Repository layout by authorship
+
+Based strictly on git commit history (`git log --format='%an' -- <path>`):
+
+- **Ashish-Beniwal004**:
+  - `src/models/fitzhugh_nagumo.py` (dimensional FHN implementation and RK4 numerical solver)
+  - `src/calibration/fhn_calibration.py` (multi-objective calibration framework)
+  - `src/data_audit/` (Allen metadata query and verification modules)
+  - `scripts/` (reproduction, protocol audit, bifurcation, and excitability analysis scripts)
+  - `tests/` (unit and integration test suite across all project phases)
+  - `docs/` and `data/metadata/` (methodology documentation and Allen cell/sweep inventories)
+  - `results/dataset_inventory/`, `results/phase1/` through `results/phase4c3/`
+  - `results/phase5/` cross-population synthesis, evidence audits, and final manuscript (`FINAL_RESEARCH_REPORT.md`, HTML, PDF)
+
+- **Patel-Princy**:
+  - `data_loader.py` (current-clamp NWB extraction and spike detection for Layer 2/3 and Layer 5)
+  - `fhn_simulation.py` (dimensionless 2-variable forward Euler FHN simulation and single-sweep calibration)
+  - `evaluate_models.py` (held-out performance evaluation, RMSE/MAE metrics, and F-I / voltage overlay plots)
+  - `results/phase5/TEAMMATE_LAYER_L23_LITERATURE_REVIEW.md` (Layer 2/3 literature review and electrophysiology report)
+  - `results/phase5/TEAMMATE_LAYER_L5_LITERATURE_REVIEW.md` (Layer 5 literature review and electrophysiology report)
+  - `results/phase5/fhn_fitted_parameters_student.csv` (calibrated parameters for L2/3 and L5)
+  - `results/phase5/model_evaluation_metrics.csv` (summary quantitative evaluation table)
+  - `results/phase5/l23_extracted_sweeps.csv`, `results/phase5/l5_extracted_sweeps.csv` (extracted sweep summaries)
+  - `results/phase5/l23_fhn_simulation_results.csv`, `results/phase5/l5_fhn_simulation_results.csv` (FHN simulation results)
+  - `results/phase5/figures/` (`l23_fi_curve.png`, `l5_fi_curve.png`, `l23_voltage_comparison.png`, `l5_voltage_comparison.png`)
+
 ---
 
 ## Running the tests
@@ -246,6 +273,53 @@ python -m pytest tests/ -q
 ```
 
 All 451 tests pass on Python 3.14 with pytest ≥ 9.1.
+
+---
+
+## Running the student pipeline (Princy)
+
+Dependencies are listed in `requirements-student.txt` (`numpy`, `pandas`, `h5py`, `matplotlib`).
+
+Execute the three standalone scripts in the following exact order:
+
+1. **Data extraction & preprocessing:**
+   ```bash
+   python data_loader.py
+   ```
+   - **Input files required:**
+     - `results/phase3b/heldout_sweeps.csv` (manifest ensuring calibration sweep isolation)
+     - `data/nwb_cache/318808427.nwb` (downloaded automatically if missing from `http://api.brain-map.org/api/v2/well_known_file_download/491199000`)
+     - `data/nwb_cache/471129934.nwb` (downloaded automatically if missing from `http://api.brain-map.org/api/v2/well_known_file_download/491202812`)
+   - **Output files produced:**
+     - `results/phase5/l23_extracted_sweeps.csv`
+     - `results/phase5/l5_extracted_sweeps.csv`
+
+2. **FHN calibration & simulation:**
+   ```bash
+   python fhn_simulation.py
+   ```
+   - **Input files required:**
+     - `results/phase5/l23_extracted_sweeps.csv`
+     - `results/phase5/l5_extracted_sweeps.csv`
+   - **Output files produced:**
+     - `results/phase5/fhn_fitted_parameters_student.csv`
+     - `results/phase5/l23_fhn_simulation_results.csv`
+     - `results/phase5/l5_fhn_simulation_results.csv`
+
+3. **Performance evaluation & plotting:**
+   ```bash
+   python evaluate_models.py
+   ```
+   - **Input files required:**
+     - `data/nwb_cache/318808427.nwb` and `data/nwb_cache/471129934.nwb`
+     - `results/phase4c/fhn_detailed_comparison.csv`
+     - `fhn_simulation.py` (imported simulation module)
+   - **Output files produced:**
+     - `results/phase5/model_evaluation_metrics.csv`
+     - `results/phase5/figures/l23_fi_curve.png`
+     - `results/phase5/figures/l5_fi_curve.png`
+     - `results/phase5/figures/l23_voltage_comparison.png`
+     - `results/phase5/figures/l5_voltage_comparison.png`
 
 ---
 
@@ -270,6 +344,33 @@ All 451 tests pass on Python 3.14 with pytest ≥ 9.1.
   two tested configurations give qualitatively different excitability.
 - Layer identity is anatomically confirmed; projection class (IT/ET/PT/CT)
   is not available in the Allen database and is not claimed.
+
+---
+
+## Author contributions & disclosures
+
+<!-- ================================================================= -->
+<!-- TEMPLATE: FILL IN BEFORE FINAL COURSE SUBMISSION                  -->
+<!-- ================================================================= -->
+
+### Author contributions
+
+- **Princy Patel:**
+  - [CONTRIBUTION DESCRIPTION]
+- **Ashish Beniwal:**
+  - [CONTRIBUTION DESCRIPTION]
+
+### AI-use disclosure
+
+In accordance with university course academic integrity policies, the use of generative AI / coding assistance tools in this project is disclosed below:
+
+| Tool / Model | Task / Scope of Assistance | Verification & Independent Checks Performed |
+| :--- | :--- | :--- |
+| `[TOOL]` | `[TASK]` | `[WHAT I VERIFIED YOURSELF]` |
+| `[TOOL]` | `[TASK]` | `[WHAT I VERIFIED YOURSELF]` |
+
+**Statement of Responsibility:**  
+[STATEMENT: e.g., All submitted code, derivations, numerical calculations, and report conclusions were independently reviewed, verified, and understood by the authors.]
 
 ---
 
