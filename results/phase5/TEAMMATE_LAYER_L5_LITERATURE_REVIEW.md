@@ -1,3 +1,5 @@
+> **Status: Supplementary literature draft. Not integrated into the main manuscript. The primary Layer 5 section is the Phase 5F review (results/phase5/PHASE5F_L5_L6A_LITERATURE_REVIEW.md). Citations in this draft are pending verification.**
+
 # Layer 5 (Population C) Literature Review and Electrophysiological Validation Report
 
 **Course Project:** Introduction to Neural & Cognitive Modelling (INCM)  
